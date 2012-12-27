@@ -101,14 +101,14 @@ function processName($fullName)
 }
 
 $row = 1;
-if (($handle = fopen("src/bio_en.csv", "r")) !== FALSE) {
+if (($handle = fopen("../src/bio_en.csv", "r")) !== FALSE) {
     while (($data = fgetcsv($handle, 0, ";", "'")) !== FALSE) {
 
         $name = processName($data[1]);
         $fullName = str_replace(',', '', $data[1]);
         $date = processDate($data[2]);
 
-        $bio = str_replace("'",'&#39;',$data[3]);
+        $bio = str_replace("'", '&#39;', $data[3]);
 
         $tempArray = array(
             'slug' => slugger($fullName),
@@ -128,7 +128,7 @@ if (($handle = fopen("src/bio_en.csv", "r")) !== FALSE) {
     fclose($handle);
 }
 
-$db = new mysqli('localhost','root','','opengallery');
+$db = new mysqli('localhost', 'root', '', 'opengallery');
 
 $db->query("SET CHARACTER SET 'utf8'");
 $db->query("SET COLLATION_CONNECTION = 'utf8_general_ci'");
@@ -136,25 +136,40 @@ $db->query("SET character_set_results = 'utf8'");
 $db->query("SET character_set_server = 'utf8'");
 $db->query("SET character_set_client = 'utf8'");
 
-foreach ($r as $mainKey=>$row) {
-     foreach($row as $key=>$raw) {
-         $cols[] = '`' . $key . '`';
-         $vals[] = "'" . $raw . "'";
-     }
+$query = null;
 
-    $cols = implode(', ',$cols);
-    $vals = implode(', ', $vals);
+foreach ($r as $row) {
 
-    $query = "INSERT INTO artist ($cols) VALUES ($vals)";
+    $slug = $row['slug'];
 
-    if ($db->query($query)) {
-        echo $mainKey . '->OK!' . '<br />';
+    $checkQuery = "SELECT * FROM artist WHERE slug='$slug'";
+
+    if ($checkResult = $db->query($checkQuery)) {
+
+        if ($checkResult->num_rows == 0) {
+            foreach ($row as $key => $raw) {
+                $cols[] = '`' . $key . '`';
+                $vals[] = "'" . $raw . "'";
+            }
+
+            $cols = implode(', ', $cols);
+            $vals = implode(', ', $vals);
+
+            $query = "REPLACE INTO artist ($cols) VALUES ($vals);";
+
+            if ($db->query($query)) {
+                echo 'OK!<br />';
+            } else {
+                echo $db->error . '<br/>';
+            }
+
+            $cols = null;
+            $vals = null;
+        }
+
     } else {
-        echo $mainKey .'-> ' . $db->error . '<br /><br />';
+        exit ($db->error);
     }
-
-    $cols = null;
-    $vals = null;
 }
 
 $db->close();

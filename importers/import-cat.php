@@ -42,61 +42,62 @@ function StrDelete($aString, $BeginPos, $Length)
     return $r;
 }
 
-function processDate($date) {
+function processDate($date)
+{
 
     if ($date == '-') {
-        return array('date'=>null,'exact'=>1);
+        return array('date' => null, 'exact' => 1);
     } else {
         $date = explode(' ', $date);
 
-        if (in_array('körül',$date) OR in_array('évek',$date)) {
+        if (in_array('körül', $date) OR in_array('évek', $date)) {
 
             $tempDate = keepNumbersOnly($date[0]);
 
             $length = strlen($tempDate);
 
             if ($length != 4) {
-                $tempDate = StrDelete($tempDate,2,2);
+                $tempDate = StrDelete($tempDate, 2, 2);
             }
 
 
-            return array('date'=>$tempDate,'exact'=>0);
+            return array('date' => $tempDate, 'exact' => 0);
         } else {
-            return array('date'=>$date[0],'exact'=>1);
+            return array('date' => $date[0], 'exact' => 1);
         }
     }
 
 
-
 }
 
-function processSize($sizeData) {
+function processSize($sizeData)
+{
 
     $data = explode(' ', $sizeData);
 
     var_dump($data);
 
-    return array('x'=>$data[0],'y'=>$data[2]);
+    return array('x' => $data[0], 'y' => $data[2]);
 }
 
 $row = 1;
 if (($handle = fopen("src/catalog_hu.csv", "r")) !== FALSE) {
-    while (($data = fgetcsv($handle, 0, ";","'")) !== FALSE) {
+    while (($data = fgetcsv($handle, 0, ";", "'")) !== FALSE) {
 
-    $date = processDate($data[3]);
+        $date = processDate($data[3]);
         $size = processSize($data[4]);
 
-var_dump($date);
+        var_dump($date);
         $tempArray = array(
-           'nameSlug'=>slugger($data[0]),
-            'title'=>$data[2],
-            'dateOfProduction'=>$date['date'],
-            'exactYear'=>$date['exact'],
-            'materialSlug'=>slugger($data[4]),
-            'sizeX'=>$size['x'],
-            'sizeY'=>$size['y'],
-            'placeOfDisplaySlug'=>slugger($data[6])
-       );
+            'nameSlug' => slugger($data[0]),
+            'title' => $data[2],
+            'dateOfProduction' => $date['date'],
+            'exactYear' => $date['exact'],
+            'materialSlug' => slugger($data[4]),
+            'sizeX' => $size['x'],
+            'sizeY' => $size['y'],
+            'placeOfDisplaySlug' => slugger($data[6])
+        );
 
         $r[] = $tempArray;
     }

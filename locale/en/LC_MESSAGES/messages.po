@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: openGallery\n"
-"POT-Creation-Date: 2012-12-24 14:16+0100\n"
-"PO-Revision-Date: 2012-12-25 08:59+0100\n"
+"POT-Creation-Date: 2012-12-27 06:33+0100\n"
+"PO-Revision-Date: 2012-12-27 06:34+0100\n"
 "Last-Translator: Galicz Miklós <galicz.miklos@blackworks.org>\n"
 "Language-Team: BlackFyre Studio <galicz.miklos@blackworks.org>\n"
 "MIME-Version: 1.0\n"
@@ -12,111 +12,108 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-SearchPath-0: e:\\wga2.local\n"
-"X-Poedit-SearchPath-1: C:\\wamp\\www\n"
+"X-Poedit-SearchPath-0: ../../..\n"
 
-#: C:\wamp\www/core/class.art.php:51 C:\wamp\www/core/class.art.php:107
-#: C:\wamp\www/core/class.art.php:133 C:\wamp\www/core/class.art.php:158
-#: C:\wamp\www/core/class.auth.php:111 C:\wamp\www/core/class.main.php:271
-#: C:\wamp\www/core/class.static.php:71
-msgid "_db_queryFailed"
-msgstr "Database Query failed"
+#: ../../../core/class.art.php:51 ../../../core/class.art.php:107
+#: ../../../core/class.art.php:133 ../../../core/class.art.php:158
+#: ../../../core/class.auth.php:111 ../../../core/class.main.php:271
+#: ../../../core/class.static.php:71
+msgid "Query failed"
+msgstr "Query failed"
 
-#: C:\wamp\www/core/class.art.php:60
-#, fuzzy
+#: ../../../core/class.art.php:60
 msgid "Artist Index"
 msgstr "Artist Index"
 
-#: C:\wamp\www/core/class.art.php:62
-#, fuzzy
+#: ../../../core/class.art.php:62
 msgid "Artist Name"
-msgstr "Artist"
+msgstr "Artist Name"
 
-#: C:\wamp\www/core/class.art.php:63
+#: ../../../core/class.art.php:63
 msgid "_artist_born_died"
 msgstr "Born/Died"
 
-#: C:\wamp\www/core/class.art.php:64
+#: ../../../core/class.art.php:64
 msgid "_artist_period"
 msgstr "Period"
 
-#: C:\wamp\www/core/class.art.php:65
+#: ../../../core/class.art.php:65
 msgid "_artist_school"
 msgstr "School"
 
-#: C:\wamp\www/core/class.art.php:101
+#: ../../../core/class.art.php:101
 msgid "_error_multipleResults"
 msgstr "Multiple resutls"
 
-#: C:\wamp\www/core/class.art.php:112 C:\wamp\www/core/class.art.php:138
-#: C:\wamp\www/core/class.art.php:163 C:\wamp\www/core/class.art.php:209
-#: C:\wamp\www/core/class.auth.php:122 C:\wamp\www/core/class.auth.php:136
-#: C:\wamp\www/core/class.auth.php:149
+#: ../../../core/class.art.php:112 ../../../core/class.art.php:138
+#: ../../../core/class.art.php:163 ../../../core/class.art.php:209
+#: ../../../core/class.auth.php:122 ../../../core/class.auth.php:136
+#: ../../../core/class.auth.php:149
 msgid "_error_missingVar"
 msgstr "Missing variable"
 
-#: C:\wamp\www/core/class.art.php:204
+#: ../../../core/class.art.php:204
 msgid "_works"
 msgstr ""
 
-#: C:\wamp\www/core/class.auth.php:36
+#: ../../../core/class.auth.php:36
 msgid "_login_boxLegend"
 msgstr "Login"
 
-#: C:\wamp\www/core/class.auth.php:37
+#: ../../../core/class.auth.php:37
 msgid "_login_userName"
 msgstr "Username"
 
-#: C:\wamp\www/core/class.auth.php:38
+#: ../../../core/class.auth.php:38
 msgid "_login_userPass"
 msgstr "Password"
 
-#: C:\wamp\www/core/class.auth.php:39
+#: ../../../core/class.auth.php:39
 msgid "_login_submitButton"
 msgstr "Submit"
 
-#: C:\wamp\www/core/class.auth.php:80
+#: ../../../core/class.auth.php:80
 msgid "_login_failed"
 msgstr ""
 "Login failed, either your username or password is wrong. Please try again!"
 
-#: C:\wamp\www/core/class.main.php:27
+#: ../../../core/class.main.php:27
 msgid "_db_connect_success"
 msgstr "Connection to database successful"
 
-#: C:\wamp\www/core/class.main.php:30
+#: ../../../core/class.main.php:30
 msgid "_db_connect_fail"
 msgstr "Failed to connect to database"
 
-#: C:\wamp\www/core/class.main.php:63
+#: ../../../core/class.main.php:63
 msgid "QUICKSEARCH"
-msgstr ""
+msgstr "QUICKSEARCH"
 
-#: C:\wamp\www/core/class.main.php:64
+#: ../../../core/class.main.php:64
 msgid "What's new"
-msgstr ""
+msgstr "What's new"
 
-#: C:\wamp\www/core/class.main.php:65
+#: ../../../core/class.main.php:65
 msgid "Sign up for the updates"
-msgstr ""
+msgstr "Sign up for the updates"
 
-#: C:\wamp\www/core/class.main.php:66
+#: ../../../core/class.main.php:66
 msgid "By clicking the 'Sign Up!' button I accept the terms of service."
-msgstr ""
+msgstr "By clicking the 'Sign Up!' button I accept the terms of service."
 
-#: C:\wamp\www/core/class.main.php:67
+#: ../../../core/class.main.php:67
 msgid "Sign Up!"
-msgstr ""
+msgstr "Sign Up!"
 
-#: C:\wamp\www/core/class.main.php:68
+#: ../../../core/class.main.php:68
 msgid "you@domain.com"
-msgstr ""
+msgstr "you@domain.com"
 
-#: C:\wamp\www/core/class.main.php:116
+#: ../../../core/class.main.php:116
 msgid "_error_general"
 msgstr "Error"
 
-#: C:\wamp\www/core/class.main.php:210
+#: ../../../core/class.main.php:210
 msgid "_logAction_error"
 msgstr "Failed to insert event into log"
 

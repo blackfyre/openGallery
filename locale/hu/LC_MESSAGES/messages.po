@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: openGallery\n"
-"POT-Creation-Date: 2012-12-22 18:47+0100\n"
-"PO-Revision-Date: 2012-12-22 19:03+0100\n"
+"POT-Creation-Date: 2012-12-27 06:48+0100\n"
+"PO-Revision-Date: 2012-12-27 06:49+0100\n"
 "Last-Translator: Galicz Miklós <galicz.miklos@blackworks.org>\n"
 "Language-Team: BlackFyre Studio <galicz.miklos@blackworks.org>\n"
 "MIME-Version: 1.0\n"
@@ -12,35 +12,114 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-SearchPath-0: e:\\wga2.local\n"
+"X-Poedit-SearchPath-0: ../../..\n"
 
-#: e:\wga2.local/core/class.auth.php:22
+#: ../../../core/class.art.php:54 ../../../core/class.art.php:112
+#: ../../../core/class.art.php:138 ../../../core/class.art.php:163
+#: ../../../core/class.auth.php:111 ../../../core/class.main.php:271
+#: ../../../core/class.static.php:71
+msgid "Query failed"
+msgstr "Sikertelen lekérdezés"
+
+#: ../../../core/class.art.php:63
+msgid "Artist Index"
+msgstr "Művész index"
+
+#: ../../../core/class.art.php:65
+msgid "Artist Name"
+msgstr "Név"
+
+#: ../../../core/class.art.php:66
+msgid "_artist_born_died"
+msgstr ""
+
+#: ../../../core/class.art.php:67
+msgid "_artist_period"
+msgstr ""
+
+#: ../../../core/class.art.php:68
+msgid "_artist_school"
+msgstr ""
+
+#: ../../../core/class.art.php:106
+msgid "Multiple results"
+msgstr "A vártnál több eredmény"
+
+#: ../../../core/class.art.php:117 ../../../core/class.art.php:143
+#: ../../../core/class.art.php:168 ../../../core/class.art.php:214
+#: ../../../core/class.auth.php:122 ../../../core/class.auth.php:136
+#: ../../../core/class.auth.php:149
+msgid "Missing variable"
+msgstr "Hiányzó változó"
+
+#: ../../../core/class.art.php:209
+msgid "Works"
+msgstr "Munkásság"
+
+#: ../../../core/class.auth.php:36
+#, fuzzy
+msgid "_login_boxLegend"
+msgstr ""
+"Sikertelen bejelentkezés! Vagy a felhasználó név vagy a jelszó hibás! Kérlek "
+"próbáld újra!"
+
+#: ../../../core/class.auth.php:37
 msgid "_login_userName"
 msgstr "Felhasználó név"
 
-#: e:\wga2.local/core/class.auth.php:23
+#: ../../../core/class.auth.php:38
 msgid "_login_userPass"
 msgstr "Jelszó"
 
-#: e:\wga2.local/core/class.auth.php:24
+#: ../../../core/class.auth.php:39
 msgid "_login_submitButton"
 msgstr "Küldés"
 
-#: e:\wga2.local/core/class.auth.php:42
+#: ../../../core/class.auth.php:80
 msgid "_login_failed"
 msgstr ""
 "Sikertelen bejelentkezés! Vagy a felhasználó név vagy a jelszó hibás! Kérlek "
 "próbáld újra!"
 
-#: e:\wga2.local/core/class.main.php:25
+#: ../../../core/class.main.php:27
 msgid "_db_connect_success"
 msgstr "Sikeres adatbázis kapcsolódás!"
 
-#: e:\wga2.local/core/class.main.php:28
+#: ../../../core/class.main.php:30
 msgid "_db_connect_fail"
 msgstr "Nem sikerült az adatbázishoz kapcsolódni!"
 
-#: e:\wga2.local/core/class.main.php:186
+#: ../../../core/class.main.php:63
+msgid "QUICKSEARCH"
+msgstr "GYORSKERESÉS"
+
+#: ../../../core/class.main.php:64
+msgid "What's new"
+msgstr "Újdonságok"
+
+#: ../../../core/class.main.php:65
+msgid "Sign up for the updates"
+msgstr "Iratkozz fel a frissítésekért"
+
+#: ../../../core/class.main.php:66
+msgid "By clicking the 'Sign Up!' button I accept the terms of service."
+msgstr ""
+"A \"Feliratkozom!\" gomb megnyomásával elfogadom a szolgáltatási "
+"feltételeket!"
+
+#: ../../../core/class.main.php:67
+msgid "Sign Up!"
+msgstr "Feliratkorom!"
+
+#: ../../../core/class.main.php:68
+msgid "you@domain.com"
+msgstr "te@levelezo.hu"
+
+#: ../../../core/class.main.php:116
+msgid "_error_general"
+msgstr ""
+
+#: ../../../core/class.main.php:210
 msgid "_logAction_error"
 msgstr "Nem sikerült az eseménynapló bejegyzést létrehozni"
 

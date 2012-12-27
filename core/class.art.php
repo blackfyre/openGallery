@@ -22,13 +22,16 @@ class art extends main
 
     private function getArtistList()
     {
+
+        $profession = 'artist_profession.professionName_' . $this->siteLang;
+
         $query = "
         SELECT artist.id AS artistID,
         firstName, lastName,
         CONCAT(artist.firstName, ', ', artist.lastName) AS artistFullName,
         dateOfBirth, dateOfDeath, exactBirth, exactDeath, placeOfBirth, placeOfDeath, slug,
         artist_period.periodName AS period,
-        artist_profession.professionName AS profession,
+        $profession AS profession,
         artist_school.schoolName AS school
         FROM artist
         LEFT JOIN artist_period ON artist_period.id=artist.period
@@ -48,7 +51,7 @@ class art extends main
 
 
         } else {
-            $this->errorMSG(gettext('_db_queryFailed') . ': ' . $this->db->error);
+            $this->errorMSG(gettext('Query failed') . ': ' . $this->db->error);
             return false;
         }
 
@@ -75,14 +78,16 @@ class art extends main
         if (!is_null($artistSlug)) {
 
             $artistSlug = $this->clean_var($artistSlug);
+            $bio = 'bio_' . $this->siteLang;
+            $profession = 'artist_profession.professionName_' . $this->siteLang;
 
             $query = "
             SELECT artist.id AS artistID,
             firstName, lastName,
             CONCAT(artist.firstName, ', ', artist.lastName) AS artistFullName,
-            dateOfBirth, dateOfDeath, exactBirth, exactDeath, placeOfBirth, placeOfDeath, bio,
+            dateOfBirth, dateOfDeath, exactBirth, exactDeath, placeOfBirth, placeOfDeath, $bio AS bio,
             artist_period.periodName AS period,
-            artist_profession.professionName AS profession,
+            $profession AS profession,
             artist_school.schoolName AS school
             FROM artist
             LEFT JOIN artist_period ON artist_period.id=artist.period
@@ -98,18 +103,18 @@ class art extends main
                     return $result->fetch_assoc();
 
                 } else {
-                    $this->errorMSG(gettext('_error_multipleResults'));
+                    $this->errorMSG(gettext('Multiple results'));
                     return false;
                 }
 
 
             } else {
-                $this->errorMSG(gettext('_db_queryFailed') . ': ' . $this->db->error);
+                $this->errorMSG(gettext('Query failed') . ': ' . $this->db->error);
                 return false;
             }
 
         } else {
-            $this->errorMSG(gettext('_error_missingVar'));
+            $this->errorMSG(gettext('Missing variable'));
             return false;
         }
     }
@@ -130,17 +135,18 @@ class art extends main
                 return $result->num_rows;
 
             } else {
-                $this->errorMSG(gettext('_db_queryFailed') . ': ' . $this->db->error);
+                $this->errorMSG(gettext('Query failed') . ': ' . $this->db->error);
                 return false;
             }
 
         } else {
-            $this->errorMSG(gettext('_error_missingVar'));
+            $this->errorMSG(gettext('Missing variable'));
             return false;
         }
     }
 
-    private function getWorks($artistSlug = null) {
+    private function getWorks($artistSlug = null)
+    {
         if (!is_null($artistSlug)) {
 
             $artistSlug = $this->clean_var($artistSlug);
@@ -153,14 +159,19 @@ class art extends main
             ";
 
             if ($result = $this->db->query($query)) {
+                while ($row = $result->fetch_assoc()) {
+                    $r[] = $row;
+                }
+
+                return $r;
 
             } else {
-                $this->errorMSG(gettext('_db_queryFailed') . ': ' . $this->db->error);
+                $this->errorMSG(gettext('Query failed') . ': ' . $this->db->error);
                 return false;
             }
 
         } else {
-            $this->errorMSG(gettext('_error_missingVar'));
+            $this->errorMSG(gettext('Missing variable'));
             return false;
         }
     }
@@ -201,12 +212,12 @@ class art extends main
             $placeOfBirth = ($data['placeOfBirth'] == '' ? '?' : $data['placeOfBirth']);
             $this->smarty->assign('placeOfBirth', $placeOfBirth);
 
-            $this->smarty->assign('works', gettext('_works'));
+            $this->smarty->assign('works', gettext('Works'));
 
             $this->smarty->display('artist.tpl');
         }
 
-        $this->errorMSG(gettext('_error_missingVar'));
+        $this->errorMSG(gettext('Missing variable'));
         return false;
     }
 }

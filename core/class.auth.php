@@ -11,16 +11,19 @@
 class auth extends main
 {
 
-    function __construct() {
+    function __construct()
+    {
         parent::__construct();
         $this->setLang($this->siteLang);
     }
 
-    function __destruct() {
+    function __destruct()
+    {
         parent::__destruct();
     }
 
-    private function formForLogin() {
+    private function formForLogin()
+    {
 
         // check the $_post for a previously submitted form
         if (isset($_POST['commitFormForLogin'])) {
@@ -33,21 +36,22 @@ class auth extends main
 
 
         // language variables
-        $this->smarty->assign('legend',gettext('_login_boxLegend'));
-        $this->smarty->assign('userPlace',gettext('_login_userName'));
-        $this->smarty->assign('passPlace',gettext('_login_userPass'));
-        $this->smarty->assign('submitValue',gettext('_login_submitButton'));
+        $this->smarty->assign('legend', gettext('_login_boxLegend'));
+        $this->smarty->assign('userPlace', gettext('_login_userName'));
+        $this->smarty->assign('passPlace', gettext('_login_userPass'));
+        $this->smarty->assign('submitValue', gettext('_login_submitButton'));
 
         // pass along default data
-        $this->smarty->assign('user',$user);
-        $this->smarty->assign('pass',$pass);
+        $this->smarty->assign('user', $user);
+        $this->smarty->assign('pass', $pass);
 
         //show login form
         $this->smarty->display('form_login.tpl');
 
     }
 
-    private function commitFormForLogin() {
+    private function commitFormForLogin()
+    {
         $data = $this->cleanFormFields();
 
         $user = $data['userName'];
@@ -55,7 +59,7 @@ class auth extends main
 
         $halfSpicedPass = $this->spicerHalf($rawPass);
 
-        if ($this->checkLogin($user,$halfSpicedPass)) {
+        if ($this->checkLogin($user, $halfSpicedPass)) {
 
             $_SESSION['userName'] = $user;
             $_SESSION['userPass'] = $halfSpicedPass;
@@ -71,8 +75,8 @@ class auth extends main
 
     }
 
-    function doLogin() {
-
+    function doLogin()
+    {
         if (isset($_POST['commit-FormForLogin'])) {
             if ($this->commitFormForLogin()) {
                 return true;
@@ -85,11 +89,13 @@ class auth extends main
         }
     }
 
-    public function checkSessionUser() {
-        return $this->checkLogin($_SESSION['userName'],$_SESSION['userPass']);
+    public function checkSessionUser()
+    {
+        return $this->checkLogin($_SESSION['userName'], $_SESSION['userPass']);
     }
 
-    private function checkLogin($user = null, $passHalfSpiced = null) {
+    private function checkLogin($user = null, $passHalfSpiced = null)
+    {
         if (!is_null($user) AND !is_null($passHalfSpiced)) {
 
             $user = $this->clean_var($user);
@@ -108,7 +114,7 @@ class auth extends main
                 }
 
             } else {
-                $this->errorMSG(gettext('_db_queryFailed') . ': ' . $this->db->error);
+                $this->errorMSG(gettext('Query failed') . ': ' . $this->db->error);
                 return false;
             }
 
@@ -117,9 +123,10 @@ class auth extends main
         }
     }
 
-    private function spicer($pass = null) {
+    private function spicer($pass = null)
+    {
         if (is_null($pass)) {
-            parent::errorMSG(gettext('_error_missingVar'));
+            parent::errorMSG(gettext('Missing variable'));
             return false;
         } else {
             $pass = $this->clean_var($pass);
@@ -131,9 +138,10 @@ class auth extends main
         }
     }
 
-    private function spicerHalf($pass = null) {
+    private function spicerHalf($pass = null)
+    {
         if (is_null($pass)) {
-            parent::errorMSG(gettext('_error_missingVar'));
+            parent::errorMSG(gettext('Missing variable'));
             return false;
         } else {
             $pass = $this->clean_var($pass);
@@ -144,9 +152,10 @@ class auth extends main
         }
     }
 
-    private function spicerFinish($passHalfSpiced = null) {
+    private function spicerFinish($passHalfSpiced = null)
+    {
         if (is_null($passHalfSpiced)) {
-            parent::errorMSG(gettext('_error_missingVar'));
+            parent::errorMSG(gettext('Missing variable'));
             return false;
         } else {
             $pass = $this->clean_var($passHalfSpiced);

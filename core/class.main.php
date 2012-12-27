@@ -45,7 +45,7 @@ class main
             $this->smarty->setConfigDir($this->cleanPath($this->docRoot . '/config'));
             $this->smarty->setCacheDir($this->cleanPath($this->docRoot . '/cache/smarty'));
 
-            $this->smarty->assign('title','openGallery');
+            $this->smarty->assign('title', 'openGallery');
         }
 
         // SET DEFAULT LANG
@@ -58,14 +58,15 @@ class main
 
     }
 
-    private function setSmartGlobalElements() {
+    private function setSmartGlobalElements()
+    {
         $this->getMenu();
-        $this->smarty->assign('quickSearch',gettext('QUICKSEARCH'));
-        $this->smarty->assign('whatsNew',gettext("What's new"));
-        $this->smarty->assign('signUp',gettext('Sign up for the updates'));
-        $this->smarty->assign('signUpLegal',gettext("By clicking the 'Sign Up!' button I accept the terms of service."));
-        $this->smarty->assign('signUpButton',gettext('Sign Up!'));
-        $this->smarty->assign('emailPlace',gettext('you@domain.com'));
+        $this->smarty->assign('quickSearch', gettext('QUICKSEARCH'));
+        $this->smarty->assign('whatsNew', gettext("What's new"));
+        $this->smarty->assign('signUp', gettext('Sign up for the updates'));
+        $this->smarty->assign('signUpLegal', gettext("By clicking the 'Sign Up!' button I accept the terms of service."));
+        $this->smarty->assign('signUpButton', gettext('Sign Up!'));
+        $this->smarty->assign('emailPlace', gettext('you@domain.com'));
         //$this->smarty->assign('',gettext(''));
     }
 
@@ -79,9 +80,10 @@ class main
         $this->db->query("SET character_set_client = 'utf8'");
     }
 
-    function cleanPath($path) {
+    function cleanPath($path)
+    {
         $path = $this->clean_var($path);
-        $path = str_replace('//','/',$path);
+        $path = str_replace('//', '/', $path);
         return $path;
     }
 
@@ -92,20 +94,21 @@ class main
         }
     }
 
-    public function setLang($lang) {
+    public function setLang($lang)
+    {
 
         $lang = $this->clean_var($lang);
 
         // Set conditions   for gettext
         putenv("LANG=$lang");
-        setlocale(LC_ALL,$lang);
+        setlocale(LC_ALL, $lang);
 
         $domain = 'messages';
-        bindtextdomain($domain,$this->cleanPath($this->docRoot . '/locale'));
+        bindtextdomain($domain, $this->cleanPath($this->docRoot . '/locale'));
         textdomain($domain);
 
         $this->siteLang = $lang;
-        $this->smarty->assign('siteLang',$lang);
+        $this->smarty->assign('siteLang', $lang);
 
     }
 
@@ -137,8 +140,8 @@ class main
      * This bit of code generates a sample text from a larger string.
      * Ideal for intro or sample blocks.
      *
-     * @param $str source string
-     * @param $length
+     * @param string $str source string
+     * @param int $length
      * @param int $minword
      * @return string sample string
      */
@@ -201,7 +204,8 @@ class main
         return $var;
     }
 
-    public function logAction($action = null) {
+    public function logAction($action = null)
+    {
         if ($action != null) {
             if ($this->log) {
                 $query = "INSERT INTO _log(`uid`,`actionEvent`) VALUES ('','$action')";
@@ -211,12 +215,13 @@ class main
         }
     }
 
-    public function cleanFormFields() {
+    public function cleanFormFields()
+    {
 
         $r = false;
 
-        foreach ($_POST as $key=>$value) {
-            $keyData = explode('-',$key);
+        foreach ($_POST as $key => $value) {
+            $keyData = explode('-', $key);
 
             $keyType = $keyData[0];
 
@@ -225,7 +230,7 @@ class main
                     $r[$keyData[1]] = $this->clean_var($value);
                     break;
                 case 'area':
-                   break;
+                    break;
                 case 'file':
                     $r[$keyData[1]] = $value;
                     break;
@@ -241,7 +246,8 @@ class main
 
     }
 
-    public function getMenu() {
+    public function getMenu()
+    {
 
         $titleCol = 'title_' . $this->siteLang;
         $altCol = 'alt_' . $this->siteLang;
@@ -264,14 +270,15 @@ class main
 
             }
 
-            $this->smarty->assign('mainMenu',$main);
-            $this->smarty->assign('sideMenu',$side);
+            $this->smarty->assign('mainMenu', $main);
+            $this->smarty->assign('sideMenu', $side);
 
         } else {
-            $this->errorMSG(gettext('_db_queryFailed') . ': ' . $this->db->error);
+            $this->errorMSG(gettext('Query failed') . ': ' . $this->db->error);
             return false;
         }
 
     }
 }
+
 ?>

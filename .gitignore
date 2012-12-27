@@ -169,5 +169,5 @@ pip-log.txt
 hung-art/
 src/
 
-Smarty template compiler
+#Smarty template compiler - no need to put trash on github...
 templates_c/*.php
