@@ -99,7 +99,7 @@ class main
 
         $lang = $this->clean_var($lang);
 
-        // Set conditions   for gettext
+        // Set conditions for gettext
         putenv("LANG=$lang");
         setlocale(LC_ALL, $lang);
 
@@ -116,8 +116,8 @@ class main
     {
         $message = $this->clean_var($message);
         echo '<div class="errorMSG">';
-        echo gettext('_error_general');
-        echo '->';
+        echo gettext('ERROR');
+        echo '-> ';
         echo $message;
         echo '</div>';
     }

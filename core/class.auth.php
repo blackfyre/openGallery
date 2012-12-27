@@ -36,10 +36,10 @@ class auth extends main
 
 
         // language variables
-        $this->smarty->assign('legend', gettext('_login_boxLegend'));
-        $this->smarty->assign('userPlace', gettext('_login_userName'));
-        $this->smarty->assign('passPlace', gettext('_login_userPass'));
-        $this->smarty->assign('submitValue', gettext('_login_submitButton'));
+        $this->smarty->assign('legend', gettext('Login'));
+        $this->smarty->assign('userPlace', gettext('Username'));
+        $this->smarty->assign('passPlace', gettext('Password'));
+        $this->smarty->assign('submitValue', gettext('Login!'));
 
         // pass along default data
         $this->smarty->assign('user', $user);
@@ -81,7 +81,7 @@ class auth extends main
             if ($this->commitFormForLogin()) {
                 return true;
             } else {
-                $this->errorMSG(gettext('_login_failed'));
+                $this->errorMSG(gettext('Login Failed!'));
                 $this->formForLogin();
             }
         } else {
