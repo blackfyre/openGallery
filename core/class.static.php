@@ -1,5 +1,5 @@
 <?php
-class staticContent extends main
+class staticContent extends auth
 {
 
     private $textReplace = null;
@@ -60,7 +60,7 @@ class staticContent extends main
 
         if ($slug != null OR $slug != '') {
 
-            $slug = parent::clean_var($slug);
+            $slug = $this->clean_var($slug);
 
             $title = 'title_' . $this->siteLang;
             $metaKey = 'meta_key_' . $this->siteLang;
@@ -85,7 +85,7 @@ class staticContent extends main
 
     /**
      *
-     * This functions sets the smarty values based on date from art::getStaticPage($slug) and displays the page
+     * This functions sets the smarty values based on data from art::getStaticPage($slug) and displays the page
      *
      * @param null $slug
      * @return bool

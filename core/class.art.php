@@ -8,7 +8,7 @@
  * Date: 2012.12.23.
  * Time: 22:20
  */
-class art extends main
+class art extends auth
 {
     function __construct()
     {
@@ -63,9 +63,9 @@ class art extends main
         $this->smarty->assign('title', gettext('Artist Index'));
 
         $this->smarty->assign('artistName', gettext('Artist Name'));
-        $this->smarty->assign('bornDied', gettext('_artist_born_died'));
-        $this->smarty->assign('period', gettext('_artist_period'));
-        $this->smarty->assign('school', gettext('_artist_school'));
+        $this->smarty->assign('bornDied', gettext('Born-Died'));
+        $this->smarty->assign('period', gettext('Period'));
+        $this->smarty->assign('school', gettext('School'));
 
         $this->smarty->assign('artists', $this->getArtistList());
 

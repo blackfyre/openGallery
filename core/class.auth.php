@@ -14,7 +14,7 @@ class auth extends main
     function __construct()
     {
         parent::__construct();
-        $this->setLang($this->siteLang);
+        $this->userMenu();
     }
 
     function __destruct()
@@ -163,6 +163,45 @@ class auth extends main
             $spiced = sha1($pass);
 
             return $spiced;
+        }
+    }
+
+    function userMenu()
+    {
+
+        $title = 'title_' . $this->siteLang;
+        $alt = 'alt_' . $this->siteLang;
+
+        if ($this->checkSessionUser()) {
+
+            $logged = 1;
+
+        } else {
+
+            $logged = 0;
+        }
+
+        $query = "SELECT $title as title, target, link, $alt as alt FROM users_menu WHERE loggedin='$logged' ORDER BY `order`";
+
+        if ($result = $this->db->query($query)) {
+
+            $menu = null;
+
+            while ($row = $result->fetch_assoc()) {
+                $menu[] = $row;
+            }
+
+            //var_dump($menu);
+
+            $this->smarty->assign('userMenu', $menu);
+
+            return true;
+
+        } else {
+
+            $this->errorMSG(gettext('Query failed') . ': ' . $this->db->error);
+            return false;
+
         }
     }
 }

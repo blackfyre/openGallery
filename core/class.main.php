@@ -67,6 +67,7 @@ class main
         $this->smarty->assign('signUpLegal', gettext("By clicking the 'Sign Up!' button I accept the terms of service."));
         $this->smarty->assign('signUpButton', gettext('Sign Up!'));
         $this->smarty->assign('emailPlace', gettext('you@domain.com'));
+        $this->smarty->assign('userMenuName', gettext('User menu'));
         //$this->smarty->assign('',gettext(''));
     }
 
@@ -272,6 +273,8 @@ class main
 
             $this->smarty->assign('mainMenu', $main);
             $this->smarty->assign('sideMenu', $side);
+
+            return true;
 
         } else {
             $this->errorMSG(gettext('Query failed') . ': ' . $this->db->error);

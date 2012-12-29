@@ -11,11 +11,12 @@
 
 ini_set("default_charset", "utf-8");
 
-$row = 1;
-if (($handle = fopen("../src/cat_en.csv", "r")) !== FALSE) {
+if (($handle = fopen("../src/cat_bilang.csv", "r")) !== FALSE) {
     while (($data = fgetcsv($handle, 0, ";", '"')) !== FALSE) {
 
-        var_dump($data);
+        $r[] = $data;
     }
     fclose($handle);
 }
+
+var_dump($r);

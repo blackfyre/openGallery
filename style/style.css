@@ -18,33 +18,40 @@ body {
 
 /* Headings */
 h1 {
- font-size: 26px;
-} /* 26px */
+    font-size: 26px;
+}
+
+/* 26px */
 
 h2 {
     font-size: 1.571em
-} /* 22px */
+}
 
+/* 22px */
 
 h3 {
     font-size: 1.429em
-}/* 20px */
+}
 
+/* 20px */
 
 h4 {
     font-size: 1.286em
-} /* 18px */
+}
 
+/* 18px */
 
 h5 {
     font-size: 1.143em
-} /* 16px */
+}
 
+/* 16px */
 
 h6 {
     font-size: 1em
-} /* 14px */
+}
 
+/* 14px */
 
 h1, h2, h3, h4, h5, h6 {
     font-weight: 400;
@@ -213,6 +220,11 @@ header .quickSearch {
     padding: 0;
 }
 
+nav h3 {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
 /* content */
 
 .contentWrapper {
@@ -246,7 +258,6 @@ header .quickSearch {
     width: 210px;
     margin-left: 10px;
 }
-
 
 /* Main content block */
 .contentWrapper .mainContent {
