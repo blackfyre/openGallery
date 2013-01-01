@@ -91,15 +91,20 @@ class auth extends main
 
     public function checkSessionUser()
     {
-        return $this->checkLogin($_SESSION['userName'], $_SESSION['userPass']);
+        if (isset($_SESSION['userName']) AND isset($_SESSION['userPass'])) {
+            return $this->checkLogin($_SESSION['userName'], $_SESSION['userPass']);
+        } else {
+            return false;
+        }
+
     }
 
     private function checkLogin($user = null, $passHalfSpiced = null)
     {
         if (!is_null($user) AND !is_null($passHalfSpiced)) {
 
-            $user = $this->clean_var($user);
-            $pass = $this->clean_var($passHalfSpiced);
+            $user = $this->cleanVar($user);
+            $pass = $this->cleanVar($passHalfSpiced);
 
             $pass = $this->spicerFinish($pass);
 
@@ -107,7 +112,7 @@ class auth extends main
 
             if ($result = $this->db->query($query)) {
 
-                if ($result->num_rows == 1) {
+                if ($result->rowCount() == 1) {
                     return true;
                 } else {
                     return false;
@@ -129,7 +134,7 @@ class auth extends main
             parent::errorMSG(gettext('Missing variable'));
             return false;
         } else {
-            $pass = $this->clean_var($pass);
+            $pass = $this->cleanVar($pass);
 
             $spiced = sha1(md5($this->spice . $pass . $this->spice));
 
@@ -144,7 +149,7 @@ class auth extends main
             parent::errorMSG(gettext('Missing variable'));
             return false;
         } else {
-            $pass = $this->clean_var($pass);
+            $pass = $this->cleanVar($pass);
 
             $spiced = md5($this->spice . $pass . $this->spice);
 
@@ -158,7 +163,7 @@ class auth extends main
             parent::errorMSG(gettext('Missing variable'));
             return false;
         } else {
-            $pass = $this->clean_var($passHalfSpiced);
+            $pass = $this->cleanVar($passHalfSpiced);
 
             $spiced = sha1($pass);
 
@@ -187,7 +192,7 @@ class auth extends main
 
             $menu = null;
 
-            while ($row = $result->fetch_assoc()) {
+            while ($row = $result->fetch()) {
                 $menu[] = $row;
             }
 

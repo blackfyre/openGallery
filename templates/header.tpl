@@ -23,9 +23,7 @@
         <nav>
             <ul class="headNav">
             {foreach from=$mainMenu item=i}
-                <a href="{$i.link}" title="{$i.alt}" target="{$i.target}" hreflang="{$siteLang}">
-                    <li>{$i.title}</li>
-                </a>
+                <a href="{$i.link}" title="{$i.alt}" target="{$i.target}" hreflang="{$siteLang}"><li>{$i.title}</li></a>
             {/foreach}
             </ul>
         </nav>
@@ -35,9 +33,7 @@
     <nav class="sideLeft contentBox">
         <ul class="sideNav">
         {foreach from=$sideMenu item=i}
-            <a href="{$i.link}" title="{$i.alt}" target="{$i.target}" hreflang="{$siteLang}">
-                <li>{$i.title}</li>
-            </a>
+            <a href="{$i.link}" title="{$i.alt}" target="{$i.target}" hreflang="{$siteLang}"><li>{$i.title}</li></a>
         {/foreach}
         </ul>
 

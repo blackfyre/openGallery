@@ -20,7 +20,7 @@ class art extends auth
         parent::__destruct();
     }
 
-    private function getArtistList()
+    function getArtistList($forAdmin = false)
     {
 
         $profession = 'artist_profession.professionName_' . $this->siteLang;
@@ -32,18 +32,23 @@ class art extends auth
         dateOfBirth, dateOfDeath, exactBirth, exactDeath, placeOfBirth, placeOfDeath, slug,
         artist_period.periodName AS period,
         $profession AS profession,
-        artist_school.schoolName AS school
+        artist_school.schoolName AS school,
+        active
         FROM artist
         LEFT JOIN artist_period ON artist_period.id=artist.period
         LEFT JOIN artist_profession ON artist_profession.id=artist.profession
         LEFT JOIN artist_school ON artist_school.id=artist.school
         ";
 
+        if (!$forAdmin) {
+            $query .= "WHERE `active`='1'";
+        }
+
         if ($result = $this->db->query($query)) {
 
             $r = false;
 
-            while ($row = $result->fetch_assoc()) {
+            while ($row = $result->fetch()) {
                 $r[] = $row;
             }
 
@@ -51,7 +56,7 @@ class art extends auth
 
 
         } else {
-            $this->errorMSG(gettext('Query failed') . ': ' . $this->db->error);
+            $this->queryError();
             return false;
         }
 
@@ -77,7 +82,7 @@ class art extends auth
     {
         if (!is_null($artistSlug)) {
 
-            $artistSlug = $this->clean_var($artistSlug);
+            $artistSlug = $this->cleanVar($artistSlug);
             $bio = 'bio_' . $this->siteLang;
             $profession = 'artist_profession.professionName_' . $this->siteLang;
 
@@ -98,9 +103,9 @@ class art extends auth
 
             if ($result = $this->db->query($query)) {
 
-                if ($result->num_rows == 1) {
+                if ($result->rowCount() == 1) {
 
-                    return $result->fetch_assoc();
+                    return $result->fetch();
 
                 } else {
                     $this->errorMSG(gettext('Multiple results'));
@@ -109,7 +114,7 @@ class art extends auth
 
 
             } else {
-                $this->errorMSG(gettext('Query failed') . ': ' . $this->db->error);
+                $this->queryError();
                 return false;
             }
 
@@ -132,10 +137,10 @@ class art extends auth
 
             if ($result = $this->db->query($query)) {
 
-                return $result->num_rows;
+                return $result->rowCount();
 
             } else {
-                $this->errorMSG(gettext('Query failed') . ': ' . $this->db->error);
+                $this->queryError();
                 return false;
             }
 
@@ -149,7 +154,7 @@ class art extends auth
     {
         if (!is_null($artistSlug)) {
 
-            $artistSlug = $this->clean_var($artistSlug);
+            $artistSlug = $this->cleanVar($artistSlug);
 
             $query = "
             SELECT * FROM art
@@ -159,14 +164,14 @@ class art extends auth
             ";
 
             if ($result = $this->db->query($query)) {
-                while ($row = $result->fetch_assoc()) {
+                while ($row = $result->fetch()) {
                     $r[] = $row;
                 }
 
                 return $r;
 
             } else {
-                $this->errorMSG(gettext('Query failed') . ': ' . $this->db->error);
+                $this->queryError();
                 return false;
             }
 
@@ -180,7 +185,7 @@ class art extends auth
     {
 
         if (!is_null($artistSlug)) {
-            $artistSlug = $this->clean_var($artistSlug);
+            $artistSlug = $this->cleanVar($artistSlug);
 
             $data = $this->getArtistData($artistSlug);
             $workCategoryCount = $this->getArtistCategoriesNumber($artistSlug);

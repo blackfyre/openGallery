@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: openGallery\n"
-"POT-Creation-Date: 2012-12-29 11:06+0100\n"
-"PO-Revision-Date: 2012-12-29 11:07+0100\n"
+"POT-Creation-Date: 2012-12-30 15:53+0100\n"
+"PO-Revision-Date: 2012-12-30 15:58+0100\n"
 "Last-Translator: Galicz Miklós <galicz.miklos@blackworks.org>\n"
 "Language-Team: BlackFyre Studio <galicz.miklos@blackworks.org>\n"
 "MIME-Version: 1.0\n"
@@ -14,45 +14,45 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: ../../..\n"
 
-#: ../../../core/class.art.php:54 ../../../core/class.art.php:112
-#: ../../../core/class.art.php:138 ../../../core/class.art.php:169
+#: ../../../core/class.art.php:59 ../../../core/class.art.php:117
+#: ../../../core/class.art.php:143 ../../../core/class.art.php:174
 #: ../../../core/class.auth.php:117 ../../../core/class.auth.php:202
-#: ../../../core/class.main.php:280 ../../../core/class.static.php:77
+#: ../../../core/class.main.php:284 ../../../core/class.static.php:77
 msgid "Query failed"
 msgstr "Sikertelen lekérdezés"
 
-#: ../../../core/class.art.php:63
+#: ../../../core/class.art.php:68
 msgid "Artist Index"
 msgstr "Művész index"
 
-#: ../../../core/class.art.php:65
+#: ../../../core/class.art.php:70 ../../../core/class.throne.php:29
 msgid "Artist Name"
 msgstr "Név"
 
-#: ../../../core/class.art.php:66
+#: ../../../core/class.art.php:71 ../../../core/class.throne.php:30
 msgid "Born-Died"
 msgstr "Született-Halt"
 
-#: ../../../core/class.art.php:67
+#: ../../../core/class.art.php:72
 msgid "Period"
 msgstr "Periódus"
 
-#: ../../../core/class.art.php:68
+#: ../../../core/class.art.php:73
 msgid "School"
 msgstr "Iskola"
 
-#: ../../../core/class.art.php:106
+#: ../../../core/class.art.php:111
 msgid "Multiple results"
 msgstr "A vártnál több eredmény"
 
-#: ../../../core/class.art.php:117 ../../../core/class.art.php:143
-#: ../../../core/class.art.php:174 ../../../core/class.art.php:220
+#: ../../../core/class.art.php:122 ../../../core/class.art.php:148
+#: ../../../core/class.art.php:179 ../../../core/class.art.php:225
 #: ../../../core/class.auth.php:129 ../../../core/class.auth.php:144
 #: ../../../core/class.auth.php:158
 msgid "Missing variable"
 msgstr "Hiányzó változó"
 
-#: ../../../core/class.art.php:215
+#: ../../../core/class.art.php:220
 msgid "Works"
 msgstr "Munkásság"
 
@@ -76,51 +76,79 @@ msgstr "Bejelentkezés"
 msgid "Login Failed!"
 msgstr "Sikertelen bejelentkezés!"
 
-#: ../../../core/class.main.php:27
+#: ../../../core/class.main.php:28
 msgid "_db_connect_success"
 msgstr "Sikeres adatbázis kapcsolódás!"
 
-#: ../../../core/class.main.php:30
+#: ../../../core/class.main.php:31
 msgid "_db_connect_fail"
 msgstr "Nem sikerült az adatbázishoz kapcsolódni!"
 
-#: ../../../core/class.main.php:64
+#: ../../../core/class.main.php:67
 msgid "QUICKSEARCH"
 msgstr "GYORSKERESÉS"
 
-#: ../../../core/class.main.php:65
+#: ../../../core/class.main.php:68
 msgid "What's new"
 msgstr "Újdonságok"
 
-#: ../../../core/class.main.php:66
+#: ../../../core/class.main.php:69
 msgid "Sign up for the updates"
 msgstr "Iratkozz fel a frissítésekért"
 
-#: ../../../core/class.main.php:67
+#: ../../../core/class.main.php:70
 msgid "By clicking the 'Sign Up!' button I accept the terms of service."
 msgstr ""
 "A \"Feliratkozom!\" gomb megnyomásával elfogadom a szolgáltatási "
 "feltételeket!"
 
-#: ../../../core/class.main.php:68
+#: ../../../core/class.main.php:71
 msgid "Sign Up!"
 msgstr "Feliratkorom!"
 
-#: ../../../core/class.main.php:69
+#: ../../../core/class.main.php:72
 msgid "you@domain.com"
 msgstr "te@levelezo.hu"
 
-#: ../../../core/class.main.php:70
+#: ../../../core/class.main.php:73
 msgid "User menu"
 msgstr "Felhasználói menü"
 
-#: ../../../core/class.main.php:120
+#: ../../../core/class.main.php:124
 msgid "ERROR"
 msgstr "HIBA"
 
-#: ../../../core/class.main.php:215
+#: ../../../core/class.main.php:219
 msgid "_logAction_error"
 msgstr "Nem sikerült az eseménynapló bejegyzést létrehozni"
+
+#: ../../../core/class.throne.php:31
+msgid "Active"
+msgstr "Aktív"
+
+#: ../../../core/class.throne.php:32
+msgid "Preview"
+msgstr "Előnézet"
+
+#: ../../../core/class.throne.php:33
+msgid "Edit"
+msgstr "Szerkesztés"
+
+#: ../../../core/class.throne.php:34
+msgid "Preview in nem window"
+msgstr "Előnézet új ablakban"
+
+#: ../../../core/class.throne.php:35
+msgid "Edit Artist"
+msgstr "A Művész szerkesztése"
+
+#: ../../../core/class.throne.php:36
+msgid "The Artist is <b>ACTIVE</b> in the listings!"
+msgstr "A művész <b>AKTÍV</b> a listázásokban!"
+
+#: ../../../core/class.throne.php:37
+msgid "The Artist is <b>INACTIVE</b> in the listings!"
+msgstr "A művész <b>INAKTÍV</b> a listázásokban!"
 
 #, fuzzy
 #~ msgid "_login_boxLegend"

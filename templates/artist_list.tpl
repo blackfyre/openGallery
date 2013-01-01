@@ -4,20 +4,20 @@
 
 <table class="artistList">
     <thead>
-        <tr>
-            <th>{$artistName}</th>
-            <th>{$bornDied}</th>
-            <th>{$period}</th>
-            <th colspan="2">{$school}</th>
-        </tr>
+    <tr>
+        <th>{$artistName}</th>
+        <th>{$bornDied}</th>
+        <th>{$period}</th>
+        <th colspan="2">{$school}</th>
+    </tr>
     </thead>
     <tfoot>
-        <tr>
-            <th>{$artistName}</th>
-            <th>{$bornDied}</th>
-            <th>{$period}</th>
-            <th colspan="2">{$school}</th>
-        </tr>
+    <tr>
+        <th>{$artistName}</th>
+        <th>{$bornDied}</th>
+        <th>{$period}</th>
+        <th colspan="2">{$school}</th>
+    </tr>
     </tfoot>
     <tbody>
 

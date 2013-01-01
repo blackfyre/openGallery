@@ -28,7 +28,7 @@ class staticContent extends auth
 
         if ($result = $this->db->query($query)) {
 
-            while ($row = $result->fetch_assoc()) {
+            while ($row = $result->fetch()) {
                 $r[] = $row;
             }
 
@@ -60,7 +60,7 @@ class staticContent extends auth
 
         if ($slug != null OR $slug != '') {
 
-            $slug = $this->clean_var($slug);
+            $slug = $this->cleanVar($slug);
 
             $title = 'title_' . $this->siteLang;
             $metaKey = 'meta_key_' . $this->siteLang;
@@ -71,10 +71,10 @@ class staticContent extends auth
 
             if ($result = $this->db->query($query)) {
 
-                return $result->fetch_assoc();
+                return $result->fetch();
 
             } else {
-                $this->errorMSG(gettext('Query failed') . ': ' . $this->db->error);
+                $this->queryError();
                 return false;
             }
 
@@ -94,7 +94,7 @@ class staticContent extends auth
     {
         if (!is_null($slug) AND $slug != '') {
 
-            $slug = $this->clean_var($slug);
+            $slug = $this->cleanVar($slug);
 
             $data = $this->getStaticPage($slug);
 

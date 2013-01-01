@@ -279,3 +279,21 @@ nav h3 {
     text-transform: lowercase;
     font-size: 85%;
 }
+
+.artistList .inactiveRow {
+    color: gray;
+}
+
+/* ThroneRoom */
+
+.throneNav {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.throneNav li {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}

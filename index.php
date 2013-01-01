@@ -1,6 +1,11 @@
 <?php
 session_start();
-include_once 'core/class.main.php';
+
+spl_autoload_register(function ($className) {
+    include_once 'core/class.' . $className . '.php';
+});
+
+include_once 'libs/Smarty.class.php';
 
 //$main = new main;
 $auth = new auth();
@@ -28,6 +33,36 @@ if (isset($_GET['mode'])) {
         case 'artist':
             $art->displayArtist($_GET['var1']);
             break; //end of artist
+        case 'throne':
+            $throne = new throne();
+            if (isset($_GET['var1'])) {
+                switch ($_GET['var1']) {
+
+                    case 'artists':
+
+                        if (isset($_GET['var2'])) {
+
+                            switch ($_GET['var2']) {
+                                case 'toggle-active':
+                                    $throne->toggleArtistStatus($_GET['var3']);
+                                    break;
+                            }
+
+                        } else {
+                            $throne->artistList();
+                        }
+
+                        break;
+
+                    default:
+                        $throne->viewPage();
+                        break;
+                }
+            } else {
+                $throne->viewPage();
+            }
+
+            break; //end of throne
         default:
             $static->displayStaticPage('home');
             break; //end of default
