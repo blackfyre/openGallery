@@ -38,18 +38,18 @@ define('_DEFAULT_LANG','hu');
  * DEBUG
  */
 
-$dbUser = 'cmsUser';
-$dbPass = 'openWGA';
-$dbDb = 'cms';
+$dbUser = '';
+$dbPass = '';
+$dbDb = '';
 $dbHost = 'localhost';
 
 Kint::$enabled = false;
 
 if (in_array($_SERVER['HTTP_HOST'],$testEnvironments)) {
     Kint::$enabled = true;
-    $dbUser = 'cmsUser';
-    $dbPass = 'openWGA';
-    $dbDb = 'cms';
+    $dbUser = '';
+    $dbPass = '';
+    $dbDb = '';
 }
 
 define('_DB_USER',$dbUser);
