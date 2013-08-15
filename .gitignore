@@ -170,4 +170,7 @@ hung-art/
 src/
 
 #Smarty template compiler - no need to put trash on github...
-templates_c/*.php
+view/templates_c/
+
+#exclude production files
+core/appConfig.php
