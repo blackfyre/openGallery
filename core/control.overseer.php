@@ -18,10 +18,6 @@ class Overseer extends controlHandler
 
         if (isset($_GET['lang'])) {
 
-            $reRouter['kviz'] = 'quiz';
-            $reRouter['hirek'] = 'news';
-            $reRouter['tartalom'] = 'content';
-
             $this->methodLoader();
 
         } else {

@@ -12,7 +12,7 @@
  * Oldal adatok
  */
 
-define('_DEFAULT_TITLE','AirFranceQuiz');
+define('_DEFAULT_TITLE','openGallery');
 define('_DEFAULT_METADESC','nincs');
 define('_DEFAULT_METATAGS','nincs');
 
