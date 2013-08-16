@@ -38,22 +38,15 @@ class Overseer extends controlHandler
      */
     private function displayHome()
     {
-        $gamerFront = new gamerFront();
         $content = new content();
         $menu = new menu();
 
         $homeContent = $content->homeContent();
 
-        $data['activeGame'] = $gamerFront->isThereAnActiveGame();
         $data['menu'] = $menu->generateMainNav();
 
         $data = array_merge($data,$homeContent);
 
-        $gameData = $gamerFront->getActiveGameData();
-
-        if (is_array($gameData)) {
-            $data['quizId'] = $gameData['quizId'];
-        }
 
         $this->smarty->addToDisplay($data);
         $this->smarty->displaySelectedPage('front/home.tpl');
