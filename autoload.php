@@ -11,7 +11,7 @@ session_start();
 
 include_once $_SERVER['DOCUMENT_ROOT'] . '/plugins/debug/Kint.class.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/plugins/smarty/Smarty.class.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/plugins/phpExcel/classes/PHPExcel.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/plugins/phpExcel/Classes/PHPExcel.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/core/appConfig.php';
 
 

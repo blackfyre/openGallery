@@ -92,36 +92,38 @@ class controlHandler {
         }
 
         /*
-         * Ha létezik az a metódus amit szeretnénk meghívni és a tpl fájl is létezik
-         * Ezzel elejét vesszük az illetéktelen futtatásnak is
+         * If the called function and the required tpl file exists
+         * This is a security feature, to prevent the function from running if the required tpl file does not exists
          */
         if (method_exists($objName,$functionToCall) AND $this->tplFileExists($tplFolder,$objName,$functionToCall)) {
             /*
-             * Futtassok le a az adott osztály adott metódusát
+             * Run the method
              */
             $this->smarty->addToDisplay(call_user_func_array(array($obj, $functionToCall), $data));
 
             /*
-             * Jelenítsük meg a template -t
+             * Show the template
              */
             $this->displayPage($tplFolder,$objName,$functionToCall);
 
         } else {
             /*
-             * Ha nem létezik akkor 404-es oldal
+             * If the method is not allowed to run, present the user with a 404 page
              */
             $this->throw404();
         }
     }
 
     /**
-     * Kezeljük a formokat "egyszerűbben"...
+     * Form watching...
      *
-     * @param array $formActionToCall array($classToCall, 'method') A formot feldolgozó osztály/metódus
-     * @param array $formToCall array($classToCall, 'method') A formot megjelenítő osztály/metódus
-     * @param array $successCall array($classToCall, 'method') Siker esetén futtatandó osztály/metódus
-     * @param bool $logic feltétel -e a $formActionToCall sikeres futása?
-     * @internal param string $submitToWatch A submit érték amit figyelni kell
+     * @todo Make it watch the session for form handling
+     *
+     * @param array $formActionToCall array($classToCall, 'method') The class and fuction to call
+     * @param array $formToCall array($classToCall, 'method') Form displaying method
+     * @param array $successCall array($classToCall, 'method') The function to call on success
+     * @param bool $logic Is the successful run of the action is required?
+     * @internal param string $submitToWatch
      */
     protected function handleSingleForm($formActionToCall, $formToCall, $successCall, $logic = false)
     {
@@ -151,7 +153,7 @@ class controlHandler {
 
 
     /**
-     * Aktuális oldal újratöltése PHP-ból
+     * Refresh the current page from php
      * @return void
      */
     private function reloadPage()
@@ -169,6 +171,9 @@ class controlHandler {
         $this->youReDrunkGoHome();
     }
 
+    /**
+     * 404 page
+     */
     protected function throw404() {
         header("HTTP/1.0 404 Not Found");
         include_once '/404.php';
@@ -183,6 +188,9 @@ class controlHandler {
         die;
     }
 
+    /**
+     * Set the default lang in session
+     */
     private function setLang()
     {
         if (isset($_GET['lang'])) {

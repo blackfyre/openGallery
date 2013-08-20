@@ -4,7 +4,20 @@
    Author's custom styles
    ========================================================================== */
 
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
 
+.navFlag {
+    width: 18px;
+    height: auto;
+}
+
+.smallFlag {
+    width: 16px;
+    height: auto;
+}
 
 
 

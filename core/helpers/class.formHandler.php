@@ -325,7 +325,7 @@ class formHandler
      * @param bool $modalForm
      * @return bool|string
      */
-    public function generateForm($formName = null, $submitText = null, $submitAdd = null, $submitTarget = null, $layoutMode = 'table', $modalForm = false)
+    public function generateForm($formName = null, $submitText = null, $submitAdd = null, $submitTarget = null, $layoutMode = 'bootstrap-horizontal', $modalForm = false)
     {
         if (is_array($this->normalForm)) {
 
@@ -357,8 +357,8 @@ class formHandler
                          * Szöveges mező
                          */
 
-                        $input1['label'] = '<label class="control-label" for="text-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
-                        $input1['input'] = '<input class="input-xlarge" ' . ($formElement['required']==true?'required':'') . ' type="text" name="text-' . $formElement['name'] . '" id="text-' . $formElement['name'] . '" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
+                        $input1['label'] = '<label class="col-lg-2 control-label" for="text-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
+                        $input1['input'] = '<input class="form-control" ' . ($formElement['required']==true?'required':'') . ' type="text" name="text-' . $formElement['name'] . '" id="text-' . $formElement['name'] . '" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
                         $input1['required'] = $formElement['required'];
 
                         $rows[] = $input1;
@@ -371,7 +371,7 @@ class formHandler
                          */
 
                         $input1['label'] = '<label class="control-label" for="text-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
-                        $input1['input'] = '<input class="input-xlarge" ' . ($formElement['required']==true?'required':'') . ' type="url" name="text-' . $formElement['name'] . '" id="text-' . $formElement['name'] . '" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
+                        $input1['input'] = '<input class="form-control" ' . ($formElement['required']==true?'required':'') . ' type="url" name="text-' . $formElement['name'] . '" id="text-' . $formElement['name'] . '" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
                         $input1['required'] = $formElement['required'];
 
                         $rows[] = $input1;
@@ -384,7 +384,7 @@ class formHandler
                          */
 
                         $input1['label'] = '<label class="control-label" for="num-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
-                        $input1['input'] = '<input class="input-xlarge" ' . ($formElement['required']==true?'required':'') . ' type="text" name="num-' . $formElement['name'] . '" id="num-' . $formElement['name'] . '" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
+                        $input1['input'] = '<input class="form-control" ' . ($formElement['required']==true?'required':'') . ' type="text" name="num-' . $formElement['name'] . '" id="num-' . $formElement['name'] . '" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
                         $input1['required'] = $formElement['required'];
 
                         $rows[] = $input1;
@@ -397,7 +397,7 @@ class formHandler
                          */
 
                         $input1['label'] = '<label class="control-label" for="date-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
-                        $input1['input'] = '<input class="input-xlarge" ' . ($formElement['required']==true?'required':'') . ' type="text" name="date-' . $formElement['name'] . '" id="date-' . $formElement['name'] . '" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
+                        $input1['input'] = '<input class="form-control" ' . ($formElement['required']==true?'required':'') . ' type="text" name="date-' . $formElement['name'] . '" id="date-' . $formElement['name'] . '" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
                         $input1['required'] = $formElement['required'];
 
                         $rows[] = $input1;
@@ -422,7 +422,7 @@ class formHandler
                          * Módosított szöveges mező az emailekhez
                          */
                         $input1['label'] = '<label class="control-label" for="email-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
-                        $input1['input'] = '<input class="input-xlarge" ' . ($formElement['required']==true?'required':'') . ' type="email" name="email-' . $formElement['name'] . '" id="email-' . $formElement['name'] . '" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
+                        $input1['input'] = '<input class="form-control" ' . ($formElement['required']==true?'required':'') . ' type="email" name="email-' . $formElement['name'] . '" id="email-' . $formElement['name'] . '" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
                         $input1['required'] = $formElement['required'];
 
                         $rows[] = $input1;
@@ -439,15 +439,15 @@ class formHandler
                         $rows[] = $input1;
                         break;
                     case 'password':
-                        $input1['label'] = '<label class="control-label" for="text-' . $formElement['name'] . '">Jelszó</label>';
-                        $input1['input'] = '<input class="input-xlarge" type="password" name="text-' . $formElement['name'] . '" id="text-' . $formElement['name'] . '" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
+                        $input1['label'] = '<label class="col-lg-2 control-label" for="text-' . $formElement['name'] . '">Jelszó</label>';
+                        $input1['input'] = '<input class="form-control" type="password" name="text-' . $formElement['name'] . '" id="text-' . $formElement['name'] . '" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
                         $input1['required'] = $formElement['required'];
 
                         $rows[] = $input1;
                         break;
                     case 'textArea':
-                        $input1['label'] = '<label class="control-label" for="textArea-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
-                        $input1['input'] = '<textarea class="input-xlarge ckeditor" ' . ($formElement['required']==true?'required':'') . ' name="textArea-' . $formElement['name'] . '" id="textArea-' . $formElement['name'] . '">' . $formElement['value'] . '</textarea>';
+                        $input1['label'] = '<label class="col-lg-2 control-label" for="textArea-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
+                        $input1['input'] = '<textarea class="form-control ckeditor" ' . ($formElement['required']==true?'required':'') . ' name="textArea-' . $formElement['name'] . '" id="textArea-' . $formElement['name'] . '">' . $formElement['value'] . '</textarea>';
                         $input1['required'] = $formElement['required'];
 
                         $rows[] = $input1;
@@ -523,15 +523,14 @@ class formHandler
                 }
             }
 
-            $out = '<form method="POST" ';
+            $out = '<form role="form" method="POST" ';
             $out .= 'data-async class="form-horizontal" action="' . (is_null($submitTarget)?$_SERVER['PHP_SELF']:$submitTarget) . '" id="form-' . coreFunctions::slugger($formName) . '" accept-charset="utf-8" enctype="multipart/form-data">';
+
+            $render = false;
 
             switch ($layoutMode) {
                 case 'bootstrap-horizontal':
                     $render = $this->bootstrapFormLayout($rows,$formName,$submitText,$submitAdd, $modalForm);
-                    break;
-                case 'table':
-                    $render = $this->table->createFormTable($rows, $formName, $submitText, $submitAdd, $modalForm);
                     break;
             }
 
@@ -570,9 +569,9 @@ class formHandler
                 } elseif (is_null($row['label']) AND $row['required']=='hidden') {
                     $r .= $row['input'];
                 } else {
-                    $r .= '<div class="control-group">';
+                    $r .= '<div class="form-group">';
                     $r .= $row['label'];
-                    $r .= '<div class="controls">';
+                    $r .= '<div class="col-lg-10">';
                     $r .= $row['input'];
                     $r .= '</div>';
                     $r .= '</div>';
@@ -582,8 +581,8 @@ class formHandler
 
             if (!$modalForm) {
                 $r .= '
-<div class="control-group">
-    <div class="controls">
+<div class="form-group">
+    <div class="col-lg-offset-2 col-lg-10">
         <button class="btn btn-primary" type="submit" name="submit-' . $formName . '">' . $submitText . '</button>' . $submitAdd  .'
     </div>
 </div>

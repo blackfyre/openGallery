@@ -55,9 +55,9 @@ class content {
             foreach ($data AS $row) {
                 $t = $row;
 
-                $t['title'] = '<div class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><img src="/img/flags/flag-hu.png" class="smallFlag">&nbsp;' . $row['title_hu'] . '</a><ul class="dropdown-menu" role="menu">';
-                $t['metaKey'] = '<div class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><img src="/img/flags/flag-hu.png" class="smallFlag">&nbsp;' . $row['metaKey_hu'] . '</a><ul class="dropdown-menu" role="menu">';
-                $t['linkAlt'] = '<div class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><img src="/img/flags/flag-hu.png"  class="smallFlag">&nbsp;' . $row['linkAlt_hu'] . '</a><ul class="dropdown-menu" role="menu">';
+                $t['title'] = '<div class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><img src="/img/flags/flag-hu.png" class="smallFlag">&nbsp;' . $row['title_hu'] . ' <b class="caret"></b></a><ul class="dropdown-menu" role="menu">';
+                $t['metaKey'] = '<div class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><img src="/img/flags/flag-hu.png" class="smallFlag">&nbsp;' . $row['metaKey_hu'] . ' <b class="caret"></b></a><ul class="dropdown-menu" role="menu">';
+                $t['linkAlt'] = '<div class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><img src="/img/flags/flag-hu.png"  class="smallFlag">&nbsp;' . $row['linkAlt_hu'] . ' <b class="caret"></b></a><ul class="dropdown-menu" role="menu">';
 
                 foreach ($this->activeLangs AS $lang) {
                     $t['title'] .= '<li>&nbsp;<img class="smallFlag" src="/img/flags/flag-' . $lang['isoCode'] . '.png">&nbsp;' . $row['title_' . $lang['isoCode']] . '</li>';
@@ -70,7 +70,7 @@ class content {
                 $t['linkAlt'] .= '</ul></div>';
 
                 $t['edit'] = '<div class="btn-group">';
-                $t['edit'] .= '<a class="btn btn-mini" href="/throne/content/editArticle/' . $row['id'] . '.html"><i class="icon-edit"></i></a>';
+                $t['edit'] .= '<a class="btn btn-default btn-xs" href="/throne/content/editArticle/' . $row['id'] . '.html"><i class="glyphicon glyphicon-edit"></i></a>';
                 $t['edit'] .= '</div>';
 
                 $newData[] = $t;
