@@ -8,6 +8,8 @@
  */
 
 
+Kint::dump($_GET);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

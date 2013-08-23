@@ -12,7 +12,7 @@
  * Oldal adatok
  */
 
-define('_DEFAULT_TITLE','AirFranceQuiz');
+define('_DEFAULT_TITLE','openGallery');
 define('_DEFAULT_METADESC','nincs');
 define('_DEFAULT_METATAGS','nincs');
 
@@ -25,6 +25,7 @@ define('_BASE_PATH',$_SERVER['DOCUMENT_ROOT']);
  */
 
 $testEnvironments[] = '37.139.10.166';
+$testEnvironments[] = 'wga.local';
 
 define('_TEST_ENV', json_encode($testEnvironments));
 

@@ -104,12 +104,14 @@ class authManager
 
     function throneLoginForm() {
 
+        /*
         $this->form->addInput('textField','user',null,null,'felhasználó');
         $this->form->addInput('password','pass',null,null,'jelszó');
 
         $r['content'] = '<h2>Bejelentkezés</h2>';
 
         $r['content'] .= $this->form->generateForm('login','bejelentkezés',null,'/responders/throneLogin.php','bootstrap-horizontal');
+        */
 
         $r['jFunctions'] = '
     function showResponse(responseText, statusText, xhr, $form)  {
