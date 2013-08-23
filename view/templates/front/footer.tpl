@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!-- Site footer -->
 <div class="footer">
     <div class="row">
@@ -14,6 +15,8 @@
 </div>
 
 </div> <!-- /container -->
+=======
+>>>>>>> fa8330835f9f0c954ca212c3a656fef30e12e883
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.js"></script>
 <script>window.jQuery || document.write('<script src="/js/vendor/jquery-1.10.1.js"><\/script>')</script>
