@@ -14,7 +14,7 @@ header('Content-Type:text/html; charset=ISO-8859-2');
 
 include_once $_SERVER['DOCUMENT_ROOT'] . '/autoload.php';
 
-$dir = $_SERVER['DOCUMENT_ROOT'] . '/artImg/kep/';
+$dir = $_SERVER['DOCUMENT_ROOT'] . '/artImg/';
 
 $path = realpath($dir);
 
