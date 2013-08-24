@@ -26,6 +26,7 @@ define('_BASE_PATH',$_SERVER['DOCUMENT_ROOT']);
 
 $testEnvironments[] = '37.139.10.166';
 $testEnvironments[] = 'wga.local';
+$testEnvironments[] = 'opengallery.local';
 
 define('_TEST_ENV', json_encode($testEnvironments));
 
@@ -47,6 +48,7 @@ $dbHost = 'localhost';
 Kint::$enabled = false;
 
 if (in_array($_SERVER['HTTP_HOST'],$testEnvironments)) {
+
     Kint::$enabled = true;
     $dbUser = 'cmsUser';
     $dbPass = 'openWGA';
