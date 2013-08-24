@@ -4,13 +4,12 @@
    Author's custom styles
    ========================================================================== */
 
-<<<<<<< HEAD
-=======
+
 body {
     padding-top: 50px;
     padding-bottom: 20px;
 }
->>>>>>> fa8330835f9f0c954ca212c3a656fef30e12e883
+
 
 .navFlag {
     width: 18px;
@@ -22,7 +21,6 @@ body {
     height: auto;
 }
 
-<<<<<<< HEAD
 /* Featurettes
 ------------------------- */
 
@@ -36,8 +34,7 @@ body {
     line-height: 1;
     letter-spacing: -1px;
 }
-=======
->>>>>>> fa8330835f9f0c954ca212c3a656fef30e12e883
+
 
 
 
