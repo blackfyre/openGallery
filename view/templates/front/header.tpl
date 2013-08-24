@@ -50,6 +50,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="/">Home</a></li>
+                    {*
                     <li><a href="#about">ABC Index</a></li>
                     <li><a href="#contact">Search</a></li>
                     <li><a href="#contact">Guided tours</a></li>
@@ -58,10 +59,13 @@
                     <li><a href="#contact">Guestbook</a></li>
                     <li><a href="#contact">Information</a></li>
                     <li><a href="#contact">Contact</a></li>
+*}
                 </ul>
+                {*
                 <ul class="nav navbar-nav pull-right">
                     <li><a href="#">Login</a></li>
                 </ul>
+*}
             </div><!--/.nav-collapse -->
         </div>
     </div>
