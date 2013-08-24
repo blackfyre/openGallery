@@ -1,5 +1,5 @@
 
-<hr class="featurette-divider">
+<hr class="footer-divider">
 
 <!-- Site footer -->
 <div class="footer">

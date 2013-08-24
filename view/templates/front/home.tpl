@@ -11,17 +11,17 @@
 <div class="row">
     <div class="col-lg-4">
         <h2>Developer</h2>
-        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+        <p>Developing this site is time consuming and tedious work, and any help would be welcome!</p>
         <p><a class="btn btn-primary" href="/en/openings/openPositions/developer.html">View details &raquo;</a></p>
     </div>
     <div class="col-lg-4">
         <h2>Translator</h2>
-        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+        <p>Translating the content to every language that the engine supports is a daunting task at best, but we are looking for eager people who are willing to topple this quest</p>
         <p><a class="btn btn-primary" href="/en/openings/openPositions/translator.html">View details &raquo;</a></p>
     </div>
     <div class="col-lg-4">
         <h2>Editor</h2>
-        <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa.</p>
+        <p>Content is one thing, but it also has to presentable, this is also an immense task which requires more than one persons attention.</p>
         <p><a class="btn btn-primary" href="/en/openings/openPositions/editor.html">View details &raquo;</a></p>
     </div>
 </div>
@@ -64,7 +64,6 @@
     </div>
 </div>
 
-<hr class="featurette-divider">
 
 <!-- /END THE FEATURETTES -->
 
