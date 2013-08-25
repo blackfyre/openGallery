@@ -31,6 +31,7 @@ class artist {
     function view($artistSlug = null) {
 
         $r['artworkButton'] = gettext('Works');
+        $r['artworkLink'] = '/' . $_SESSION['lang'] .  '/artist/artBy/' . $artistSlug . '.html';
 
         $artistSlug = coreFunctions::cleanVar($artistSlug);
 
@@ -48,6 +49,56 @@ class artist {
         for ($i = 0; $i <= 9; $i++) {
             $r['artData'][] = $artData[$i];
         }
+
+        return $r;
+    }
+
+    function artBy($artistSlug = null) {
+        $artistSlug = coreFunctions::cleanVar($artistSlug);
+
+        $data = $this->model->getArtistBySlug($artistSlug);
+
+        $r['bioButton'] = gettext('Biography');
+        $r['biokLink'] = '/' . $_SESSION['lang'] .  '/artist/view/' . $artistSlug . '.html';
+
+        $r['artistName'] = $data['lastName'] . ' ' . $data['firstName'];
+        $r['subTitle'] = '(' . $data['dateOfBirth'] . ', ' . $data['placeOfBirth'] . ' - ' . $data['dateOfDeath'] . ', ' . $data['placeOfDeath'] . ')';
+
+        $artData = $this->model->getArt($data['id']);
+
+        $r['content'] = null;
+
+        $r['content'] .= '<div class="row">';
+
+        $counter = 1;
+
+        foreach ($artData AS $a) {
+            $r['content'] .= '<div class="col-md-3">';
+
+            $r['content'] .= '<img class="img-responsive img-rounded" src="/image.php?width=300&height=300&cropratio=1:1&image=/img/art/' . $a['img'] . '">';
+
+            $r['content'] .= '<h2>' . $a['title_' . $_SESSION['lang']].'</h2>';
+
+            if ($a['description_' . $_SESSION['lang']] != '') {
+                $r['content'] .= '<p>' . coreFunctions::trimmer($a['description_' . $_SESSION['lang']],150) . '</p>';
+            }
+
+            $r['content'] .= '';
+
+            $r['content'] .= '</div>';
+
+            if ($counter == 4) {
+                $counter = 1;
+                $r['content'] .= '</div>';
+                $r['content'] .= '<div class="row">';
+            } else {
+                $counter++;
+            }
+
+
+        }
+
+        $r['content'] .= '</div>';
 
         return $r;
     }
