@@ -339,14 +339,14 @@ class formHandler
                          * Reglap páros jelszó
                          */
 
-                        $input1['label'] = '<label class="control-label" for="text-' . $formElement['name'] . '1">Jelszó</label>';
-                        $input1['input'] = '<input type="password" name="text-' . $formElement['name'] . '1" id="text-' . $formElement['name'] . '1" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
+                        $input1['label'] = '<label class="col-lg-2 control-label" for="text-' . $formElement['name'] . '1">' . gettext('Password') . '</label>';
+                        $input1['input'] = '<input class="form-control" ' . ($formElement['required']==true?'required':'') . ' type="password" name="text-' . $formElement['name'] . '1" id="text-' . $formElement['name'] . '1" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
                         $input1['required'] = $formElement['required'];
 
                         $rows[] = $input1;
 
-                        $input2['label'] = '<label class="control-label" for="text-' . $formElement['name'] . '2">Jelszó</label>';
-                        $input2['input'] = '<input type="password" name="text-' . $formElement['name'] . '2" id="text-' . $formElement['name'] . '2" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
+                        $input2['label'] = '<label class="col-lg-2 control-label" for="text-' . $formElement['name'] . '2">' . gettext('Password') . '</label>';
+                        $input2['input'] = '<input class="form-control" ' . ($formElement['required']==true?'required':'') . ' type="password" name="text-' . $formElement['name'] . '2" id="text-' . $formElement['name'] . '2" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
                         $input2['required'] = $formElement['required'];
 
                         $rows[] = $input2;

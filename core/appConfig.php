@@ -20,6 +20,8 @@ define('_MULTILANG',true);
 
 define('_BASE_PATH',$_SERVER['DOCUMENT_ROOT']);
 
+mb_internal_encoding('UTF-8');
+
 /*
  * Adatbázis cuccok
  */
@@ -34,7 +36,7 @@ define('_TEST_ENV', json_encode($testEnvironments));
  * Nyelv
  */
 
-define('_DEFAULT_LANG','hu');
+define('_DEFAULT_LANG','en');
 
 /*
  * DEBUG
@@ -59,6 +61,21 @@ define('_DB_USER',$dbUser);
 define('_DB_PASS',$dbPass);
 define('_DB_HOST',$dbHost);
 define('_DB_DB',$dbDb);
+
+/*
+ * PHPMailer
+ */
+
+define('_SEND_NOTIFICATION',TRUE);
+
+define('_SMTP_HOST','smtp.hinora.hu');
+define('_SMTP_PORT',25);
+define('_SMTP_USER','speedbody_smtp');
+define('_SMTP_PASS','w62Yj3@%Vp');
+define('_EMAIL_FROM_ADDRESS','nyeremeny@scratchandwin.hu');
+define('_EMAIL_FROM_NAME','');
+define('_EMAIL_REPLY_ADDRESS','');
+define('_EMAIL_REPLY_NAME','');
 
 /*
  * Smarty

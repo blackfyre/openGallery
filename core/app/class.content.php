@@ -55,9 +55,9 @@ class content {
             foreach ($data AS $row) {
                 $t = $row;
 
-                $t['title'] = '<div class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><img src="/img/flags/flag-hu.png" class="smallFlag">&nbsp;' . $row['title_hu'] . ' <b class="caret"></b></a><ul class="dropdown-menu" role="menu">';
-                $t['metaKey'] = '<div class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><img src="/img/flags/flag-hu.png" class="smallFlag">&nbsp;' . $row['metaKey_hu'] . ' <b class="caret"></b></a><ul class="dropdown-menu" role="menu">';
-                $t['linkAlt'] = '<div class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><img src="/img/flags/flag-hu.png"  class="smallFlag">&nbsp;' . $row['linkAlt_hu'] . ' <b class="caret"></b></a><ul class="dropdown-menu" role="menu">';
+                $t['title'] = '<div class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><img src="/img/flags/flag-hu.png" class="smallFlag">&nbsp;' . $row['title_hu'] . '</a><ul class="dropdown-menu" role="menu">';
+                $t['metaKey'] = '<div class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><img src="/img/flags/flag-hu.png" class="smallFlag">&nbsp;' . $row['metaKey_hu'] . '</a><ul class="dropdown-menu" role="menu">';
+                $t['linkAlt'] = '<div class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><img src="/img/flags/flag-hu.png"  class="smallFlag">&nbsp;' . $row['linkAlt_hu'] . '</a><ul class="dropdown-menu" role="menu">';
 
                 foreach ($this->activeLangs AS $lang) {
                     $t['title'] .= '<li>&nbsp;<img class="smallFlag" src="/img/flags/flag-' . $lang['isoCode'] . '.png">&nbsp;' . $row['title_' . $lang['isoCode']] . '</li>';
@@ -70,7 +70,7 @@ class content {
                 $t['linkAlt'] .= '</ul></div>';
 
                 $t['edit'] = '<div class="btn-group">';
-                $t['edit'] .= '<a class="btn btn-default btn-xs" href="/throne/content/editArticle/' . $row['id'] . '.html"><i class="glyphicon glyphicon-edit"></i></a>';
+                $t['edit'] .= '<a class="btn btn-mini" href="/throne/content/editArticle/' . $row['id'] . '.html"><i class="icon-edit"></i></a>';
                 $t['edit'] .= '</div>';
 
                 $newData[] = $t;
@@ -85,7 +85,7 @@ class content {
             $r['content'] .= $this->table->createSimpleTable($heads,$newData);
 
         } else {
-            $r['content'] = '<p>Nincs megjeleníthető adat!</p>';
+            $r['content'] = '<p>No data to show!</p>';
         }
 
         return $r;
@@ -93,6 +93,7 @@ class content {
     }
 
     /**
+     * Rögzített tartalom Savee
      * @param array $data
      * @return bool|null
      */
@@ -110,6 +111,35 @@ class content {
         return false;
     }
 
+    function processFixedContent() {
+
+        $r = null;
+
+        if (isset($_POST['submit-saveFixed'])) {
+            $formData = $this->form->validator();
+
+            if ($this->saveFixedContent($formData)) {
+                $r = '
+                    <div class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        Content successfully modified!
+                    </div>
+                ';
+            } else {
+                $r = '
+                    <div class="alert alert-error">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        An error occured!
+                    </div>
+                ';
+            }
+
+        }
+
+        return $r;
+    }
+
+
     /**
      * A rögzített tartalmak listázása
      * @return array
@@ -117,27 +147,7 @@ class content {
     function fixedContent() {
         $r['content'] = null;
 
-        if (isset($_POST['submit-saveFixed'])) {
-            $formData = $this->form->validator();
-
-            if ($this->saveFixedContent($formData)) {
-                $r['content'] .= '
-                    <div class="alert alert-success">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        A tartalom sikeresen módosításra került!
-                    </div>
-                ';
-            } else {
-                $r['content'] .= '
-                    <div class="alert alert-error">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        Nem sikerült módosítani a tartalmat!
-                    </div>
-                ';
-            }
-
-        }
-
+        $r['msg'] = $this->processFixedContent();
 
         $data = $this->model->getFixedContent();
 
@@ -190,12 +200,14 @@ class content {
     }
 
     /**
+     * Rögzített tartalom szerkesztése
      * @param int $fixedContentId
      * @return mixed
      */
     function editFixed($fixedContentId = null) {
 
         $r['content'] = null;
+        $r['msg'] = null;
 
         if (is_numeric($fixedContentId)) {
 
@@ -204,13 +216,13 @@ class content {
             if (is_array($this->activeLangs)) {
 
                 foreach ($this->activeLangs AS $l) {
-                    $this->form->addInput('textField','title_'.$l['isoCode'],htmlspecialchars_decode($data['title_' . $l['isoCode']]), null, '<img src="/img/flags/flag-' . $l['isoCode'] . '.png" style="width: 28px">&nbsp;Cím',true);
-                    $this->form->addInput('textArea','content_'.$l['isoCode'],htmlspecialchars_decode($data['content_' . $l['isoCode']]), null, '<img src="/img/flags/flag-' . $l['isoCode'] . '.png" style="width: 28px">&nbsp;Tartalom',true);
+                    $this->form->addInput('textField','title_'.$l['isoCode'],htmlspecialchars_decode($data['title_' . $l['isoCode']]), null, '<img src="/img/flags/flag-' . $l['isoCode'] . '.png" class="inputFlag">&nbsp;Title',true);
+                    $this->form->addInput('textArea','content_'.$l['isoCode'],htmlspecialchars_decode($data['content_' . $l['isoCode']]), null, '<img src="/img/flags/flag-' . $l['isoCode'] . '.png" class="inputFlag">&nbsp;Content',true);
                 }
 
                 $this->form->addInput('hidden','contentId',$fixedContentId);
 
-                $r['content'] = $this->form->generateForm('saveFixed','Mentés',null,'/throne/content/fixedContent.html','bootstrap-horizontal');
+                $r['content'] = $this->form->generateForm('saveFixed','Save',null,'/throne/content/fixedContent.html','bootstrap-horizontal');
 
             }
 
@@ -219,15 +231,20 @@ class content {
         return $r;
     }
 
+    /**
+     * Cikk szerkesztése/létrehozása űrlap
+     * @param bool $edit
+     * @return bool|null|string
+     */
     private function articleForm($edit = false) {
         if (is_array($this->activeLangs)) {
             foreach ($this->activeLangs AS $l) {
 
-                $this->form->addInput('textField','title_'.$l['isoCode'],null, null, '<img src="/img/flags/flag-' . $l['isoCode'] . '.png" style="width: 28px">&nbsp;Cím',true);
-                $this->form->addInput('textField','metaKey_'.$l['isoCode'],null, null, '<img src="/img/flags/flag-' . $l['isoCode'] . '.png" style="width: 28px">&nbsp;Kulcsszavak',true);
-                $this->form->addInput('textField','metaDesc_'.$l['isoCode'],null, null, '<img src="/img/flags/flag-' . $l['isoCode'] . '.png" style="width: 28px">&nbsp;Leírás',true);
-                $this->form->addInput('textField','linkAlt_'.$l['isoCode'],null, null, '<img src="/img/flags/flag-' . $l['isoCode'] . '.png" style="width: 28px">&nbsp;Link segédszöveg',true);
-                $this->form->addInput('textArea','content_'.$l['isoCode'],null, null, '<img src="/img/flags/flag-' . $l['isoCode'] . '.png" style="width: 28px">&nbsp;Tartalom',true);
+                $this->form->addInput('textField','title_'.$l['isoCode'],null, null, '<img src="/img/flags/flag-' . $l['isoCode'] . '.png" class="inputFlag">&nbsp;Title',true);
+                $this->form->addInput('textField','metaKey_'.$l['isoCode'],null, null, '<img src="/img/flags/flag-' . $l['isoCode'] . '.png" class="inputFlag">&nbsp;Keywords',true);
+                $this->form->addInput('textField','metaDesc_'.$l['isoCode'],null, null, '<img src="/img/flags/flag-' . $l['isoCode'] . '.png" class="inputFlag">&nbsp;Description',true);
+                $this->form->addInput('textField','linkAlt_'.$l['isoCode'],null, null, '<img src="/img/flags/flag-' . $l['isoCode'] . '.png" class="inputFlag">&nbsp;Link Alt text',true);
+                $this->form->addInput('textArea','content_'.$l['isoCode'],null, null, '<img src="/img/flags/flag-' . $l['isoCode'] . '.png" class="inputFlag">&nbsp;Content',true);
 
                 }
 
@@ -237,24 +254,24 @@ class content {
                 $target = '/throne/content/editArticle/' . coreFunctions::cleanVar($_GET['var1']) . '.html';
             }
 
-            return $this->form->generateForm('submitArticle','Mentés',null,$target,'bootstrap-horizontal');
+            return $this->form->generateForm('submitArticle','Save',null,$target,'bootstrap-horizontal');
         }
 
         return null;
     }
 
     /**
-     * TODO Megcsinálni az űrlap hiba visszajelzést
      * @return mixed
      */
     function newArticle() {
 
         $r['content'] = null;
+        $r['msg'] = null;
 
         $dataToSave = $this->form->validator();
 
         if (is_array($dataToSave) and count($dataToSave)>0) {
-            $r['content'] .= '<a href="/throne/content/newArticle.html" role="button" class="btn">Új cikk</a>';
+            $r['content'] .= '<p><a href="/throne/content/newArticle.html" role="button" class="btn"><i class="icon-plus"></i> New Article</a></p>';
 
             if (is_array($this->activeLangs)) {
 
@@ -268,20 +285,28 @@ class content {
 
                 }
 
-                $r['content'] .= '<a href="/throne/content/articles.html" role="button" class="btn">Cikkek</a>';
+                $r['content'] .= '<p><a href="/throne/content/articles.html" role="button" class="btn">Articles</a></p>';
 
                 if ($this->model->fragger($dataToSave,'content')) {
-
-                    $r['content'] .= '<p>Az új cikk sikeresen mentésre került!</p>';
-
+                    $r['msg'] = '
+                    <div class="alert alert-success">
+                        <strong>SUCCESS!</strong> Article successfully saved!
+                    </div>
+                ';
                 } else {
-
-                    $r['content'] .= '<p>Nem sikerült elmenteni a cikket!</p>';
-
+                    $r['msg'] = '
+                    <div class="alert alert-error">
+                        <strong>FAIL!</strong> An error occured and could not save the article!
+                    </div>
+                ';
                 }
 
             } else {
-                $r['content'] = '<p>Nincs aktív nyelv</p>';
+                $r['msg'] = '
+                    <div class="alert alert-error">
+                        <strong>FAIL!</strong> There are no active languages!
+                    </div>
+                ';
             }
 
         } else {
@@ -291,6 +316,9 @@ class content {
         return $r;
     }
 
+    /**
+     * @return mixed
+     */
     function homeContent() {
         $data = $this->model->getFixedContentById(1);
 
@@ -302,6 +330,18 @@ class content {
     }
 
     /**
+     * Lábléc beszerzése
+     * @return mixed
+     */
+    function getFooter() {
+        $data = $this->model->getFixedContentById(2);
+
+        $r['footer'] = htmlspecialchars_decode(htmlspecialchars_decode($data['content_' . $_SESSION['lang']]));
+
+        return $r;
+    }
+
+    /**
      * Cikk szerkesztése
      * @param null $articleId
      * @return mixed
@@ -309,6 +349,7 @@ class content {
     function editArticle($articleId = null) {
 
         $r['content'] = null;
+        $r['msg'] = null;
 
         if (is_numeric($articleId)) {
 
@@ -318,23 +359,26 @@ class content {
 
                 unset($dataToSave['editForm']);
 
-                $r['content'] .= '<a href="/throne/content/articles.html" role="button" class="btn">Cikkek</a>';
+                $r['content'] .= '<p><a href="/throne/content/articles.html" role="button" class="btn">Articles</a></p>';
 
                 if ($this->model->fragger($dataToSave,'content','update'," id='$articleId'",false)) {
 
-                    $r['content'] .= '
+                    $r['msg'] .= '
                     <div class="alert alert-success">
                         <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        A cikk sikeresen módosításra került!
+                        The article has been successfully edited!
                     </div>
                 ';
                 } else {
-                    $r['content'] .= '
+                    $r['msg'] .= '
                     <div class="alert alert-error">
                         <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        Nem sikerült módosítani a cikket!
+                        Failed to edit the article!
                     </div>
                 ';
+
+                    $_SESSION['postBack'] = $dataToSave;
+                    $r['content'] .= $this->articleForm(true);
                 }
 
 
@@ -385,5 +429,127 @@ class content {
         }
 
         return $r;
+    }
+
+    function listEmailTemplates() {
+
+        $r['content'] = null;
+
+        $data = $this->model->getEmailTemplates();
+
+        if (is_array($data)) {
+
+            $newData = null;
+
+            foreach ($data AS $row) {
+                $t = $row;
+
+                $t['title'] = '<div class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><img src="/img/flags/flag-hu.png" class="smallFlag">&nbsp;' . $row['title_hu'] . '</a><ul class="dropdown-menu" role="menu">';
+                $t['subject'] = '<div class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><img src="/img/flags/flag-hu.png" class="smallFlag">&nbsp;' . $row['subject_hu'] . '</a><ul class="dropdown-menu" role="menu">';
+
+                foreach ($this->activeLangs AS $lang) {
+                    $t['title'] .= '<li>&nbsp;<img class="smallFlag" src="/img/flags/flag-' . $lang['isoCode'] . '.png">&nbsp;' . $row['title_' . $lang['isoCode']] . '</li>';
+                    $t['subject'] .= '<li>&nbsp;<img class="smallFlag" src="/img/flags/flag-' . $lang['isoCode'] . '.png">&nbsp;' . $row['subject_' . $lang['isoCode']] . '</li>';
+                }
+
+                $t['title'] .= '</ul></div>';
+                $t['subject'] .= '</ul></div>';
+
+                $t['edit'] = '<div class="btn-group">';
+                $t['edit'] .= '<a class="btn btn-mini" href="/throne/content/editEmail/' . $row['templateId'] . '.html"><i class="icon-edit"></i></a>';
+                $t['edit'] .= '</div>';
+
+                $newData[] = $t;
+            }
+
+            $heads['title'] = 'title';
+            $heads['subject'] = 'subject';
+            $heads['edit'] = 'edit';
+
+            $r['content'] .= $this->table->createSimpleTable($heads,$newData);
+
+        } else {
+            $r['content'] = '<p>These are not the email templates you\'re looking for!</p>';
+        }
+
+
+        return $r;
+
+    }
+
+    function processEmailTemplate($templateId = null) {
+        $r = null;
+
+        if (isset($_POST['submit-submitEmailTemplate'])) {
+            $data = $this->form->validator();
+
+            unset($data['editForm']);
+
+            if ($this->model->fragger($data,'email_templates','update',"templateId='$templateId'")) {
+                $r = '
+                    <div class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        Template successfully modified!
+                    </div>
+                ';
+            } else {
+                $r = '
+                    <div class="alert alert-error">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        An error occured!
+                    </div>
+                ';
+            }
+
+        }
+
+        return $r;
+    }
+
+    function editEmail($templateId = null) {
+
+        $r['content'] = null;
+        $r['msg'] = null;
+
+        if (is_numeric(coreFunctions::cleanVar($templateId))) {
+
+            $r['msg'] = $this->processEmailTemplate($templateId);
+
+            $emailModel = new emailNotificationsModel();
+
+            $template = $emailModel->getEmailTemplate($templateId);
+
+            foreach ($this->activeLangs AS $l) {
+                $template['content_' . $l['isoCode']] = htmlspecialchars_decode($template['content_' . $l['isoCode']]);
+            }
+
+            $_SESSION['postBack'] = $template;
+
+            if (is_array($this->activeLangs)) {
+                foreach ($this->activeLangs AS $l) {
+
+                    $this->form->addInput('textField','title_'.$l['isoCode'],null, null, '<img src="/img/flags/flag-' . $l['isoCode'] . '.png" class="inputFlag">&nbsp;Title',true);
+                    $this->form->addInput('textField','subject_'.$l['isoCode'],null, null, '<img src="/img/flags/flag-' . $l['isoCode'] . '.png" class="inputFlag">&nbsp;Subject',true);
+                    $this->form->addInput('textArea','content_'.$l['isoCode'],null, null, '<img src="/img/flags/flag-' . $l['isoCode'] . '.png" class="inputFlag">&nbsp;Content',true);
+
+                }
+
+                $target = '/throne/content/editEmail/' . $templateId . '.html';
+
+                $r['content'] = $this->form->generateForm('submitEmailTemplate','Save',null,$target,'bootstrap-horizontal');
+            }
+
+
+        } else {
+            $r['msg'] = '
+            <div class="alert alert-error">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        Invalid email template reference!
+                    </div>
+            ';
+        }
+
+        return $r;
+
     }
 }

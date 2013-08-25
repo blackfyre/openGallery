@@ -1,12 +1,15 @@
 
+<div class="container">
+
 <hr class="footer-divider">
 
 <!-- Site footer -->
 <div class="footer">
     <div class="row">
         <div class="col-md-4">
-                <p>The blackEngine powering the site is created by Galicz Miklós, and will be made publicly available (under GNU GPL V2) once the initial development is complete</p>
-            </div>
+            <h4>Information</h4>
+            <p>The blackEngine powering the site is created by Galicz Miklós, and will be made publicly available (under GNU GPL V2) once the initial development is complete</p>
+        </div>
         <div class="col-md-4">
             <h4>Sponsors</h4>
             <ul class="list-unstyled">
@@ -14,7 +17,9 @@
                 <li><a href="http://www.wga.hu">Web Gallery Of Art<br /><i>wga.hu</i></a></li>
             </ul>
         </div>
-        <div class="col-md-4">.col-md-4</div>
+        <div class="col-md-4">
+            <h4>Powered By</h4>
+        </div>
     </div>
 </div>
 

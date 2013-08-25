@@ -19,6 +19,59 @@ class coreFunctions
     }
 
     /**
+     * Snippet by Luca Borrione
+     *
+     * found on http://php.net/manual/en/function.ucwords.php
+     *
+     * luca@email.com
+     *
+     * @param string $string The string being converted
+     * @param string $delimiters a string with all wanted delimiters written one after the other e.g. "-'"
+     * @param null $encoding Is the character encoding. If it is omitted, the internal character encoding value will be used.
+     * @return string
+     */
+    static function mb_ucwords ($string, $delimiters = '', $encoding = NULL)
+    {
+
+        if ($encoding === NULL) { $encoding = mb_internal_encoding();}
+
+        if (is_string($delimiters))
+        {
+            $delimiters =  str_split( str_replace(' ', '', $delimiters));
+        }
+
+        $delimiters_pattern1 = array();
+        $delimiters_replace1 = array();
+        $delimiters_pattern2 = array();
+        $delimiters_replace2 = array();
+        foreach ($delimiters as $delimiter)
+        {
+            $uniqid = uniqid();
+            $delimiters_pattern1[]   = '/'. preg_quote($delimiter) .'/';
+            $delimiters_replace1[]   = $delimiter.$uniqid.' ';
+            $delimiters_pattern2[]   = '/'. preg_quote($delimiter.$uniqid.' ') .'/';
+            $delimiters_replace2[]   = $delimiter;
+        }
+
+        // $return_string = mb_strtolower($string, $encoding);
+        $return_string = $string;
+        $return_string = preg_replace($delimiters_pattern1, $delimiters_replace1, $return_string);
+
+        $words = explode(' ', $return_string);
+
+        foreach ($words as $index => $word)
+        {
+            $words[$index] = mb_strtoupper(mb_substr($word, 0, 1, $encoding), $encoding).mb_substr($word, 1, mb_strlen($word, $encoding), $encoding);
+        }
+
+        $return_string = implode(' ', $words);
+
+        $return_string = preg_replace($delimiters_pattern2, $delimiters_replace2, $return_string);
+
+        return $return_string;
+    }
+
+    /**
      * Megtisztitja az egyszerű tartalmakat, textArea tisztítására NEM ALKALMAS!
      *
      * @param $variable

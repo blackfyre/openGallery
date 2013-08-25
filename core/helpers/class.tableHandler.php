@@ -63,8 +63,13 @@ class tableHandler {
             $table .= '<tbody>';
 
             foreach ($content AS $row) {
-                $table .= '<tr>';
+                $table .= '<tr';
 
+                if (isset($row['rowClass'])) {
+                    $table .= ' class="' . $row['rowClass'] . '"';
+                }
+
+                $table .= '>';
 
                 foreach ($colsInTable AS $colName) {
                     $table .= '<td>';

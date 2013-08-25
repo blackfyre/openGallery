@@ -22,4 +22,10 @@ class modelOptions extends modelsHandler {
 
         return $this->fetchAll($query);
     }
+
+    function getUsers() {
+        $query = "SELECT * FROM users";
+
+        return $this->fetchAll($query);
+    }
 }

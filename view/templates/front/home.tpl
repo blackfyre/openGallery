@@ -1,5 +1,7 @@
 {include 'front/header.tpl'}
 
+<div class="container">
+
 <!-- Jumbotron -->
 <div class="jumbotron">
     <h1>Looking for Staff!</h1>
@@ -64,6 +66,7 @@
     </div>
 </div>
 
+</div>
 
 <!-- /END THE FEATURETTES -->
 

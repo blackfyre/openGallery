@@ -42,10 +42,13 @@ class options {
         $this->form->addInput('textField','isoCode',null,'hu','ISO Kód');
         $this->form->addInput('textField','full',null,'Magyar','Teljes');
 
-        return $this->form->generateForm('addLang','Mentés',null,'/responders/addLang.php','bootstrap-horizontal');
+        return $this->form->generateForm('addLang','Save',null,'/responders/addLang.php','bootstrap-horizontal');
     }
 
     /**
+     * View available languages
+     *
+     * @TODO fix locales, use the locales array for control
      * @return mixed
      */
     function lang() {
@@ -165,5 +168,48 @@ class options {
     function setLang($langId = null,$toState = null) {
         $data['active'] = $toState;
         return $this->model->fragger($data,'languages','update',"id='$langId'",false);
+    }
+
+    /**
+     * List users
+     * @return array
+     */
+    function listUsers() {
+        $r['content'] = null;
+        $r['moduleTitle'] = gettext('User Manager');
+
+        $data = $this->model->getUsers();
+
+        $heads['uid'] = '#';
+        $heads['userName'] = 'userName';
+        $heads['email'] = 'email';
+
+        $r['content'] = $this->table->createSimpleTable($heads,$data);
+
+        return $r;
+
+    }
+
+    function newUser() {
+        $r['content'] = null;
+        $r['moduleTitle'] = gettext('Add user');
+
+        $r['content'] = $this->userForm();
+
+        return $r;
+    }
+
+    private function userForm() {
+
+        $r = null;
+
+
+        $this->form->addInput('textField','userName',null,gettext('johnDoe'),gettext('Username'));
+        $this->form->addInput('textField','email',null,gettext('john.doe@example.com'),gettext('email'),true);
+        $this->form->addInput('passwordCheck','pass',null,null,null,true);
+
+        $r = $this->form->generateForm('newUser',gettext('Save'),null,null,'bootstrap-horizontal');
+
+        return $r;
     }
 }

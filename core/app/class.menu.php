@@ -56,6 +56,7 @@ class menu {
         if (is_array($data) AND count($data)>0) {
 
             $langArray = null;
+            $langAvailable = null;
 
             /*
              * Hozzuk létre az üres tömböket
@@ -63,6 +64,7 @@ class menu {
 
             foreach ($this->lang AS $l) {
                 $langArray[$l['isoCode']] = null;
+                $langAvailable[] = $l['isoCode'];
             }
 
             /*
@@ -78,87 +80,93 @@ class menu {
 
             foreach ($langArray AS $lang=>$table) {
 
-                $newTable = null;
-
-                $tblName = 'menuTable-' . $lang;
-
-                if (is_array($table) AND count($table)>0) {
-
-
-                    /*
-                     * Pörgessük végig a tömböt, módosítva az egyes oszlopok tartalmát
-                     */
-
-                    foreach ($table AS $row) {
-                        $t = $row;
-
-                        if ($t['type']=='2') {
-                            $t['linkText'] = $t['title_' . $lang];
-                        }
-
-                        //$t['linkText'] = '<a href="' . $row['linkHref'] . '" target="_blank">' . $row['linkText'] . '</a>';
-
-                        $t['edit'] = '<div class="btn-group">';
-                        $t['edit'] .= '<a class="btn btn-mini" href="javascript:void (0)" onclick="editMenu(' . $row['mId'] . ');"><i class="icon-edit"></i></a>';
-
-                        if ($t['readOnly']!='1') {
-
-                            if ($t['active']=='0') {
-                                $t['edit'] .= '<a class="btn btn-mini btn-success" href="javascript:void (0)" title="Menü bekapcsolása" onclick="setMenu(\'act\',' . $row['mId'] . ');"><i class="icon-eye-open"></i></a>';
-                            } else {
-                                $t['edit'] .= '<a class="btn btn-mini btn-warning" href="javascript:void (0)" title="Menü kikapcsolása" onclick="setMenu(\'deact\',' . $row['mId'] . ');"><i class="icon-eye-close"></i></a>';
-                            }
-
-                            $t['edit'] .= '<a class="btn btn-mini btn-danger" href="javascript:void (0)" title="Menü törlése" onclick="setMenu(\'del\',' . $row['mId'] . ');"><i class="icon-trash"></i></a>';
-                        }
-
-                        $t['edit'] .= '</div>';
-
-                        $newTable[] = $t;
-                    }
-
-                    /*
-                     * Adjunk hozzá egy új sort a + gomb hozzáadásához
-                     */
-
-                    $addRow['id'] = '';
-                    $addRow['linkText'] = '<div class="btn-group">';
-                    $addRow['linkText'] .= '<a class="btn btn-mini" href="javascript:void (0)" title="Új átirányítás" onclick="addMenuElement(\'' . $lang . '\',\'1\');"><i class="icon-plus"></i></a>';
-                    $addRow['linkText'] .= '<a class="btn btn-mini" href="javascript:void (0)" title="Új cikk" onclick="addMenuArticle(\'' . $lang . '\',\'1\');"><i class="icon-bookmark"></i></a>';
-                    $addRow['linkText'] .= '</div>';
-                    $addRow['active'] = '';
-
-                    $newTable[] = $addRow;
-
-                    $r['content'] .= '<div class="span4">';
-
-                    $r['content'] .= '<img src="/img/flags/flag-' . $lang . '.png" style="width: 32px">';
-
-                    $r['content'] .= $this->table->createSimpleTable($heads,$newTable, array($tblName));
-
-                    $r['content'] .= '</div>';
-                } else {
-
+                if (in_array($lang,$langAvailable)) {
                     $newTable = null;
 
-                    $addRow['id'] = '';
-                    $addRow['linkText'] = '<div class="btn-group">';
-                    $addRow['linkText'] .= '<a class="btn btn-mini" href="javascript:void (0)" onclick="addMenuElement(\'' . $lang . '\',\'1\');"><i class="icon-plus"></i></a>';
-                    $addRow['linkText'] .= '<a class="btn btn-mini" href="javascript:void (0)" onclick="addMenuArticle(\'' . $lang . '\',\'1\');"><i class="icon-bookmark"></i></a>';
-                    $addRow['linkText'] .= '</div>';
-                    $addRow['active'] = '';
+                    $tblName = 'menuTable-' . $lang;
 
-                    $newTable[] = $addRow;
+                    if (is_array($table) AND count($table)>0) {
 
-                    $r['content'] .= '<div class="span4">';
 
-                    $r['content'] .= '<img src="/img/flags/flag-' . $lang . '.png" style="width: 32px">';
+                        /*
+                         * Pörgessük végig a tömböt, módosítva az egyes oszlopok tartalmát
+                         */
 
-                    $r['content'] .= $this->table->createSimpleTable($heads,$newTable, array($tblName));
+                        foreach ($table AS $row) {
+                            $t = $row;
 
-                    $r['content'] .= '</div>';
+                            if ($t['type']=='2') {
+                                $t['linkText'] = $t['title_' . $lang];
+                            }
 
+                            //$t['linkText'] = '<a href="' . $row['linkHref'] . '" target="_blank">' . $row['linkText'] . '</a>';
+
+                            $t['edit'] = '<div class="btn-group">';
+
+
+                            if ($t['readOnly']!='1') {
+
+                                $t['edit'] .= '<a class="btn btn-mini" href="javascript:void (0)" onclick="editMenu(' . $row['mId'] . ');"><i class="icon-edit"></i></a>';
+
+                                if ($t['active']=='0') {
+                                    $t['edit'] .= '<a class="btn btn-mini btn-success" href="javascript:void (0)" title="Turn visibility ON" onclick="setMenu(\'act\',' . $row['mId'] . ');"><i class="icon-eye-open"></i></a>';
+                                } else {
+                                    $t['edit'] .= '<a class="btn btn-mini btn-warning" href="javascript:void (0)" title="Turn visibility OFF" onclick="setMenu(\'deact\',' . $row['mId'] . ');"><i class="icon-eye-close"></i></a>';
+                                }
+
+                                $t['edit'] .= '<a class="btn btn-mini btn-danger" href="javascript:void (0)" title="Delete Menu" onclick="setMenu(\'del\',' . $row['mId'] . ');"><i class="icon-trash"></i></a>';
+                            }
+
+                            $t['edit'] .= '</div>';
+
+                            $newTable[] = $t;
+                        }
+
+                        /*
+                         * Adjunk hozzá egy új sort a + gomb hozzáadásához
+                         */
+
+                        $addRow['id'] = '';
+                        $addRow['linkText'] = '<div class="btn-group">';
+                        $addRow['linkText'] .= '<a class="btn btn-mini" href="javascript:void (0)" title="Új átirányítás" onclick="addMenuElement(\'' . $lang . '\',\'1\');"><i class="icon-plus"></i></a>';
+                        $addRow['linkText'] .= '<a class="btn btn-mini" href="javascript:void (0)" title="Új cikk" onclick="addMenuArticle(\'' . $lang . '\',\'1\');"><i class="icon-bookmark"></i></a>';
+                        $addRow['linkText'] .= '</div>';
+                        $addRow['active'] = '';
+
+                        $newTable[] = $addRow;
+
+                        $r['content'] .= '<div class="span4">';
+
+                        $r['content'] .= '<img src="/img/flags/flag-' . $lang . '.png" style="width: 32px">';
+
+                        $r['content'] .= $this->table->createSimpleTable($heads,$newTable, array($tblName));
+
+                        $r['content'] .= '</div>';
+                    } else {
+
+                        $newTable = null;
+
+                        $addRow['id'] = '';
+                        $addRow['linkText'] = '<div class="btn-group">';
+                        $addRow['linkText'] .= '<a class="btn btn-mini" href="javascript:void (0)" onclick="addMenuElement(\'' . $lang . '\',\'1\');"><i class="icon-plus"></i></a>';
+                        $addRow['linkText'] .= '<a class="btn btn-mini" href="javascript:void (0)" onclick="addMenuArticle(\'' . $lang . '\',\'1\');"><i class="icon-bookmark"></i></a>';
+                        $addRow['linkText'] .= '</div>';
+                        $addRow['active'] = '';
+
+                        $newTable[] = $addRow;
+
+                        $r['content'] .= '<div class="span4">';
+
+                        $r['content'] .= '<img src="/img/flags/flag-' . $lang . '.png" style="width: 32px">';
+
+                        $r['content'] .= $this->table->createSimpleTable($heads,$newTable, array($tblName));
+
+                        $r['content'] .= '</div>';
+
+                    }
                 }
+
+
 
 
             }
@@ -178,13 +186,10 @@ class menu {
 
         $formName = 'menuForm';
 
-        if (isset($_SESSION['postBack'])) {
-            $this->form->addInput('hidden','edit','1');
-        }
 
-        $this->form->addInput('textField','linkText',null,null,'Link szövege',true);
+        $this->form->addInput('textField','linkText',null,null,'Link text',true);
         $this->form->addInput('textField','linkTitle',null,null,'Link tooltip',true);
-        $this->form->addInput('urlField','linkHref',null,'htttp://(www.)valami.hu','Link célja',true);
+        $this->form->addInput('urlField','linkHref',null,'htttp://(www.)valami.hu','Link target',true);
 
         /*
          * A dropdown tartalma
@@ -194,9 +199,14 @@ class menu {
 
         $this->form->addInput('hidden','positionId',$positionId);
         $this->form->addInput('hidden','type',1);
-        $this->form->addInput('dropdownList','linkTarget',$window,null,'Ablak',true);
 
-        return $this->form->generateForm($formName,'Mentés',null,'/responders/saveMenu.php','bootstrap-horizontal',true);
+        if (isset($_SESSION['postBack'])) {
+            $this->form->addInput('hidden','id',$_SESSION['postBack']['id']);
+        }
+
+        $this->form->addInput('dropdownList','linkTarget',$window,null,'Window',true);
+
+        return $this->form->generateForm($formName,'Save',null,'/responders/saveMenu.php','bootstrap-horizontal',true);
     }
 
     function articleForm($lang = null,$positionId = 1) {
@@ -225,10 +235,32 @@ class menu {
         $this->form->addInput('hidden','type',2);
 
         if (is_array($toShow)) {
-            $this->form->addInput('dropdownList','contentId',$toShow,null,'Cikk',true);
+            $this->form->addInput('dropdownList','contentId',$toShow,null,'Article',true);
         }
 
-        return $this->form->generateForm($formName,'Mentés',null,'/responders/saveMenu.php','bootstrap-horizontal',true);
+        return $this->form->generateForm($formName,'Save',null,'/responders/saveMenu.php','bootstrap-horizontal',true);
+    }
+
+    function editMenu($id = null) {
+        if (is_numeric($id)) {
+
+            $_SESSION['postBack'] = $this->model->getMenuElement($id);
+
+            switch ($_SESSION['postBack']['type']) {
+                case 1:
+                    return $this->menuForm($_SESSION['postBack']['langCode']);
+                    break;
+                case 2:
+                    return $this->articleForm($_SESSION['postBack']['langCode']);
+                    break;
+                default:
+                    return false;
+                    break;
+            }
+
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -245,7 +277,14 @@ class menu {
             return false;
         }
 
-        $this->model->fragger($data,'menu_elements','insert',null,false);
+        if ($data['editForm']=='1') {
+            $id = $data['id'];
+            unset($data['id'],$data['editForm']);
+            $this->model->fragger($data,'menu_elements','update',"id='$id'");
+        } else {
+            $this->model->fragger($data,'menu_elements','insert',null,false);
+        }
+
 
         return $data['langCode'];
     }
@@ -278,7 +317,7 @@ class menu {
 
                         $r .= '<li>';
 
-                        $r .= '<a href="/content/view/' . $m['slug_' . $lang] . '.html" hreflang="' . $lang  . '" title="" target="' . $m['linkTarget'] . '">';
+                        $r .= '<a href="/' . $_SESSION['lang']  . '/content/view/' . $m['slug_' . $lang] . '.html" hreflang="' . $lang  . '" title="" target="' . $m['linkTarget'] . '">';
 
                         $r .= $m['title_' . $lang];
 

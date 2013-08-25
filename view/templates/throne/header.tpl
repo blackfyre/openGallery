@@ -42,12 +42,18 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Nyitólap</a></li>
+                <li class="active"><a href="/throne/">Dashboard</a></li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tartalom <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Content <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/throne/content/articles.html">Cikkek</a></li>
-                        <li><a href="/throne/content/fixedContent.html">Rögzített</a></li>
+                        <li><a href="/throne/content/articles.html">Articles</a></li>
+                        <li><a href="/throne/content/fixedContent.html">Fixed content</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Artists <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/throne/artist/throne_artistIndex.html">Index</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
@@ -58,12 +64,15 @@
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Beállítások <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="/throne/options/lang.html">Nyelvek</a></li>
-                        <li><a href="/throne/options/users.html">Felhasználók</a></li>
+                        <li><a href="/throne/options/listUsers.html">User Manager</a></li>
                     </ul>
                 </li>
+
+            </ul>
+            <ul class="nav navbar-nav pull-right">
                 <li><a href="/throne/logout.html">Kijelentkezés</a></li>
             </ul>
         </div><!--/.navbar-collapse -->
