@@ -14,6 +14,13 @@ body {
     height: auto;
 }
 
+.inputFlag {
+    width: 28px;
+    float: left;
+    vertical-align: top !important;
+}
+
+
 .dropdown-backdrop {
     position: static;
 }

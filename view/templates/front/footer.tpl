@@ -19,6 +19,18 @@
         </div>
         <div class="col-md-4">
             <h4>Powered By</h4>
+            <ul class="list-inline">
+                <li>php</li>
+                <li>mySQL</li>
+                <li>jQuery</li>
+                <li>jQuery UI</li>
+                <li>Twitter Bootstrap</li>
+                <li><a href="http://glyphicons.com/">Glyphicons</a></li>
+                <li>phpMailer</li>
+                <li>phpExcel</li>
+                <li>blackFyreEngine</li>
+            </ul>
+
         </div>
     </div>
 </div>

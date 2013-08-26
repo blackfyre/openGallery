@@ -47,6 +47,8 @@ class content {
         $data = $this->model->getArticles();
 
         $r['content'] = null;
+        $r['moduleTitle'] = gettext('Articles');
+        $r['control'] .= '<p><a href="/throne/content/newArticle.html" role="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus-sign"></span> ' . gettext('New Article') . '</a></p>';
 
         if (is_array($data) AND count($data)>0) {
 
@@ -70,7 +72,7 @@ class content {
                 $t['linkAlt'] .= '</ul></div>';
 
                 $t['edit'] = '<div class="btn-group">';
-                $t['edit'] .= '<a class="btn btn-mini" href="/throne/content/editArticle/' . $row['id'] . '.html"><i class="icon-edit"></i></a>';
+                $t['edit'] .= '<a class="btn btn-default btn-xs" href="/throne/content/editArticle/' . $row['id'] . '.html"><span class="glyphicon glyphicon-edit"></span></a>';
                 $t['edit'] .= '</div>';
 
                 $newData[] = $t;
@@ -80,7 +82,7 @@ class content {
             $heads['title'] = 'title';
             $heads['metaKey'] = 'metaKey';
             $heads['linkAlt'] = 'linkAlt';
-            $heads['edit'] = 'edit';
+            $heads['edit'] = '';
 
             $r['content'] .= $this->table->createSimpleTable($heads,$newData);
 
@@ -184,7 +186,7 @@ class content {
                  */
 
                 $t['edit'] = '<div class="btn-group">';
-                $t['edit'] .= '<a class="btn btn-mini" href="/throne/content/editFixed/' . $row['id'] . '.html"><i class="icon-edit"></i></a>';
+                $t['edit'] .= '<a class="btn btn-default btn-xs" href="/throne/content/editFixed/' . $row['id'] . '.html"><span class="glyphicon glyphicon-edit"></span></a>';
                 $t['edit'] .= '</div>';
 
                 $newData[] = $t;
@@ -222,7 +224,7 @@ class content {
 
                 $this->form->addInput('hidden','contentId',$fixedContentId);
 
-                $r['content'] = $this->form->generateForm('saveFixed','Save',null,'/throne/content/fixedContent.html','bootstrap-horizontal');
+                $r['content'] = $this->form->generateForm('saveFixed','Save',null,'/throne/content/fixedContent.html');
 
             }
 
@@ -254,7 +256,7 @@ class content {
                 $target = '/throne/content/editArticle/' . coreFunctions::cleanVar($_GET['var1']) . '.html';
             }
 
-            return $this->form->generateForm('submitArticle','Save',null,$target,'bootstrap-horizontal');
+            return $this->form->generateForm('submitArticle','Save',null,$target);
         }
 
         return null;
@@ -267,11 +269,14 @@ class content {
 
         $r['content'] = null;
         $r['msg'] = null;
+        $r['moduleTitle'] = gettext('New article');
+        $r['navTitle'] = gettext('Navigation');
+        $r['backLink'] = gettext('Back');
 
         $dataToSave = $this->form->validator();
 
         if (is_array($dataToSave) and count($dataToSave)>0) {
-            $r['content'] .= '<p><a href="/throne/content/newArticle.html" role="button" class="btn"><i class="icon-plus"></i> New Article</a></p>';
+            $r['content'] .= '<p><a href="/throne/content/newArticle.html" role="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus-sign"></span> ' . gettext('New Article') . '</a></p>';
 
             if (is_array($this->activeLangs)) {
 
@@ -350,6 +355,9 @@ class content {
 
         $r['content'] = null;
         $r['msg'] = null;
+        $r['moduleTitle'] = gettext('Edit article');
+        $r['navTitle'] = gettext('Navigation');
+        $r['backLink'] = gettext('Back');
 
         if (is_numeric($articleId)) {
 
@@ -456,7 +464,7 @@ class content {
                 $t['subject'] .= '</ul></div>';
 
                 $t['edit'] = '<div class="btn-group">';
-                $t['edit'] .= '<a class="btn btn-mini" href="/throne/content/editEmail/' . $row['templateId'] . '.html"><i class="icon-edit"></i></a>';
+                $t['edit'] .= '<a class="btn btn-default btn-xs" href="/throne/content/editEmail/' . $row['templateId'] . '.html"><span class="glyphicon glyphicon-edit"></span></a>';
                 $t['edit'] .= '</div>';
 
                 $newData[] = $t;
@@ -536,7 +544,7 @@ class content {
 
                 $target = '/throne/content/editEmail/' . $templateId . '.html';
 
-                $r['content'] = $this->form->generateForm('submitEmailTemplate','Save',null,$target,'bootstrap-horizontal');
+                $r['content'] = $this->form->generateForm('submitEmailTemplate','Save',null,$target);
             }
 
 
