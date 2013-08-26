@@ -22,10 +22,17 @@ class artist {
      */
     private $form = null;
 
+    /**
+     * @var array|bool|null
+     */
+    private $activeLangs = null;
+
     function __construct() {
         $this->model = new modelArtist();
         $this->table = new tableHandler();
         $this->form = new formHandler();
+
+        $this->activeLangs = $this->model->getActiveLanguages();
     }
 
     function view($artistSlug = null) {
@@ -162,7 +169,7 @@ class artist {
                 $t['life'] = '(' . $t['dateOfBirth'] . ', ' . $t['placeOfBirth'] . ' - ' . $t['dateOfDeath'] . ', ' . $t['placeOfDeath'] . ')';
 
                 $t['edit'] = '<div class="btn-group">';
-                $t['edit'] .= '<a href="/throne/artist/editArtist/' . $t['id'] . '.html" type="button" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-edit"></span></a>';
+                $t['edit'] .= '<a href="/throne/artist/throne_editArtist/' . $t['id'] . '.html" type="button" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-edit"></span></a>';
                 $t['edit'] .= '<a type="button" class="btn btn-default btn-xs">Extra small button</a>';
                 $t['edit'] .= '</div>';
 
@@ -172,6 +179,93 @@ class artist {
 
             $r['content'] = $this->table->createSimpleTable($head,$newData,$classes,true,'artists');
         }
+
+        return $r;
+    }
+
+    /**
+     * @return null|array
+     */
+    private function throne_artistForm() {
+        $r = null;
+
+        $r['content'] = '
+<ul class="nav nav-tabs" id="myTab">
+  <li class="active"><a href="#general" data-toggle="tab">General Information</a></li>
+';
+
+        foreach ($this->activeLangs AS $l) {
+            $r['content'] .= '<li><a href="#data_' . $l['isoCode'] . '" data-toggle="tab"><img class="smallFlag" src="/img/flags/flag-' . $l['isoCode'] . '.png">&nbsp;' . gettext('Artist data') . '</a></li>' . PHP_EOL;
+        }
+
+$r['content'] .= '
+</ul>
+';
+
+        $r['content'] .= '
+<div class="tab-content">
+  <div class="tab-pane active" id="general">';
+
+        $this->form->addInput('textField','firstName',null,null,gettext('First name'));
+        $this->form->addInput('textField','lastName',null,null,gettext('Last name'));
+        $this->form->addInput('numField','dateOfBirth',null,null,gettext('Year of Birth'));
+        $this->form->addInput('numField','dateOfDeath',null,null,gettext('Year of Death'));
+        $this->form->addInput('textField','placeOfBirth',null,null,gettext('Place of Birth'));
+        $this->form->addInput('textField','placeOfDeath',null,null,gettext('Place of Death'));
+
+        $r['content'] .= $this->form->generateForm('updateArtist',gettext('Update'));
+
+        $r['content'] .= '</div>';
+
+        foreach ($this->activeLangs AS $l) {
+            $r['content'] .= '<div class="tab-pane" id="data_' . $l['isoCode'] . '">';
+
+            $this->form->addInput('textArea','bio_' . $l['isoCode'],null,null,gettext('Bio'));
+
+            $r['content'] .= $this->form->generateForm('updateArtist',gettext('Update'));
+
+            $r['content'] .= '</div>' . PHP_EOL;
+        }
+
+$r['content'] .= '
+</div>';
+
+
+        return $r;
+    }
+
+    private function processArtistUpdate($artistId = null) {
+
+        $r = null;
+
+        $data = $this->form->validator();
+
+        unset($data['editForm']);
+
+        if ($this->model->fragger($data,'artist','update',"id='$artistId'")) {
+            $r = $this->form->updateSuccess();
+        } else {
+            $r = $this->form->updateError();
+        }
+
+        return $r;
+
+    }
+
+    function throne_editArtist($artistId = null) {
+        $r['moduleTitle'] = gettext('Edit Artist');
+        $r['content'] = null;
+        $r['msg'] = null;
+
+        if (isset($_POST['submit-updateArtist'])) {
+            $r['msg'] = $this->processArtistUpdate();
+        }
+
+        $data = $this->model->getArtistById($artistId);
+
+        $_SESSION['postBack'] = $data;
+
+        $r = array_merge($r,$this->throne_artistForm());
 
         return $r;
     }

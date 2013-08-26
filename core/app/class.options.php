@@ -190,6 +190,12 @@ class options {
 
     }
 
+    /**
+     *
+     * New user create view
+     *
+     * @return mixed
+     */
     function newUser() {
         $r['content'] = null;
         $r['moduleTitle'] = gettext('Add user');
@@ -199,6 +205,10 @@ class options {
         return $r;
     }
 
+    /**
+     * Form to create/edit users
+     * @return bool|string
+     */
     private function userForm() {
 
         $r = null;
@@ -209,6 +219,36 @@ class options {
         $this->form->addInput('passwordCheck','pass',null,null,null,true);
 
         $r = $this->form->generateForm('newUser',gettext('Save'),null,null,'bootstrap-horizontal');
+
+        return $r;
+    }
+
+    /**
+     * View log
+     *
+     * @return mixed
+     */
+    function logView() {
+        $r['moduleTitle'] = gettext('LogViewer');
+        $r['control'] = null;
+        $r['content'] = null;
+
+        $data = $this->model->getLog();
+
+        $newData = null;
+
+        foreach ($data AS $d) {
+            $t = $d;
+
+            $t['message'] = htmlspecialchars_decode($t['message']);
+
+            $newData[] = $t;
+        }
+
+        $heads['addedOn'] = 'addedOn';
+        $heads['message'] = 'message';
+
+        $r['content'] = $this->table->createSimpleTable($heads,$newData);
 
         return $r;
     }

@@ -25,6 +25,10 @@ body {
     position: static;
 }
 
+.tab-pane {
+    padding-top: 20px;
+}
+
 
 
 

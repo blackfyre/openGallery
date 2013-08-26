@@ -59,6 +59,7 @@ CREATE TABLE IF NOT EXISTS `artist` (
   `profession` int(11) DEFAULT NULL,
   `period` int(11) DEFAULT NULL,
   `anonym` tinyint(4) DEFAULT '0',
+  `firstNameFirst` tinyint(4) DEFAULT '1',
   `active` tinyint(4) DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `school` (`school`),

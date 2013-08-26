@@ -4,12 +4,27 @@
  * Date: 2013.01.15.
  * Time: 12:37
  */
+
+/**
+ * Class formHandler
+ */
 class formHandler
 {
+    /**
+     * @var errorHandler|null
+     */
     private $error = null;
+    /**
+     * @var bool|null
+     */
     private $debug = null;
-    private $wizardedForm = null;
+    /**
+     * @var null
+     */
     private $normalForm = null;
+    /**
+     * @var null|tableHandler
+     */
     private $table = null;
 
     function __construct($debug = false)
@@ -24,7 +39,9 @@ class formHandler
     }
 
     /**
-     * A Validátor meghívása után a kérést továbbítja a tisztító metódusnak majd a visszakapott értékeketet értékei és vagy hibát ad vissza vagy az értéket
+     *
+     * The validator() calls the cleaner() to sanitize the input values and evaluates the remaining data
+     *
      * @param null|array $data
      * @return null|array
      */
@@ -34,6 +51,10 @@ class formHandler
             $data = $this->cleaner();
         } else {
             $data = $this->cleaner($data);
+        }
+
+        if (isset($_SESSION['postBack'])) {
+            unset($_SESSION['postBack']);
         }
 
 
@@ -153,7 +174,13 @@ class formHandler
     }
 
     /**
-     * Ha van a tömbben hibás false érték akkor igazolja, hogy van hiba a tömbben
+     *
+     * This method is responsible for creating error messages, but is largely obsolete
+     *
+     * @TODO revise
+     *
+     * @deprecated revision needed
+     *
      * @param null $dataArray
      * @param bool $editForm Ha true akkor a passWord1 és passWord2 kulcsokra nem vonatkoznak a szabályok
      * @return bool
@@ -207,7 +234,9 @@ class formHandler
     }
 
     /**
-     * array()
+     * Old form generating function
+     *
+     * @deprecated
      *
      * @param string $formTitle
      * @param array $formArray
@@ -289,6 +318,9 @@ class formHandler
     }
 
     /**
+     *
+     * Add an input to a yet to be created form
+     *
      * @param string $inputType
      * @param string $inputName
      * @param string|array $value
@@ -317,11 +349,14 @@ class formHandler
     }
 
     /**
+     *
+     * Generate the form, based on the already added inputs
+     *
      * @param string $formName
      * @param string $submitText
-     * @param string $submitAdd
-     * @param string $submitTarget
-     * @param string $layoutMode table|bootstrap-horizontal
+     * @param string $submitAdd Addition code to place next to the Submit button (eg. cancel, reset, ...)
+     * @param string $submitTarget form target
+     * @param string $layoutMode bootstrap-horizontal|table
      * @param bool $modalForm
      * @return bool|string
      */
@@ -383,8 +418,8 @@ class formHandler
                          * Szöveges mező
                          */
 
-                        $input1['label'] = '<label class="control-label" for="num-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
-                        $input1['input'] = '<input class="form-control" ' . ($formElement['required']==true?'required':'') . ' type="text" name="num-' . $formElement['name'] . '" id="num-' . $formElement['name'] . '" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
+                        $input1['label'] = '<label class="col-lg-2 control-label" for="num-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
+                        $input1['input'] = '<input class="form-control" ' . ($formElement['required']==true?'required':'') . ' type="number" name="num-' . $formElement['name'] . '" id="num-' . $formElement['name'] . '" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
                         $input1['required'] = $formElement['required'];
 
                         $rows[] = $input1;
@@ -524,7 +559,7 @@ class formHandler
             }
 
             $out = '<form role="form" method="POST" ';
-            $out .= 'data-async class="form-horizontal" action="' . (is_null($submitTarget)?$_SERVER['PHP_SELF']:$submitTarget) . '" id="form-' . coreFunctions::slugger($formName) . '" accept-charset="utf-8" enctype="multipart/form-data">';
+            $out .= 'data-async class="form-horizontal" action="' . (is_null($submitTarget)?'':$submitTarget) . '" id="form-' . coreFunctions::slugger($formName) . '" accept-charset="utf-8" enctype="multipart/form-data">';
 
             $render = false;
 
@@ -544,12 +579,12 @@ class formHandler
 
             if (isset($_SESSION['postBack'])) {
                 $out .= '<input type="hidden" name="editForm" value="1" />';
-                unset($_SESSION['postBack']);
             }
 
             $out .= '</form>';
 
 
+            $this->normalForm = null;
 
             return $out;
 
@@ -596,5 +631,13 @@ class formHandler
         } else {
             return false;
         }
+    }
+
+    function updateSuccess() {
+        return '<div class="alert alert-success"><strong>SUCCESS!</strong> Data successfully updated!</div>';
+    }
+
+    function updateError() {
+        return '<div class="alert alert-danger"><strong>ERROR!</strong> Data could not be updated!</div>';
     }
 }

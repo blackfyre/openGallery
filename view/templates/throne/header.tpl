@@ -42,7 +42,7 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="/throne/">Dashboard</a></li>
+                <li class=""><a href="/throne/">Dashboard</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Content <b class="caret"></b></a>
                     <ul class="dropdown-menu">
@@ -68,6 +68,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="/throne/options/lang.html">Nyelvek</a></li>
                         <li><a href="/throne/options/listUsers.html">User Manager</a></li>
+                        <li><a href="/throne/options/logView.html">logView</a></li>
                     </ul>
                 </li>
 
