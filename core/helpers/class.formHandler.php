@@ -634,10 +634,18 @@ class formHandler
     }
 
     function updateSuccess() {
-        return '<div class="alert alert-success"><strong>SUCCESS!</strong> Data successfully updated!</div>';
+        return '
+        <div class="alert alert-success alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>SUCCESS!</strong> Data successfully updated!
+        </div>';
     }
 
     function updateError() {
-        return '<div class="alert alert-danger"><strong>ERROR!</strong> Data could not be updated!</div>';
+        return '
+        <div class="alert alert-danger alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>ERROR!</strong> Data could not be updated!
+        </div>';
     }
 }

@@ -258,7 +258,7 @@ $r['content'] .= '
         $r['msg'] = null;
 
         if (isset($_POST['submit-updateArtist'])) {
-            $r['msg'] = $this->processArtistUpdate();
+            $r['msg'] = $this->processArtistUpdate($artistId);
         }
 
         $data = $this->model->getArtistById($artistId);
