@@ -29,6 +29,13 @@
                 <li>phpExcel</li>
                 <li>blackFyreEngine</li>
             </ul>
+            <p>Hosted by <a href="https://www.digitalocean.com/?refcode=c1dc7b5f512c">Digital Ocean</a></p>
+            <p class="text-muted ">
+                <small>
+                    By registering an account with this link, you can contribute to the upkeep of the server.<br>
+                    You can read more about this <a href="https://www.digitalocean.com/referral-program" target="_blank">here</a>.
+                </small>
+            </p>
 
         </div>
     </div>
