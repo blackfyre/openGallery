@@ -19,6 +19,15 @@ class coreFunctions
     }
 
     /**
+     * Double decode for view
+     * @param string $string
+     * @return string
+     */
+    static function decoder($string = null) {
+        return htmlspecialchars_decode(htmlspecialchars_decode($string));
+    }
+
+    /**
      * Snippet by Luca Borrione
      *
      * found on http://php.net/manual/en/function.ucwords.php

@@ -47,7 +47,8 @@ class artist {
         $r['artistName'] = $data['lastName'] . ' ' . $data['firstName'];
         $r['subTitle'] = '(' . $data['dateOfBirth'] . ', ' . $data['placeOfBirth'] . ' - ' . $data['dateOfDeath'] . ', ' . $data['placeOfDeath'] . ')';
 
-        $r['bio'] = $data['bio_' . $_SESSION['lang']];
+        $r['bio'] = coreFunctions::decoder($data['bio_' . $_SESSION['lang']]);
+        $r['excerpt'] = coreFunctions::decoder($data['excerpt_' . $_SESSION['lang']]);
 
         $artData = $this->model->getArt($data['id']);
 
@@ -70,6 +71,7 @@ class artist {
 
         $r['artistName'] = $data['lastName'] . ' ' . $data['firstName'];
         $r['subTitle'] = '(' . $data['dateOfBirth'] . ', ' . $data['placeOfBirth'] . ' - ' . $data['dateOfDeath'] . ', ' . $data['placeOfDeath'] . ')';
+        $r['excerpt'] = coreFunctions::decoder($data['excerpt_' . $_SESSION['lang']]);
 
         $artData = $this->model->getArt($data['id']);
 
@@ -84,7 +86,7 @@ class artist {
 
             $r['content'] .= '<img class="img-responsive img-rounded" src="/image.php?width=300&height=300&cropratio=1:1&image=/img/art/' . $a['img'] . '">';
 
-            $r['content'] .= '<h2>' . $a['title_' . $_SESSION['lang']].'</h2>';
+            $r['content'] .= '<h3>' . $a['title_' . $_SESSION['lang']].'</h3>';
 
             if ($a['description_' . $_SESSION['lang']] != '') {
                 $r['content'] .= '<p>' . coreFunctions::trimmer($a['description_' . $_SESSION['lang']],150) . '</p>';
@@ -220,6 +222,7 @@ $r['content'] .= '
         foreach ($this->activeLangs AS $l) {
             $r['content'] .= '<div class="tab-pane" id="data_' . $l['isoCode'] . '">';
 
+            $this->form->addInput('textArea','excerpt_' . $l['isoCode'],null,null,gettext('Excerpt'));
             $this->form->addInput('textArea','bio_' . $l['isoCode'],null,null,gettext('Bio'));
 
             $r['content'] .= $this->form->generateForm('updateArtist',gettext('Update'));
@@ -262,6 +265,14 @@ $r['content'] .= '
         }
 
         $data = $this->model->getArtistById($artistId);
+
+
+        foreach ($this->activeLangs as $l) {
+            $data['bio_' . $l['isoCode']] = htmlspecialchars_decode($data['bio_' . $l['isoCode']]);
+            $data['excerpt_' . $l['isoCode']] = htmlspecialchars_decode($data['excerpt_' . $l['isoCode']]);
+        }
+
+
 
         $_SESSION['postBack'] = $data;
 
