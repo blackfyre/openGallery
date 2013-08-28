@@ -54,6 +54,8 @@ class artist {
 
         $r['artData'] = null;
 
+        $r['metaTitle'] = $r['artistName'];
+
         for ($i = 0; $i <= 9; $i++) {
             $r['artData'][] = $artData[$i];
         }
@@ -72,6 +74,10 @@ class artist {
         $r['artistName'] = $data['lastName'] . ' ' . $data['firstName'];
         $r['subTitle'] = '(' . $data['dateOfBirth'] . ', ' . $data['placeOfBirth'] . ' - ' . $data['dateOfDeath'] . ', ' . $data['placeOfDeath'] . ')';
         $r['excerpt'] = coreFunctions::decoder($data['excerpt_' . $_SESSION['lang']]);
+
+        $r['metaTitle'] = gettext('The works of %s');
+
+        $r['metaTitle'] = str_replace('%s',$r['artistName'],$r['metaTitle']);
 
         $artData = $this->model->getArt($data['id']);
 
@@ -306,7 +312,7 @@ $r['content'] .= '
         $r['excerpt'] = coreFunctions::decoder($data['excerpt_' . $_SESSION['lang']]);
 
         $r['bioButton'] = gettext('Biography');
-        $r['biokLink'] = '/' . $_SESSION['lang'] .  '/artist/view/' . $artistSlug . '.html';
+        $r['bioLink'] = '/' . $_SESSION['lang'] .  '/artist/view/' . $artistSlug . '.html';
 
         $artData = $this->model->getArtPiece($artId);
 
@@ -315,6 +321,7 @@ $r['content'] .= '
 
         $desc = $artData['description_' . $_SESSION['lang']];
 
+        $r['metaTitle'] = $r['artistName'] . ' - ' . $r['artTitle'];
 
         $r['artInfo'] = ($desc!=''?$desc:'<p>' . gettext('Translation needed') . '</p>');
 
