@@ -82,11 +82,12 @@ class artist {
         $counter = 1;
 
         foreach ($artData AS $a) {
+            $r['content'] .= '<a href="/' . $_SESSION['lang'] . '/artist/viewArt/' . $a['id'] . '/' . $data['slug'] . '/' . $a['titleSlug_' . $_SESSION['lang']] . '.html" hreflang="' . $_SESSION['lang'] . '" title="' . gettext('An art piece by') . ' ' . $r['artistName'] . ' ' . gettext('titled') . ' ' . $a['title_' . $_SESSION['lang']] . '">';
             $r['content'] .= '<div class="col-md-3">';
 
             $r['content'] .= '<img class="img-responsive img-rounded" src="/image.php?width=300&height=300&cropratio=1:1&image=/img/art/' . $a['img'] . '">';
 
-            $r['content'] .= '<h3>' . $a['title_' . $_SESSION['lang']].'</h3>';
+            $r['content'] .= '<h3>' . $a['title_' . $_SESSION['lang']] .'</h3>';
 
             if ($a['description_' . $_SESSION['lang']] != '') {
                 $r['content'] .= '<p>' . coreFunctions::trimmer($a['description_' . $_SESSION['lang']],150) . '</p>';
@@ -95,6 +96,8 @@ class artist {
             $r['content'] .= '';
 
             $r['content'] .= '</div>';
+
+            $r['content'] .= '</a>';
 
             if ($counter == 4) {
                 $counter = 1;
@@ -246,9 +249,9 @@ $r['content'] .= '
         unset($data['editForm']);
 
         if ($this->model->fragger($data,'artist','update',"id='$artistId'")) {
-            $r = $this->form->updateSuccess();
+            $r = messagesUI::successMSG(gettext('Update successful!'));
         } else {
-            $r = $this->form->updateError();
+            $r = messagesUI::errorMSG(gettext('An error occured, and could not update!'));
         }
 
         return $r;
@@ -277,6 +280,43 @@ $r['content'] .= '
         $_SESSION['postBack'] = $data;
 
         $r = array_merge($r,$this->throne_artistForm());
+
+        return $r;
+    }
+
+    /**
+     * @param int $artId database id of the art piece
+     * @param string $artistSlug slug of the artist name as stored in the database
+     * @return array
+     *
+     * @TODO front-end editor
+     * @TODO show all data
+     */
+    function viewArt($artId = null, $artistSlug = null) {
+        $r['artworkButton'] = gettext('Works');
+        $r['artworkLink'] = '/' . $_SESSION['lang'] .  '/artist/artBy/' . $artistSlug . '.html';
+
+        $artistSlug = coreFunctions::cleanVar($artistSlug);
+
+        $data = $this->model->getArtistBySlug($artistSlug);
+
+        $r['artistName'] = $data['lastName'] . ' ' . $data['firstName'];
+        $r['subTitle'] = '(' . $data['dateOfBirth'] . ', ' . $data['placeOfBirth'] . ' - ' . $data['dateOfDeath'] . ', ' . $data['placeOfDeath'] . ')';
+
+        $r['excerpt'] = coreFunctions::decoder($data['excerpt_' . $_SESSION['lang']]);
+
+        $r['bioButton'] = gettext('Biography');
+        $r['biokLink'] = '/' . $_SESSION['lang'] .  '/artist/view/' . $artistSlug . '.html';
+
+        $artData = $this->model->getArtPiece($artId);
+
+        $r['artImg'] = '/img/art/' . $artData['img'];
+        $r['artTitle'] = $artData['title_' . $_SESSION['lang']];
+
+        $desc = $artData['description_' . $_SESSION['lang']];
+
+
+        $r['artInfo'] = ($desc!=''?$desc:'<p>' . gettext('Translation needed') . '</p>');
 
         return $r;
     }

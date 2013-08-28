@@ -57,6 +57,17 @@ class modelArtist extends modelsHandler {
         return null;
     }
 
+    function getArtPiece($id = null) {
+
+        if (is_numeric($id)) {
+            $query = "SELECT * FROM art WHERE id='$id'";
+
+            return $this->fetchSingleRow($query);
+        }
+
+        return null;
+    }
+
     /**
      * @param null $indexChar
      * @return array|bool
