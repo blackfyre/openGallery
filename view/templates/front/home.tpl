@@ -6,7 +6,6 @@
 <div class="jumbotron">
     <h1>Looking for Staff!</h1>
     <p class="lead">We are looking for capable programmers, translators and editors who are interested in continuing </p>
-    <p><a class="btn btn-lg btn-success" href="#">Get started today</a></p>
 </div>
 
 <!-- Example row of columns -->
