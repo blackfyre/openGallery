@@ -75,7 +75,7 @@
                             <a data-toggle="dropdown" href="#"><img class="curLangFlag" src="/img/flags/flag-{$smarty.session.lang}.png" alt="current language"></a>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                                 {foreach from=$langSwitch item=i}
-                                    <li><a href="{$i.url}"><img class="navFlag" src="/img/flags/flag-{$i.flag}.png" alt="content available in {$i.flag}">&nbsp;{$i.full}</a></li>
+                                    <li><a rel="alternate" href="{$i.url}" hreflang="{$i.flag}"><img class="navFlag" src="/img/flags/flag-{$i.flag}.png" alt="content available in {$i.flag}">&nbsp;{$i.full}</a></li>
                                 {/foreach}
                             </ul>
                         </div>
