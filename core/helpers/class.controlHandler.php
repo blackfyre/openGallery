@@ -34,10 +34,6 @@ class controlHandler {
      * @return void
      */
     private function setLangEnv() {
-        /*
-         * TODO: a többnyelvű tömböket hozzá kell adni, mert ez így nem lesz kóser...
-         * TODO: UNIX/Winfos gettext -re megoldást találni
-         */
 
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $locale[] = 'hun.UTF-8';
@@ -52,12 +48,13 @@ class controlHandler {
             $locale[] = 'hungarian.UTF-8';
         }
 
-        setlocale(LC_ALL, $locale);
+        putenv('LC_ALL=hu_HU.UTF8');
+        setlocale(LC_ALL, 'hu_HU.UTF8');
 
         ini_set("default_charset", "UTF-8");
         date_default_timezone_set('Europe/Budapest');
 
-        $pathToLangFile = './locale/' . $_SESSION['lang'];
+        $pathToLangFile = _BASE_PATH . '/locale/' . $_SESSION['lang'] . '/LC_ALL';
 
         if (!file_exists($pathToLangFile)) {
             mkdir($pathToLangFile, 0777, true);
@@ -65,6 +62,7 @@ class controlHandler {
 
         bindtextdomain('messages',$pathToLangFile);
         textdomain('messages');
+        bind_textdomain_codeset('messages','UTF8');
     }
 
     public function methodLoader($reRouter = null, $tplFolder = 'front') {
