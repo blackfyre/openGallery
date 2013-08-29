@@ -12,7 +12,7 @@
 
     <div class="row">
         <div class="col-md-6">
-            <h3>Bio</h3>
+            <h3>{$bioTitle}</h3>
             {$bio}
         </div>
         <div class="col-md-6">

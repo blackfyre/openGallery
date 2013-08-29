@@ -1,22 +1,169 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: quizMaster\n"
-"POT-Creation-Date: 2013-07-24 15:50+0100\n"
-"PO-Revision-Date: 2013-07-24 15:50+0100\n"
+"POT-Creation-Date: 2013-08-29 06:54+0100\n"
+"PO-Revision-Date: 2013-08-29 06:57+0100\n"
 "Last-Translator: Galicz Miklós <galicz.miklos@blackworks.org>\n"
 "Language-Team: Hinora Global Marketing <galicz.miklos@hinora.hu>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.5.4\n"
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: ../..\n"
 
+#: ../../core/helpers/class.authManager.php:122
+msgid "Érvénytelen bejelentkezési adatok!"
+msgstr ""
+
+#: ../../core/helpers/class.formHandler.php:377
+#: ../../core/helpers/class.formHandler.php:383
+msgid "Password"
+msgstr "Jelszó"
+
 #: ../../core/helpers/class.smartyManager.php:45
 msgid "Ön egy<strong>elavult</strong> böngészőt használ. Kérjük frissítse!"
 msgstr "Ön egy<strong>elavult</strong> böngészőt használ. Kérjük frissítse!"
+
+#: ../../core/app/class.artist.php:40 ../../core/app/class.artist.php:251
+msgid "Bio"
+msgstr "Életrajz"
+
+#: ../../core/app/class.artist.php:41 ../../core/app/class.artist.php:43
+#: ../../core/app/class.artist.php:318
+msgid "Works"
+msgstr "Munkásság"
+
+#: ../../core/app/class.artist.php:87 ../../core/app/class.artist.php:330
+msgid "Biography"
+msgstr "Életrajz"
+
+#: ../../core/app/class.artist.php:94
+#, php-format
+msgid "The works of %s"
+msgstr "%s munkái"
+
+#: ../../core/app/class.artist.php:107
+msgid "An art piece by"
+msgstr ""
+
+#: ../../core/app/class.artist.php:107
+msgid "titled"
+msgstr ""
+
+#: ../../core/app/class.artist.php:142
+msgid "Artist index"
+msgstr "Művész Index"
+
+#: ../../core/app/class.artist.php:225
+msgid "Artist data"
+msgstr "Művész adatai"
+
+#: ../../core/app/class.artist.php:236
+msgid "First name"
+msgstr "Keresztnév"
+
+#: ../../core/app/class.artist.php:237
+msgid "Last name"
+msgstr "Vezetéknév"
+
+#: ../../core/app/class.artist.php:238
+msgid "Year of Birth"
+msgstr "Születés éve"
+
+#: ../../core/app/class.artist.php:239
+msgid "Year of Death"
+msgstr "Halálozás éve"
+
+#: ../../core/app/class.artist.php:240
+msgid "Place of Birth"
+msgstr "Születés helye"
+
+#: ../../core/app/class.artist.php:241
+msgid "Place of Death"
+msgstr "Halál helye"
+
+#: ../../core/app/class.artist.php:243 ../../core/app/class.artist.php:253
+msgid "Update"
+msgstr "Frissítés"
+
+#: ../../core/app/class.artist.php:250
+msgid "Excerpt"
+msgstr "Kivonat"
+
+#: ../../core/app/class.artist.php:274
+msgid "Update successful!"
+msgstr "Sikeres frissítés!"
+
+#: ../../core/app/class.artist.php:276
+msgid "An error occured, and could not update!"
+msgstr "Hiba történt, nem sikerült a frissítés!"
+
+#: ../../core/app/class.artist.php:284
+msgid "Edit Artist"
+msgstr "Alkotó szerkesztése"
+
+#: ../../core/app/class.artist.php:342
+msgid "Translation needed"
+msgstr ""
+
+#: ../../core/app/class.options.php:179
+msgid "User Manager"
+msgstr ""
+
+#: ../../core/app/class.options.php:201
+msgid "Add user"
+msgstr ""
+
+#: ../../core/app/class.options.php:217
+msgid "johnDoe"
+msgstr ""
+
+#: ../../core/app/class.options.php:217
+msgid "Username"
+msgstr ""
+
+#: ../../core/app/class.options.php:218
+msgid "john.doe@example.com"
+msgstr ""
+
+#: ../../core/app/class.options.php:218
+msgid "email"
+msgstr ""
+
+#: ../../core/app/class.options.php:221
+msgid "Save"
+msgstr ""
+
+#: ../../core/app/class.options.php:232
+msgid "LogViewer"
+msgstr ""
+
+#: ../../core/app/class.content.php:50
+msgid "Articles"
+msgstr ""
+
+#: ../../core/app/class.content.php:51 ../../core/app/class.content.php:279
+msgid "New Article"
+msgstr ""
+
+#: ../../core/app/class.content.php:272
+msgid "New article"
+msgstr ""
+
+#: ../../core/app/class.content.php:273 ../../core/app/class.content.php:359
+msgid "Navigation"
+msgstr ""
+
+#: ../../core/app/class.content.php:274 ../../core/app/class.content.php:360
+msgid "Back"
+msgstr ""
+
+#: ../../core/app/class.content.php:358
+msgid "Edit article"
+msgstr ""
 
 #~ msgid "A keresett oldal nincs meg"
 #~ msgstr "A keresett oldal nincs meg"

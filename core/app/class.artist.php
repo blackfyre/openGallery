@@ -35,7 +35,10 @@ class artist {
         $this->activeLangs = $this->model->getActiveLanguages();
     }
 
-    function view($artistSlug = null) {
+    function viewArtist($artistSlug = null) {
+
+        $r['bioTitle'] = gettext('Bio');
+        $r['workTitle'] = gettext('Works');
 
         $r['artworkButton'] = gettext('Works');
         $r['artworkLink'] = '/' . $_SESSION['lang'] .  '/artist/artBy/' . $artistSlug . '.html';
@@ -60,6 +63,19 @@ class artist {
             $r['artData'][] = $artData[$i];
         }
 
+        foreach ($this->activeLangs as $l) {
+
+            if ($l['isoCode']!=$_SESSION['lang']) {
+                $t = null;
+                $t['url'] =     '/' . $l['isoCode'] .  '/artist/viewArtist/' . $artistSlug . '.html';
+                $t['flag'] = $l['isoCode'];
+                $t['full'] = $l['full'];
+
+                $r['langSwitch'][] = $t;
+            }
+
+        }
+
         return $r;
     }
 
@@ -69,7 +85,7 @@ class artist {
         $data = $this->model->getArtistBySlug($artistSlug);
 
         $r['bioButton'] = gettext('Biography');
-        $r['biokLink'] = '/' . $_SESSION['lang'] .  '/artist/view/' . $artistSlug . '.html';
+        $r['biokLink'] = '/' . $_SESSION['lang'] .  '/artist/viewArtist/' . $artistSlug . '.html';
 
         $r['artistName'] = $data['lastName'] . ' ' . $data['firstName'];
         $r['subTitle'] = '(' . $data['dateOfBirth'] . ', ' . $data['placeOfBirth'] . ' - ' . $data['dateOfDeath'] . ', ' . $data['placeOfDeath'] . ')';
@@ -312,7 +328,7 @@ $r['content'] .= '
         $r['excerpt'] = coreFunctions::decoder($data['excerpt_' . $_SESSION['lang']]);
 
         $r['bioButton'] = gettext('Biography');
-        $r['bioLink'] = '/' . $_SESSION['lang'] .  '/artist/view/' . $artistSlug . '.html';
+        $r['bioLink'] = '/' . $_SESSION['lang'] .  '/artist/viewArtist/' . $artistSlug . '.html';
 
         $artData = $this->model->getArtPiece($artId);
 

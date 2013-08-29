@@ -21,6 +21,11 @@ body {
     height: auto;
 }
 
+.curLangFlag {
+    width: 48px;
+    height: auto;
+}
+
 /* Featurettes
 ------------------------- */
 

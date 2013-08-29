@@ -55,7 +55,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="/">Home</a></li>
-                    <li class="active"><a href="/en/artist/view/aba-novak-vilmos.html">Example Artist</a></li>
+                    <li class="active"><a href="/en/artist/viewArtist/aba-novak-vilmos.html">Example Artist</a></li>
                     {*
                     <li><a href="#about">ABC Index</a></li>
                     <li><a href="#contact">Search</a></li>
@@ -67,6 +67,22 @@
                     <li><a href="#contact">Contact</a></li>
 *}
                 </ul>
+
+                {if isset($langSwitch)}
+                    <ul class="nav navbar-nav pull-right">
+
+                        <div class="dropdown">
+                            <a data-toggle="dropdown" href="#"><img class="curLangFlag" src="/img/flags/flag-{$smarty.session.lang}.png" alt="current language"></a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                {foreach from=$langSwitch item=i}
+                                    <li><a href="{$i.url}"><img class="navFlag" src="/img/flags/flag-{$i.flag}.png" alt="content available in {$i.flag}">&nbsp;{$i.full}</a></li>
+                                {/foreach}
+                            </ul>
+                        </div>
+
+                    </ul>
+                {/if}
+
                 {*
                 <ul class="nav navbar-nav pull-right">
                     <li><a href="#">Login</a></li>
