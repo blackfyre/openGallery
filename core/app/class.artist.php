@@ -35,39 +35,80 @@ class artist {
         $this->activeLangs = $this->model->getActiveLanguages();
     }
 
+    /**
+     * Get the artist page
+     * @param string $artistSlug
+     * @return array
+     */
     function viewArtist($artistSlug = null) {
 
+        $r = null;
+
+        /*
+         * Translations
+         */
         $r['bioTitle'] = gettext('Bio');
         $r['workTitle'] = gettext('Works');
-
         $r['artworkButton'] = gettext('Works');
+        $r['moreButton'] = gettext('More');
+
+        /*
+         * The link for the artworks page
+         */
         $r['artworkLink'] = '/' . $_SESSION['lang'] .  '/artist/artBy/' . $artistSlug . '.html';
 
+        /*
+         * cleaning the artist slug
+         */
         $artistSlug = coreFunctions::cleanVar($artistSlug);
 
+        /*
+         * getting the artist data
+         */
         $data = $this->model->getArtistBySlug($artistSlug);
 
+        /*
+         * compiling artist data for the template
+         * @TODO watch the firstNameFirst value and change the name accordingly
+         */
         $r['artistName'] = $data['lastName'] . ' ' . $data['firstName'];
         $r['subTitle'] = '(' . $data['dateOfBirth'] . ', ' . $data['placeOfBirth'] . ' - ' . $data['dateOfDeath'] . ', ' . $data['placeOfDeath'] . ')';
-
         $r['bio'] = coreFunctions::decoder($data['bio_' . $_SESSION['lang']]);
         $r['excerpt'] = coreFunctions::decoder($data['excerpt_' . $_SESSION['lang']]);
 
+        /*
+         * The page title and meta data
+         * May have to add more, depending on SEO requirements
+         */
+        $r['metaTitle'] = $r['artistName'];
+        $r['metaDesc'] = coreFunctions::trimmer($r['excerpt'],160);
+
+
+        /*
+         * Creating the sample works section
+         */
         $artData = $this->model->getArt($data['id']);
 
         $r['artData'] = null;
 
-        $r['metaTitle'] = $r['artistName'];
-
+        /*
+         * We only need 10 at most
+         */
         for ($i = 0; $i <= 9; $i++) {
 
-            $t = $artData[$i];
-            $t['title'] = $t['title_' . $_SESSION['lang']];
-            $t['description'] = $t['description_' . $_SESSION['lang']];
+            if (isset ($artData[$i])) {
+                $t = $artData[$i];
+                $t['title'] = $t['title_' . $_SESSION['lang']];
+                $t['description'] = $t['description_' . $_SESSION['lang']];
 
-            $r['artData'][] = $t;
+                $r['artData'][] = $t;
+            }
+
         }
 
+        /*
+         * And this is for the langSwitcher
+         */
         foreach ($this->activeLangs as $l) {
 
             if ($l['isoCode']!=$_SESSION['lang']) {
@@ -84,26 +125,49 @@ class artist {
         return $r;
     }
 
+    /**
+     * Get works page by slug
+     * @param string $artistSlug
+     * @return array
+     */
     function artBy($artistSlug = null) {
-        $artistSlug = coreFunctions::cleanVar($artistSlug);
 
+        $r = null;
+
+        /*
+         * Getting the data required for the page based on the slug
+         */
+        $artistSlug = coreFunctions::cleanVar($artistSlug);
         $data = $this->model->getArtistBySlug($artistSlug);
 
         $r['bioButton'] = gettext('Biography');
+        $r['metaTitle'] = gettext('The works of %s');
+        $r['metaTitle'] = str_replace('%s',$r['artistName'],$r['metaTitle']);
+
+        /*
+         * The biography link
+         */
         $r['biokLink'] = '/' . $_SESSION['lang'] .  '/artist/viewArtist/' . $artistSlug . '.html';
 
+        /*
+         * compiling artist data for the template
+         * @TODO watch the firstNameFirst value and change the name accordingly
+         */
         $r['artistName'] = $data['lastName'] . ' ' . $data['firstName'];
         $r['subTitle'] = '(' . $data['dateOfBirth'] . ', ' . $data['placeOfBirth'] . ' - ' . $data['dateOfDeath'] . ', ' . $data['placeOfDeath'] . ')';
         $r['excerpt'] = coreFunctions::decoder($data['excerpt_' . $_SESSION['lang']]);
 
-        $r['metaTitle'] = gettext('The works of %s');
-
-        $r['metaTitle'] = str_replace('%s',$r['artistName'],$r['metaTitle']);
-
+        /*
+         * As in viewArtist() we get the art data based on the previously gotten artists data
+         */
         $artData = $this->model->getArt($data['id']);
 
         $r['content'] = null;
 
+        /*
+         * A bit more elaborate rendering is required, so I didn't want to do it with smarty
+         * This renders bootstrap rows with 4 items in them
+         */
         $r['content'] .= '<div class="row">';
 
         $counter = 1;
@@ -142,6 +206,13 @@ class artist {
         return $r;
     }
 
+    /**
+     * Artist index page for the throne
+     * This page is the first step in editing it
+     *
+     * @param string $index
+     * @return array
+     */
     function throne_artistIndex($index = null) {
 
         $r['moduleTitle'] = gettext('Artist index');
@@ -216,10 +287,15 @@ class artist {
     }
 
     /**
+     * This funcion creates the artist form
+     *
+     * The artist data is broken down into multiple forms and this allows partial updates to the artist
+     *
      * @return null|array
      */
     private function throne_artistForm() {
         $r = null;
+
 
         $r['content'] = '
 <ul class="nav nav-tabs" id="myTab">
@@ -240,6 +316,7 @@ $r['content'] .= '
 
         $this->form->addInput('textField','firstName',null,null,gettext('First name'));
         $this->form->addInput('textField','lastName',null,null,gettext('Last name'));
+        $this->form->addInput('onOffBox','firstNameFirst',null,null,gettext('Fist name first'));
         $this->form->addInput('numField','dateOfBirth',null,null,gettext('Year of Birth'));
         $this->form->addInput('numField','dateOfDeath',null,null,gettext('Year of Death'));
         $this->form->addInput('textField','placeOfBirth',null,null,gettext('Place of Birth'));
@@ -274,6 +351,7 @@ $r['content'] .= '
         $data = $this->form->validator();
 
         unset($data['editForm']);
+
 
         if ($this->model->fragger($data,'artist','update',"id='$artistId'")) {
             $r = buildingBlocks::successMSG(gettext('Update successful!'));

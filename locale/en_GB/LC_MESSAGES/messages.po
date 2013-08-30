@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openGallery\n"
 "POT-Creation-Date: 2013-08-29 19:25+0100\n"
-"PO-Revision-Date: 2013-08-29 19:26+0100\n"
+"PO-Revision-Date: 2013-08-30 06:52+0100\n"
 "Last-Translator: Galicz Miklós <galicz.miklos@blackworks.org>\n"
 "Language-Team: blackFyre Studios <galicz.miklos@blackworks.org>\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 #: ../../core/helpers/class.formHandler.php:377
 #: ../../core/helpers/class.formHandler.php:383
 msgid "Password"
-msgstr "Password"
+msgstr ""
 
 #: ../../core/helpers/class.smartyManager.php:45
 msgid "Ön egy<strong>elavult</strong> böngészőt használ. Kérjük frissítse!"
@@ -29,81 +29,81 @@ msgstr "Ön egy<strong>elavult</strong> böngészőt használ. Kérjük frissít
 
 #: ../../core/app/class.artist.php:40 ../../core/app/class.artist.php:251
 msgid "Bio"
-msgstr "Bio"
+msgstr ""
 
 #: ../../core/app/class.artist.php:41 ../../core/app/class.artist.php:43
 #: ../../core/app/class.artist.php:318
 msgid "Works"
-msgstr "Munkásság"
+msgstr ""
 
 #: ../../core/app/class.artist.php:87 ../../core/app/class.artist.php:330
 msgid "Biography"
-msgstr "Életrajz"
+msgstr ""
 
 #: ../../core/app/class.artist.php:94
 #, php-format
 msgid "The works of %s"
-msgstr "%s munkái"
+msgstr ""
 
 #: ../../core/app/class.artist.php:107
 msgid "An art piece by"
-msgstr "An art piece by"
+msgstr ""
 
 #: ../../core/app/class.artist.php:107
 msgid "titled"
-msgstr "titled"
+msgstr ""
 
 #: ../../core/app/class.artist.php:142
 msgid "Artist index"
-msgstr "Művész Index"
+msgstr ""
 
 #: ../../core/app/class.artist.php:225
 msgid "Artist data"
-msgstr "Művész adatai"
+msgstr ""
 
 #: ../../core/app/class.artist.php:236
 msgid "First name"
-msgstr "Keresztnév"
+msgstr ""
 
 #: ../../core/app/class.artist.php:237
 msgid "Last name"
-msgstr "Vezetéknév"
+msgstr ""
 
 #: ../../core/app/class.artist.php:238
 msgid "Year of Birth"
-msgstr "Születés éve"
+msgstr ""
 
 #: ../../core/app/class.artist.php:239
 msgid "Year of Death"
-msgstr "Halálozás éve"
+msgstr ""
 
 #: ../../core/app/class.artist.php:240
 msgid "Place of Birth"
-msgstr "Születés helye"
+msgstr ""
 
 #: ../../core/app/class.artist.php:241
 msgid "Place of Death"
-msgstr "Halál helye"
+msgstr ""
 
 #: ../../core/app/class.artist.php:243 ../../core/app/class.artist.php:253
 msgid "Update"
-msgstr "Frissítés"
+msgstr ""
 
 #: ../../core/app/class.artist.php:250
 msgid "Excerpt"
-msgstr "Kivonat"
+msgstr ""
 
 #: ../../core/app/class.artist.php:274
 msgid "Update successful!"
-msgstr "Sikeres frissítés!"
+msgstr ""
 
 #: ../../core/app/class.artist.php:276
 msgid "An error occured, and could not update!"
-msgstr "Hiba történt, nem sikerült a frissítés!"
+msgstr ""
 
 #: ../../core/app/class.artist.php:284
 msgid "Edit Artist"
-msgstr "Alkotó szerkesztése"
+msgstr ""
 
 #: ../../core/app/class.artist.php:342
 msgid "Translation needed"

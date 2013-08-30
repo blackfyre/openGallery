@@ -28,7 +28,7 @@
                     </div>
                 </div>
             {/foreach}
-
+            <p><a href="{$artworkLink}" class="btn btn-primary btn-lg">{$moreButton} &raquo;</a></p>
         </div>
     </div>
 

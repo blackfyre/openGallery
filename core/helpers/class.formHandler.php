@@ -525,6 +525,12 @@ class formHandler
                         $input1['required'] = 'hidden';
                         $rows[] = $input1;
                         break;
+                    case 'onOffBox':
+                        $input1['label'] = '<label class="col-lg-2 control-label" for="text-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
+                        $input1['input'] = '<input type="hidden" name="' . $formElement['name'] . '" value="0" />';
+                        $input1['input'] .= '<input type="checkbox" name="" value="1" ' . (isset($_SESSION['postBack'][$formElement['name']]) ? 'checked="checked"' : null) . '>';
+                        $rows[] = $input1;
+                        break;
                     case 'dropdownList':
                         $input1['label'] = '<label class="control-label" for="select-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
                         $input1['required'] = $formElement['required'];

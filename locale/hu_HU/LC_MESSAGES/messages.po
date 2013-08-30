@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: openGallery\n"
-"POT-Creation-Date: 2013-08-30 06:32+0100\n"
-"PO-Revision-Date: 2013-08-30 06:37+0100\n"
+"POT-Creation-Date: 2013-08-30 06:50+0100\n"
+"PO-Revision-Date: 2013-08-30 06:50+0100\n"
 "Last-Translator: Galicz Miklós <galicz.miklos@blackworks.org>\n"
 "Language-Team: blackFyre Studios <galicz.miklos@blackworks.org>\n"
 "Language: hu\n"
@@ -14,10 +14,6 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: ../../..\n"
-
-#: ../../../i18n-test.php:21
-msgid "HELLO_WORLD"
-msgstr "SHITT"
 
 #: ../../../core/helpers/class.authManager.php:122
 msgid "Érvénytelen bejelentkezési adatok!"
@@ -175,6 +171,9 @@ msgstr ""
 #: ../../../core/app/class.content.php:358
 msgid "Edit article"
 msgstr ""
+
+#~ msgid "HELLO_WORLD"
+#~ msgstr "SHITT"
 
 #~ msgid "A keresett oldal nincs meg"
 #~ msgstr "A keresett oldal nincs meg"
