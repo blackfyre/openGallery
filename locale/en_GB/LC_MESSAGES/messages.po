@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: openGallery\n"
-"POT-Creation-Date: 2013-08-29 06:54+0100\n"
-"PO-Revision-Date: 2013-08-29 07:38+0100\n"
+"POT-Creation-Date: 2013-08-29 19:25+0100\n"
+"PO-Revision-Date: 2013-08-29 19:26+0100\n"
 "Last-Translator: Galicz Miklós <galicz.miklos@blackworks.org>\n"
 "Language-Team: blackFyre Studios <galicz.miklos@blackworks.org>\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 #: ../../core/helpers/class.formHandler.php:377
 #: ../../core/helpers/class.formHandler.php:383
 msgid "Password"
-msgstr "Jelszó"
+msgstr "Password"
 
 #: ../../core/helpers/class.smartyManager.php:45
 msgid "Ön egy<strong>elavult</strong> böngészőt használ. Kérjük frissítse!"
@@ -29,7 +29,7 @@ msgstr "Ön egy<strong>elavult</strong> böngészőt használ. Kérjük frissít
 
 #: ../../core/app/class.artist.php:40 ../../core/app/class.artist.php:251
 msgid "Bio"
-msgstr "Életrajz"
+msgstr "Bio"
 
 #: ../../core/app/class.artist.php:41 ../../core/app/class.artist.php:43
 #: ../../core/app/class.artist.php:318
@@ -47,11 +47,11 @@ msgstr "%s munkái"
 
 #: ../../core/app/class.artist.php:107
 msgid "An art piece by"
-msgstr ""
+msgstr "An art piece by"
 
 #: ../../core/app/class.artist.php:107
 msgid "titled"
-msgstr ""
+msgstr "titled"
 
 #: ../../core/app/class.artist.php:142
 msgid "Artist index"

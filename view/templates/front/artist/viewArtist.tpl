@@ -16,7 +16,7 @@
             {$bio}
         </div>
         <div class="col-md-6">
-            <h3>Works</h3>
+            <h3>{$artworkButton}</h3>
             {foreach from=$artData item=i}
                 <div class="media">
                     <a class="pull-left" href="#">

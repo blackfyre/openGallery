@@ -29,40 +29,45 @@ class controlHandler {
         $this->smarty = new smartyManager();
     }
 
+
     /**
      * Nyelvi környezet beállítása ha szükség van rá, az appConfig.php -ban állítható
      * @return void
      */
     private function setLangEnv() {
 
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            $locale[] = 'hun.UTF-8';
-            $locale[] = 'hungarian.UTF-8';
-            $locale[] = 'hun';
-            $locale[] = 'hungarian';
-        } else {
-            $locale[] = 'hu_HU.UTF8';
-            $locale[] = 'hu.UTF8';
-            $locale[] = 'hu_HU@euro.UTF8';
-            $locale[] = 'hun.UTF8';
-            $locale[] = 'hungarian.UTF-8';
+        switch($_SESSION['lang']) {
+            case 'hu':
+                $lang = 'hu_HU.UTF8';
+                break;
+            case 'en':
+                $lang = 'en_GB.UTF8';
+                break;
+            default:
+                $lang = 'hu_HU.UTF8';
+                break;
         }
 
-        putenv('LC_ALL=hu_HU.UTF8');
-        setlocale(LC_ALL, 'hu_HU.UTF8');
+        putenv('LC_ALL=' . $lang);
+        putenv('LANG=' . $lang);
+        setlocale(LC_ALL, $lang);
+        setlocale(LC_MESSAGES, $lang);
 
         ini_set("default_charset", "UTF-8");
         date_default_timezone_set('Europe/Budapest');
 
-        $pathToLangFile = _BASE_PATH . '/locale/' . $_SESSION['lang'] . '/LC_ALL';
+        $pathToLangFile = './locale/';
 
         if (!file_exists($pathToLangFile)) {
-            mkdir($pathToLangFile, 0777, true);
+            mkdir($pathToLangFile, 777, true);
         }
 
-        bindtextdomain('messages',$pathToLangFile);
-        textdomain('messages');
-        bind_textdomain_codeset('messages','UTF8');
+        $domain = 'messages';
+
+        bindtextdomain($domain,$pathToLangFile);
+        bind_textdomain_codeset($domain,'UTF8');
+        textdomain($domain);
+
     }
 
     public function methodLoader($reRouter = null, $tplFolder = 'front') {
@@ -95,7 +100,7 @@ class controlHandler {
          */
         if (method_exists($objName,$functionToCall) AND $this->tplFileExists($tplFolder,$objName,$functionToCall)) {
             /*
-             * Run the method
+             * Run the method and add the return to the display
              */
             $this->smarty->addToDisplay(call_user_func_array(array($obj, $functionToCall), $data));
 
@@ -106,7 +111,7 @@ class controlHandler {
 
         } else {
             /*
-             * If the method is not allowed to run, present the user with a 404 page
+             * If the method and/or the template does not exist throw a 404 error
              */
             $this->throw404();
         }
@@ -171,6 +176,7 @@ class controlHandler {
 
     /**
      * 404 page
+     * @TODO customize the 404 page
      */
     protected function throw404() {
         header("HTTP/1.0 404 Not Found");

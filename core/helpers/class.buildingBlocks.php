@@ -7,12 +7,17 @@
  * Time: 18:59
  */
 
+/**
+ * Class buildingBlocks
+ */
 class buildingBlocks {
 
     /**
-     * @param null $keys
-     * @param null $infoData
-     * @param null $blockName
+     * This functions is much like the simpleTableGenerator
+     *
+     * @param array $keys these are the a 'heads'
+     * @param array $infoData these are the data from which to pick from
+     * @param null|string $blockName optional, this will be the name (slug(#id)) of the block
      * @return null|string
      */
     static function generateInfo($keys = null, $infoData = null, $blockName = null) {
@@ -22,7 +27,10 @@ class buildingBlocks {
             $infoBox = null;
 
             if (is_string($blockName)) {
-                $infoBox .= '<h3>';
+
+                $slugName = coreFunctions::slugger($blockName);
+
+                $infoBox .= "<h3 id='$slugName'>";
                 $infoBox .= $blockName;
                 $infoBox .= '</h3>';
             }
@@ -45,5 +53,33 @@ class buildingBlocks {
 
         return null;
 
+    }
+
+    /**
+     * A standard success message
+     * @param string $string
+     * @return string
+     */
+    static function successMSG($string = null) {
+
+        $string = coreFunctions::cleanVar($string);
+
+        return "
+        <div class='alert alert-success alert-dismissable'>
+            <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+            <strong>SUCCESS!</strong> $string
+        </div>
+        ";
+    }
+
+    static function errorMSG($string = null) {
+
+        $string = coreFunctions::cleanVar($string);
+
+        return "
+        <div class='alert alert-danger alert-dismissable'>
+            <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+            <strong>ERROR!</strong> $string
+        </div>";
     }
 }

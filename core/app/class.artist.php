@@ -271,9 +271,9 @@ $r['content'] .= '
         unset($data['editForm']);
 
         if ($this->model->fragger($data,'artist','update',"id='$artistId'")) {
-            $r = messagesUI::successMSG(gettext('Update successful!'));
+            $r = buildingBlocks::successMSG(gettext('Update successful!'));
         } else {
-            $r = messagesUI::errorMSG(gettext('An error occured, and could not update!'));
+            $r = buildingBlocks::errorMSG(gettext('An error occured, and could not update!'));
         }
 
         return $r;
