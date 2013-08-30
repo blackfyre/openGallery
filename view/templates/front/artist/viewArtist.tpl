@@ -20,11 +20,11 @@
             {foreach from=$artData item=i}
                 <div class="media">
                     <a class="pull-left" href="#">
-                        <img style="max-width: 64px; max-height: 64px" class="media-object" src="/image.php?width=64&height=64&cropratio=1:1&image=/img/art/{$i.img}" alt="{$i.title_en}">
+                        <img style="max-width: 64px; max-height: 64px" class="media-object" src="/image.php?width=64&height=64&cropratio=1:1&image=/img/art/{$i.img}" alt="{$i.title}">
                     </a>
                     <div class="media-body">
-                        <h4 class="media-heading">{$i.title_en}</h4>
-                        {$i.description_en}
+                        <h4 class="media-heading">{$i.title}</h4>
+                        {$i.description}
                     </div>
                 </div>
             {/foreach}

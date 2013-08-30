@@ -60,7 +60,12 @@ class artist {
         $r['metaTitle'] = $r['artistName'];
 
         for ($i = 0; $i <= 9; $i++) {
-            $r['artData'][] = $artData[$i];
+
+            $t = $artData[$i];
+            $t['title'] = $t['title_' . $_SESSION['lang']];
+            $t['description'] = $t['description_' . $_SESSION['lang']];
+
+            $r['artData'][] = $t;
         }
 
         foreach ($this->activeLangs as $l) {
