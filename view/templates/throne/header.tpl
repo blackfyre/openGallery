@@ -80,6 +80,8 @@
     </div>
 </div>
 
-
-
 <div class="container">
+
+    {if isset($msg)}
+        {$msg}
+    {/if}

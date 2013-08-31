@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="/_bootstrap3/assets/ico/favicon.png">
 
-    <title>Signin Template for Bootstrap</title>
+    <title>openGallery Throne Room Login</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/_bootstrap3/dist/css/bootstrap.css" rel="stylesheet">

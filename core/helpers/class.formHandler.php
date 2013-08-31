@@ -405,7 +405,7 @@ class formHandler
                          * Szöveges mező
                          */
 
-                        $input1['label'] = '<label class="control-label" for="text-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
+                        $input1['label'] = '<label class="col-lg-2 control-label" for="text-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
                         $input1['input'] = '<input class="form-control" ' . ($formElement['required']==true?'required':'') . ' type="url" name="text-' . $formElement['name'] . '" id="text-' . $formElement['name'] . '" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
                         $input1['required'] = $formElement['required'];
 
@@ -431,7 +431,7 @@ class formHandler
                          * Szöveges mező
                          */
 
-                        $input1['label'] = '<label class="control-label" for="date-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
+                        $input1['label'] = '<label class="col-lg-2 control-label" for="date-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
                         $input1['input'] = '<input class="form-control" ' . ($formElement['required']==true?'required':'') . ' type="text" name="date-' . $formElement['name'] . '" id="date-' . $formElement['name'] . '" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
                         $input1['required'] = $formElement['required'];
 
@@ -456,7 +456,7 @@ class formHandler
                         /*
                          * Módosított szöveges mező az emailekhez
                          */
-                        $input1['label'] = '<label class="control-label" for="email-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
+                        $input1['label'] = '<label class="col-lg-2 control-label" for="email-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
                         $input1['input'] = '<input class="form-control" ' . ($formElement['required']==true?'required':'') . ' type="email" name="email-' . $formElement['name'] . '" id="email-' . $formElement['name'] . '" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
                         $input1['required'] = $formElement['required'];
 
@@ -467,7 +467,7 @@ class formHandler
                         /*
                          * Módosított szöveges mező az emailekhez
                          */
-                        $input1['label'] = '<label class="control-label" for="phone-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
+                        $input1['label'] = '<label class="col-lg-2 control-label" for="phone-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
                         $input1['input'] = '<input type="tel" ' . ($formElement['required']==true?'required':'') . ' name="phone-' . $formElement['name'] . '" id="phone-' . $formElement['name'] . '" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
                         $input1['required'] = $formElement['required'];
 
@@ -488,19 +488,19 @@ class formHandler
                         $rows[] = $input1;
                         break;
                     case 'avatarUpload':
-                        $input1['label'] = '<label class="control-label" for="file-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
+                        $input1['label'] = '<label class="col-lg-2 control-label" for="file-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
                         $input1['input'] = '<input type="file" accept="image/jpeg" name="file-' . $formElement['name'] . '" id="file-' . $formElement['name'] . '" />';
                         $input1['required'] = $formElement['required'];
                         $rows[] = $input1;
                         break;
                     case 'imageUpload':
-                        $input1['label'] = '<label class="control-label" for="file-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
+                        $input1['label'] = '<label class="col-lg-2 control-label" for="file-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
                         $input1['input'] = '<input type="file" accept="image/jpeg|image/png" name="file-' . $formElement['name'] . '" id="file-' . $formElement['name'] . '" />';
                         $input1['required'] = $formElement['required'];
                         $rows[] = $input1;
                         break;
                     case 'fileUpload':
-                        $input1['label'] = '<label class="control-label" for="file-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
+                        $input1['label'] = '<label class="col-lg-2 control-label" for="file-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
                         $input1['input'] = '<input type="file" name="file-' . $formElement['name'] . '" id="file-' . $formElement['name'] . '" />';
                         $input1['required'] = $formElement['required'];
                         $rows[] = $input1;
@@ -528,11 +528,11 @@ class formHandler
                     case 'onOffBox':
                         $input1['label'] = '<label class="col-lg-2 control-label" for="text-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
                         $input1['input'] = '<input type="hidden" name="' . $formElement['name'] . '" value="0" />';
-                        $input1['input'] .= '<input type="checkbox" name="" value="1" ' . (isset($_SESSION['postBack'][$formElement['name']]) ? 'checked="checked"' : null) . '>';
+                        $input1['input'] .= '<input type="checkbox" name="' . $formElement['name'] . '" value="1" ' . (isset($_SESSION['postBack'][$formElement['name']]) ? 'checked="checked"' : null) . '>';
                         $rows[] = $input1;
                         break;
                     case 'dropdownList':
-                        $input1['label'] = '<label class="control-label" for="select-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
+                        $input1['label'] = '<label class="col-lg-2 control-label" for="select-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
                         $input1['required'] = $formElement['required'];
 
                         $input1['input'] = null;

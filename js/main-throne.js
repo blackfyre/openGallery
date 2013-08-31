@@ -72,34 +72,9 @@ var addLangOptions = {
     success: refreshLangTable,
     clearForm: true
 };
-
+/*
 $('#form-addlang').ajaxForm(addLangOptions);
-
-function quizListener(modalToClose) {
-    var modal = $(modalToClose);
-
-    var formSelector = $('form[data-async]');
-
-    formSelector.unbind('submit');
-
-    formSelector.on('submit', function(event) {
-        var $form = $(this);
-
-        $.ajax({
-            type: $form.attr('method'),
-            url: $form.attr('action'),
-            data: $form.serialize(),
-
-            success: function(data, status) {
-                modal.modal('hide');
-                refreshGameRounds();
-                formSelector.unbind('submit');
-            }
-        });
-
-        event.preventDefault();
-    });
-}
+*/
 
 
 function menuListener(modalToClose) {

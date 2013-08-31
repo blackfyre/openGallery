@@ -24,39 +24,150 @@ class options {
      */
     private $form = null;
 
+    private $activeLangs = null;
+
     /**
+     *
+     * Got this list from the Wordpress Polylang plugin
+     * http://wordpress.org/plugins/polylang/
+     *
      * @var array
      */
-    private $locales = array('AF' => 'Afghanistan', 'AL' => 'Albania', 'DZ' => 'Algeria', 'AD' => 'Andorra', 'AO' => 'Angola', 'AG' => 'Antigua and Barbuda', 'AR' => 'Argentina', 'AM' => 'Armenia', 'AU' => 'Australia', 'AT' => 'Austria', 'AZ' => 'Azerbaijan', 'BS' => 'The Bahamas', 'BH' => 'Bahrain', 'BD' => 'Bangladesh', 'BB' => 'Barbados', 'BY' => 'Belarus', 'BE' => 'Belgium', 'BZ' => 'Belize', 'BJ' => 'Benin', 'BT' => 'Bhutan', 'BO' => 'Bolivia', 'BA' => 'Bosnia and Herzegovina', 'BW' => 'Botswana', 'BR' => 'Brazil', 'BN' => 'Brunei', 'BG' => 'Bulgaria', 'BF' => 'Burkina Faso', 'BI' => 'Burundi', 'KH' => 'Cambodia', 'CM' => 'Cameroon', 'CA' => 'Canada', 'CV' => 'Cape Verde', 'CF' => 'Central African Republic', 'TD' => 'Chad', 'CL' => 'Chile', 'CN' => 'China', 'CO' => 'Colombia', 'KM' => 'Comoros', 'CG' => 'Congo, Republic of the', 'CD' => 'Congo, Democratic Republic of the', 'CR' => 'Costa Rica', 'CI' => 'Cote d\'Ivoire', 'HR' => 'Croatia', 'CU' => 'Cuba', 'CY' => 'Cyprus', 'CZ' => 'Czech Republic', 'DK' => 'Denmark', 'DJ' => 'Djibouti', 'DM' => 'Dominica', 'DO' => 'Dominican Republic', 'TL' => 'Timor-Leste', 'EC' => 'Ecuador', 'EG' => 'Egypt', 'SV' => 'El Salvador', 'GQ' => 'Equatorial Guinea', 'ER' => 'Eritrea', 'EE' => 'Estonia', 'ET' => 'Ethiopia', 'FJ' => 'Fiji', 'FI' => 'Finland', 'FR' => 'France', 'GA' => 'Gabon', 'GM' => 'Gambia', 'GE' => 'Georgia', 'DE' => 'Germany', 'GH' => 'Ghana', 'GR' => 'Greece', 'GD' => 'Grenada', 'GT' => 'Guatemala', 'GN' => 'Guinea', 'GW' => 'Guinea-Bissau', 'GY' => 'Guyana', 'HT' => 'Haiti', 'HN' => 'Honduras', 'HU' => 'Hungary', 'IS' => 'Iceland', 'IN' => 'India', 'ID' => 'Indonesia', 'IR' => 'Iran', 'IQ' => 'Iraq', 'IE' => 'Ireland', 'IL' => 'Israel', 'IT' => 'Italy', 'JM' => 'Jamaica', 'JP' => 'Japan', 'JO' => 'Jordan', 'KZ' => 'Kazakhstan', 'KE' => 'Kenya', 'KI' => 'Kiribati', 'KP' => 'Korea, North', 'KR' => 'Korea, South', 'ZZ' => 'Kosovo', 'KW' => 'Kuwait', 'KG' => 'Kyrgyzstan', 'LA' => 'Laos', 'LV' => 'Latvia', 'LB' => 'Lebanon', 'LS' => 'Lesotho', 'LR' => 'Liberia', 'LY' => 'Libya', 'LI' => 'Liechtenstein', 'LT' => 'Lithuania', 'LU' => 'Luxembourg', 'MK' => 'Macedonia', 'MG' => 'Madagascar', 'MW' => 'Malawi', 'MY' => 'Malaysia', 'MV' => 'Maldives', 'ML' => 'Mali', 'MT' => 'Malta', 'MH' => 'Marshall Islands', 'MR' => 'Mauritania', 'MU' => 'Mauritius', 'MX' => 'Mexico', 'FM' => 'Micronesia, Federated States of', 'MD' => 'Moldova', 'MC' => 'Monaco', 'MN' => 'Mongolia', 'ME' => 'Montenegro', 'MA' => 'Morocco', 'MZ' => 'Mozambique', 'MM' => 'Myanmar (Burma)', 'NA' => 'Namibia', 'NR' => 'Nauru', 'NP' => 'Nepal', 'NL' => 'Netherlands', 'NZ' => 'New Zealand', 'NI' => 'Nicaragua', 'NE' => 'Niger', 'NG' => 'Nigeria', 'NO' => 'Norway', 'OM' => 'Oman', 'PK' => 'Pakistan', 'PW' => 'Palau', 'PA' => 'Panama', 'PG' => 'Papua New Guinea', 'PY' => 'Paraguay', 'PE' => 'Peru', 'PH' => 'Philippines', 'PL' => 'Poland', 'PT' => 'Portugal', 'QA' => 'Qatar', 'RO' => 'Romania', 'RU' => 'Russia', 'RW' => 'Rwanda', 'KN' => 'Saint Kitts and Nevis', 'LC' => 'Saint Lucia', 'VC' => 'Saint Vincent and the Grenadines', 'WS' => 'Samoa', 'SM' => 'San Marino', 'ST' => 'Sao Tome and Principe', 'SA' => 'Saudi Arabia', 'SN' => 'Senegal', 'RS' => 'Serbia', 'SC' => 'Seychelles', 'SL' => 'Sierra Leone', 'SG' => 'Singapore', 'SK' => 'Slovakia', 'SI' => 'Slovenia', 'SB' => 'Solomon Islands', 'SO' => 'Somalia', 'ZA' => 'South Africa', 'SS' => 'South Sudan', 'ES' => 'Spain', 'LK' => 'Sri Lanka', 'SD' => 'Sudan', 'SR' => 'Suriname', 'SZ' => 'Swaziland', 'SE' => 'Sweden', 'CH' => 'Switzerland', 'SY' => 'Syria', 'TW' => 'Taiwan', 'TJ' => 'Tajikistan', 'TZ' => 'Tanzania', 'TH' => 'Thailand', 'TG' => 'Togo', 'TO' => 'Tonga', 'TT' => 'Trinidad and Tobago', 'TN' => 'Tunisia', 'TR' => 'Turkey', 'TM' => 'Turkmenistan', 'TV' => 'Tuvalu', 'UG' => 'Uganda', 'UA' => 'Ukraine', 'AE' => 'United Arab Emirates', 'GB' => 'United Kingdom', 'US' => 'United States of America', 'UY' => 'Uruguay', 'UZ' => 'Uzbekistan', 'VU' => 'Vanuatu', 'VA' => 'Vatican City (Holy See)', 'VE' => 'Venezuela', 'VN' => 'Vietnam', 'YE' => 'Yemen', 'ZM' => 'Zambia', 'ZW' => 'Zimbabwe');
+    private $locales = array(
+        array('af', 'af', 'Afrikaans'),
+        array('ar', 'ar', 'العربية', 'rtl'),
+        array('be', 'be_BY', 'Беларуская мова'),
+        array('bg', 'bg_BG', 'български'),
+        array('bs', 'bs_BA', 'Bosanski'),
+        array('ca', 'ca', 'Català'),
+        array('cs', 'cs_CZ', 'Čeština'),
+        array('cy', 'cy', 'Cymraeg'),
+        array('da', 'da_DK', 'Dansk'),
+        array('de', 'de_DE', 'Deutsch'),
+        array('el', 'el', 'Ελληνικά'),
+        array('en', 'en_GB', 'English'),
+        array('eo', 'eo', 'Esperanto'),
+        array('es', 'es_CL', 'Español'),
+        array('es', 'es_ES', 'Español'),
+        array('es', 'es_PE', 'Español'),
+        array('es', 'es_VE', 'Español'),
+        array('et', 'et', 'Eesti'),
+        array('fa', 'fa_AF', 'فارسی', 'rtl'),
+        array('fa', 'fa_IR', 'فارسی', 'rtl'),
+        array('fi', 'fi', 'Suomi'),
+        array('fo', 'fo', 'Føroyskt'),
+        array('fr', 'fr_FR', 'Français'),
+        array('fy', 'fy', 'Frysk'),
+        array('gd', 'gd', 'Gàidhlig'),
+        array('gl', 'gl_ES', 'Galego'),
+        array('he', 'he_IL', 'עברית', 'rtl'),
+        array('hi', 'hi_IN', 'हिन्दी'),
+        array('hr', 'hr', 'Hrvatski'),
+        array('hu', 'hu_HU', 'Magyar'),
+        array('id', 'id_ID', 'Bahasa Indonesia'),
+        array('is', 'is_IS', 'Íslenska'),
+        array('it', 'it_IT', 'Italiano'),
+        array('ja', 'ja', '日本語'),
+        array('jv', 'jv_ID', 'Basa Jawa'),
+        array('ka', 'ka_GE', 'ქართული'),
+        array('kk', 'kk', 'Қазақ тілі'),
+        array('ko', 'ko_KR', '한국어'),
+        array('ku', 'ckb', 'کوردی', 'rtl'),
+        array('lo', 'lo', 'ພາສາລາວ'),
+        array('lt', 'lt_LT', 'Lietuviškai'),
+        array('lv', 'lv', 'Latviešu valoda'),
+        array('mk', 'mk_MK', 'македонски јазик'),
+        array('mn', 'mn', 'Монгол хэл'),
+        array('ms', 'ms_MY', 'Bahasa Melayu'),
+        array('my', 'my_MM', 'ဗမာစာ'),
+        array('nb', 'nb_NO', 'Norsk Bokmål'),
+        array('ne', 'ne_NP', 'नेपाली'),
+        array('nl', 'nl_NL', 'Nederlands'),
+        array('nn', 'nn_NO', 'Norsk Nynorsk'),
+        array('pl', 'pl_PL', 'Polski'),
+        array('pt', 'pt_BR', 'Português'),
+        array('pt', 'pt_PT', 'Português'),
+        array('ro', 'ro_RO', 'Română'),
+        array('ru', 'ru_RU', 'Русский'),
+        array('si', 'si_LK', 'සිංහල'),
+        array('sk', 'sk_SK', 'Slovenčina'),
+        array('sl', 'sl_SI', 'Slovenščina'),
+        array('so', 'so_SO', 'Af-Soomaali'),
+        array('sq', 'sq', 'Shqip'),
+        array('sr', 'sr_RS', 'Српски језик'),
+        array('su', 'su_ID', 'Basa Sunda'),
+        array('sv', 'sv_SE', 'Svenska'),
+        array('ta', 'ta_LK', 'தமிழ்'),
+        array('th', 'th', 'ไทย'),
+        array('tr', 'tr_TR', 'Türkçe'),
+        array('ug', 'ug_CN', 'Uyƣurqə'),
+        array('uk', 'uk', 'Українська'),
+        array('ur', 'ur', 'اردو', 'rtl'),
+        array('uz', 'uz_UZ', 'Oʻzbek'),
+        array('vec', 'vec', 'Vèneto'),
+        array('vi', 'vi', 'Tiếng Việt'),
+        array('zh', 'zh_CN', '中文'),
+        array('zh', 'zh_HK', '香港'),
+        array('zh', 'zh_TW', '台灣'),
+    );
 
     function __construct() {
         $this->model = new modelOptions();
         $this->table = new tableHandler();
         $this->form = new formHandler();
+
+        $this->activeLangs = $this->model->getLanguages();
     }
 
     /**
      * @return bool|string
      */
     private function addLangForm() {
-        $this->form->addInput('textField','isoCode',null,'hu','ISO Kód');
-        $this->form->addInput('textField','full',null,'Magyar','Teljes');
 
-        return $this->form->generateForm('addLang','Save',null,'/responders/addLang.php','bootstrap-horizontal');
+        $dropDown = null;
+
+        $activeISO = null;
+
+        foreach ($this->activeLangs AS $l) {
+            $activeISO[] = $l['isoCode'];
+        }
+
+        foreach ($this->locales AS $v) {
+
+            if (!in_array($v[0],$activeISO)) {
+                $dropDown[] = $v[2] . ' - ' . $v[0] . ' (' . $v[1] . ')';
+            }
+
+        }
+
+        $this->form->addInput('dropdownList','lang',$dropDown,null,gettext('Available langugages'));
+
+        return $this->form->generateForm('addLang',gettext('Save'),null,null,'bootstrap-horizontal');
     }
 
     /**
      * View available languages
-     *
-     * @TODO fix locales, use the locales array for control
      * @return mixed
      */
     function lang() {
         $data = $this->model->getLanguages();
 
+        $r['langsAvailable'] = gettext('Available languages');
+        $r['addLanguage'] = gettext('Add language');
+
+        if (isset($_POST['submit-addLang'])) {
+            if ($this->addLangAction()) {
+                buildingBlocks::successMSG(gettext('Successfully added a new language!'));
+            } else {
+                buildingBlocks::errorMSG(gettext('An error occured, and failed to add the new language, check the error log for what went wrong!'));
+            }
+        }
+
+
         $heads['img'] = '';
         $heads['id'] = '#';
         $heads['isoCode'] = 'isoCode';
+        $heads['locale'] = 'locale';
         $heads['full'] = 'full';
         $heads['edit'] = 'edit';
 
@@ -65,7 +176,7 @@ class options {
         foreach ($data AS $row) {
             $t = $row;
             if (file_exists(_BASE_PATH . '/img/flags/flag-' . $t['isoCode'] . '.png')) {
-                $t['img'] = '<img style="width:32px" src="/img/flags/flag-' . $t['isoCode'] . '.png">';
+                $t['img'] = '<img style="width:22px" src="/img/flags/flag-' . $t['isoCode'] . '.png">';
             } else {
                 $t['img'] = '';
             }
@@ -73,9 +184,9 @@ class options {
             $t['edit'] .= '<div class="btn-group">';
 
             if ($t['active']=='1') {
-                $t['edit'] .= '<a class="btn btn-mini" href="#" onclick="deactivateLang(' . $t['id'] . ')"><i class="icon-eye-close"></i> Deaktiválás</a>';
+                $t['edit'] .= '<a class="btn btn-warning btn-xs" href="#" onclick="deactivateLang(' . $t['id'] . ')"><span class="glyphicon glyphicon-eye-close"></span></a>';
             } else {
-                $t['edit'] .= '<a class="btn btn-mini" href="#" onclick="activateLang(' . $t['id'] . ')"><i class="icon-eye-open"></i> Aktiválás</a>';
+                $t['edit'] .= '<a class="btn btn-success btn-xs" href="#" onclick="activateLang(' . $t['id'] . ')"><span class="glyphicon glyphicon-eye-open"></span></a>';
             }
 
             $t['edit'] .= '</div>';
@@ -84,9 +195,11 @@ class options {
             $reRenderedData[] = $t;
         }
 
+        /*
         $extraClass[] = 'table-condensed';
+        */
 
-        $r['table'] = $this->table->createSimpleTable($heads,$reRenderedData,$extraClass,true,'langTable');
+        $r['table'] = $this->table->createSimpleTable($heads,$reRenderedData,null,true,'langTable');
         $r['form'] = $this->addLangForm();
 
         return $r;
@@ -99,11 +212,17 @@ class options {
     function addLangAction() {
         $data = $this->form->validator();
 
+        $toInsert = $this->locales[$data['lang']];
+
+        $dataToInsert['isoCode'] = $toInsert[0];
+        $dataToInsert['full'] = $toInsert[2];
+        $dataToInsert['locale'] = $toInsert[1];
+
         if (is_array($data)) {
 
-            if ($this->model->fragger($data,'languages')) {
+            if ($this->model->fragger($dataToInsert,'languages')) {
 
-                $this->updateTables($data['isoCode']);
+                $this->updateTables($dataToInsert['isoCode']);
 
                 return true;
 
