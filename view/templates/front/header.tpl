@@ -54,8 +54,8 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="/">Home</a></li>
-                    <li class="active"><a href="/en/artist/viewArtist/aba-novak-vilmos.html">Example Artist</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/en/artist/viewArtist/aba-novak-vilmos.html">Example Artist</a></li>
                     {*
                     <li><a href="#about">ABC Index</a></li>
                     <li><a href="#contact">Search</a></li>
@@ -68,20 +68,23 @@
 *}
                 </ul>
 
+                <ul class="nav navbar-nav pull-right">
                 {if isset($langSwitch)}
-                    <ul class="nav navbar-nav pull-right">
 
-                        <div class="dropdown">
-                            <a data-toggle="dropdown" href="#"><img class="curLangFlag" src="/img/flags/flag-{$smarty.session.lang}.png" alt="current language"></a>
-                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                                {foreach from=$langSwitch item=i}
-                                    <li><a rel="alternate" href="{$i.url}" hreflang="{$i.flag}"><img class="navFlag" src="/img/flags/flag-{$i.flag}.png" alt="content available in {$i.flag}">&nbsp;{$i.full}</a></li>
-                                {/foreach}
-                            </ul>
-                        </div>
+                        <li>
+                            <div class="dropdown">
+                                <a data-toggle="dropdown" href="#"><img class="curLangFlag" src="/img/flags/flag-{$smarty.session.lang}.png" alt="current language"></a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                    {foreach from=$langSwitch item=i}
+                                        <li><a rel="alternate" href="{$i.url}" hreflang="{$i.flag}"><img class="navFlag" src="/img/flags/flag-{$i.flag}.png" alt="content available in {$i.flag}">&nbsp;{$i.full}</a></li>
+                                    {/foreach}
+                                </ul>
+                            </div>
+                        </li>
 
-                    </ul>
                 {/if}
+                    <li><a href="#" hreflang="{$smarty.session.lang}"><span class="glyphicon glyphicon-log-in"></span> Login</a> </li>
+                </ul>
 
                 {*
                 <ul class="nav navbar-nav pull-right">

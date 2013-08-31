@@ -10,16 +10,46 @@
 class newsModel extends modelsHandler {
 
     /**
-     * @param null $slug
-     * @return array|bool
+     *
+     * Get the news
+     *
+     * @param null|string|array $lang isoCode for narrowing the result set for the given lang
+     * @param int|null $published
+     * @return null
      */
-    function getNewsBySlug($slug = null) {
-        $slug = coreFunctions::cleanVar($slug);
+    function getNews($lang = null, $published = null) {
 
-        $slugCol = 'slug_' . $_SESSION['lang'];
+        $query = "SELECT * FROM content_news";
 
-        $query = "SELECT * FROM news WHERE $slugCol='$slug'";
+        if (is_int($published)) {
+            $query .= " WHERE published='$published'";
+        }
 
-        return $this->fetchSingleRow($query);
+        /*
+         * If the $lang is a string than it's possible that only 1 lang was given
+         */
+        if (is_string($lang)) {
+            $query .= ' ' . (!is_int($published)?'WHERE':' AND');
+            $query .= " isoCode='$lang'";
+        }
+
+        /*
+         * if $lang is an array then we want to expand the result set to all languages in the set
+         */
+        if (is_array($lang)) {
+            $query .= ' ' . (!is_int($published)?'WHERE':' AND');
+
+            $t = null;
+
+            foreach ($lang AS $l) {
+                $t[] = " isoCode='$l' ";
+            }
+
+            $query .= 'AND ' . implode(' AND ', $t);
+
+
+        }
+
+        return $this->fetchAll($query);
     }
 }

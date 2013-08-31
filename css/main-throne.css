@@ -20,6 +20,11 @@ body {
     vertical-align: top !important;
 }
 
+.tblFlag {
+    width: 22px;
+    height: auto;
+}
+
 
 .dropdown-backdrop {
     position: static;

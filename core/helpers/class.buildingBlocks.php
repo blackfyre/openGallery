@@ -82,4 +82,30 @@ class buildingBlocks {
             <strong>ERROR!</strong> $string
         </div>";
     }
+
+    static function formSaveFail() {
+
+        $string = gettext('An error occurred, check the error log for more details!');
+
+        return self::errorMSG($string);
+
+    }
+
+    /**
+     * @param null $string
+     * @param bool $dismiss
+     * @return string
+     */
+    static function infoMSG($string = null,$dismiss = true) {
+
+        $string = coreFunctions::cleanVar($string);
+
+        $dismiss = ($dismiss?'alert-dismissable':'');
+
+        return "
+        <div class='alert alert-info $dismiss'>
+            <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+            <strong>INFORMATION!</strong> $string
+        </div>";
+    }
 }

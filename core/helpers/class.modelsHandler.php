@@ -83,7 +83,7 @@ class modelsHandler
     {
         if (!is_null($query)) {
 
-            if ($result = $this->db->query($query)) {
+            if ($result = $this->db->query($query . ' LIMIT 1')) {
 
                 return $result->fetch();
 

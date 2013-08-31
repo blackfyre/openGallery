@@ -36,6 +36,27 @@ class artist {
     }
 
     /**
+     * Organizes the artists name based on what's it gotten from the DB
+     * @param null|array $artistData The full artist data array
+     * @return null|string
+     */
+    private function artistName($artistData = null) {
+        if (is_array($artistData)) {
+
+            $name = trim($artistData['lastName'] . ' ' . $artistData['firstName']);
+
+            if (isset($artistData['firstNameFirst']) AND $artistData['firstNameFirst']!='1') {
+                $name = trim($artistData['firstName'] . ' ' . $artistData['lastName']);
+            }
+
+            return $name;
+
+        }
+
+        return null;
+    }
+
+    /**
      * Get the artist page
      * @param string $artistSlug
      * @return array
@@ -151,9 +172,8 @@ class artist {
 
         /*
          * compiling artist data for the template
-         * @TODO watch the firstNameFirst value and change the name accordingly
          */
-        $r['artistName'] = $data['lastName'] . ' ' . $data['firstName'];
+        $r['artistName'] = $this->artistName($data);
         $r['subTitle'] = '(' . $data['dateOfBirth'] . ', ' . $data['placeOfBirth'] . ' - ' . $data['dateOfDeath'] . ', ' . $data['placeOfDeath'] . ')';
         $r['excerpt'] = coreFunctions::decoder($data['excerpt_' . $_SESSION['lang']]);
 
@@ -262,13 +282,7 @@ class artist {
             foreach ($data as $row) {
                 $t = $row;
 
-                $name = trim($t['lastName'] . ' ' . $t['firstName']);
-
-                if ($row['firstNameFirst']!='1') {
-                    $name = trim($t['firstName'] . ' ' . $t['lastName']);
-                }
-
-                $t['name'] = $name;
+                $t['name'] = $this->artistName($row);
                 $t['life'] = '(' . $t['dateOfBirth'] . ', ' . $t['placeOfBirth'] . ' - ' . $t['dateOfDeath'] . ', ' . $t['placeOfDeath'] . ')';
 
                 $t['edit'] = '<div class="btn-group">';
@@ -329,8 +343,8 @@ $r['content'] .= '
         foreach ($this->activeLangs AS $l) {
             $r['content'] .= '<div class="tab-pane" id="data_' . $l['isoCode'] . '">';
 
-            $this->form->addInput('textArea','excerpt_' . $l['isoCode'],null,null,gettext('Excerpt'));
-            $this->form->addInput('textArea','bio_' . $l['isoCode'],null,null,gettext('Bio'));
+            $this->form->addInput('ckeditor','excerpt_' . $l['isoCode'],null,null,gettext('Excerpt'));
+            $this->form->addInput('ckeditor','bio_' . $l['isoCode'],null,null,gettext('Bio'));
 
             $r['content'] .= $this->form->generateForm('updateArtist',gettext('Update'));
 
@@ -344,6 +358,10 @@ $r['content'] .= '
         return $r;
     }
 
+    /**
+     * @param null $artistId
+     * @return string
+     */
     private function processArtistUpdate($artistId = null) {
 
         $r = null;
@@ -363,6 +381,10 @@ $r['content'] .= '
 
     }
 
+    /**
+     * @param null $artistId
+     * @return array
+     */
     function throne_editArtist($artistId = null) {
         $r['moduleTitle'] = gettext('Edit Artist');
         $r['content'] = null;
@@ -405,7 +427,7 @@ $r['content'] .= '
 
         $data = $this->model->getArtistBySlug($artistSlug);
 
-        $r['artistName'] = $data['lastName'] . ' ' . $data['firstName'];
+        $r['artistName'] = $this->artistName($data);
         $r['subTitle'] = '(' . $data['dateOfBirth'] . ', ' . $data['placeOfBirth'] . ' - ' . $data['dateOfDeath'] . ', ' . $data['placeOfDeath'] . ')';
 
         $r['excerpt'] = coreFunctions::decoder($data['excerpt_' . $_SESSION['lang']]);
@@ -425,5 +447,17 @@ $r['content'] .= '
         $r['artInfo'] = ($desc!=''?$desc:'<p>' . gettext('Translation needed') . '</p>');
 
         return $r;
+    }
+
+    function index($index = null) {
+
+        $r['metaTitle'] = gettext('Artist Index');
+
+        if (is_string($index) AND (strlen(coreFunctions::cleanVar($index))==1 OR coreFunctions::cleanVar($index)=='Anonymus')) {
+            $r['metaTitle'] = gettext('Artist Index') . ' / ' . strtoupper($index);
+        }
+
+        return $r;
+
     }
 }

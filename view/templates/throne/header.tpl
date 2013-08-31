@@ -42,12 +42,13 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class=""><a href="/throne/">Dashboard</a></li>
+                <li class=""><a href="/throne/"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Content <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="/throne/content/articles.html">Articles</a></li>
                         <li><a href="/throne/content/fixedContent.html">Fixed content</a></li>
+                        <li><a href="/throne/news/throne_listNews.html">News</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
@@ -57,16 +58,16 @@
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Menü <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/throne/menu/main.html">Fő menü</a></li>
-                        <li><a href="/throne/menu/footer.html">Lábléc</a></li>
+                        <li><a href="/throne/menu/main.html">Main menu</a></li>
+                        <li><a href="/throne/menu/footer.html">Footer</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/throne/options/lang.html">Nyelvek</a></li>
+                        <li><a href="/throne/options/lang.html">Languages</a></li>
                         <li><a href="/throne/options/listUsers.html">User Manager</a></li>
                         <li><a href="/throne/options/logView.html">logView</a></li>
                     </ul>
@@ -74,7 +75,7 @@
 
             </ul>
             <ul class="nav navbar-nav pull-right">
-                <li><a href="/throne/logout.html">Kijelentkezés</a></li>
+                <li><a href="/throne/logout.html"><span class="glyphicon glyphicon-warning-sign"></span> Logout</a></li>
             </ul>
         </div><!--/.navbar-collapse -->
     </div>

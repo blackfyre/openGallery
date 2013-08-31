@@ -482,6 +482,13 @@ class formHandler
                         break;
                     case 'textArea':
                         $input1['label'] = '<label class="col-lg-2 control-label" for="textArea-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
+                        $input1['input'] = '<textarea class="form-control" ' . ($formElement['required']==true?'required':'') . ' name="textArea-' . $formElement['name'] . '" id="textArea-' . $formElement['name'] . '">' . $formElement['value'] . '</textarea>';
+                        $input1['required'] = $formElement['required'];
+
+                        $rows[] = $input1;
+                        break;
+                    case 'ckeditor':
+                        $input1['label'] = '<label class="col-lg-2 control-label" for="textArea-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
                         $input1['input'] = '<textarea class="form-control ckeditor" ' . ($formElement['required']==true?'required':'') . ' name="textArea-' . $formElement['name'] . '" id="textArea-' . $formElement['name'] . '">' . $formElement['value'] . '</textarea>';
                         $input1['required'] = $formElement['required'];
 
