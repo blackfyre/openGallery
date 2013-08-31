@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: openGallery\n"
-"POT-Creation-Date: 2013-08-30 06:50+0100\n"
-"PO-Revision-Date: 2013-08-30 06:50+0100\n"
+"POT-Creation-Date: 2013-08-31 20:58+0100\n"
+"PO-Revision-Date: 2013-08-31 20:58+0100\n"
 "Last-Translator: Galicz Miklós <galicz.miklos@blackworks.org>\n"
 "Language-Team: blackFyre Studios <galicz.miklos@blackworks.org>\n"
 "Language: hu\n"
@@ -19,6 +19,10 @@ msgstr ""
 msgid "Érvénytelen bejelentkezési adatok!"
 msgstr ""
 
+#: ../../../core/helpers/class.buildingBlocks.php:88
+msgid "An error occurred, check the error log for more details!"
+msgstr ""
+
 #: ../../../core/helpers/class.formHandler.php:377
 #: ../../../core/helpers/class.formHandler.php:383
 msgid "Password"
@@ -28,120 +32,157 @@ msgstr "Jelszó"
 msgid "Ön egy<strong>elavult</strong> böngészőt használ. Kérjük frissítse!"
 msgstr "Ön egy<strong>elavult</strong> böngészőt használ. Kérjük frissítse!"
 
-#: ../../../core/app/class.artist.php:40
-#: ../../../core/app/class.artist.php:251
+#: ../../../core/app/class.artist.php:71
+#: ../../../core/app/class.artist.php:347
 msgid "Bio"
 msgstr "Életrajz"
 
-#: ../../../core/app/class.artist.php:41 ../../../core/app/class.artist.php:43
-#: ../../../core/app/class.artist.php:318
+#: ../../../core/app/class.artist.php:72 ../../../core/app/class.artist.php:73
+#: ../../../core/app/class.artist.php:423
 msgid "Works"
 msgstr "Munkásság"
 
-#: ../../../core/app/class.artist.php:87
-#: ../../../core/app/class.artist.php:330
+#: ../../../core/app/class.artist.php:74
+msgid "More"
+msgstr ""
+
+#: ../../../core/app/class.artist.php:164
+#: ../../../core/app/class.artist.php:435
 msgid "Biography"
 msgstr "Életrajz"
 
-#: ../../../core/app/class.artist.php:94
+#: ../../../core/app/class.artist.php:165
 #, php-format
 msgid "The works of %s"
 msgstr "%s munkái"
 
-#: ../../../core/app/class.artist.php:107
+#: ../../../core/app/class.artist.php:196
 msgid "An art piece by"
 msgstr ""
 
-#: ../../../core/app/class.artist.php:107
+#: ../../../core/app/class.artist.php:196
 msgid "titled"
 msgstr ""
 
-#: ../../../core/app/class.artist.php:142
+#: ../../../core/app/class.artist.php:238
 msgid "Artist index"
 msgstr "Művész Index"
 
-#: ../../../core/app/class.artist.php:225
+#: ../../../core/app/class.artist.php:320
 msgid "Artist data"
 msgstr "Művész adatai"
 
-#: ../../../core/app/class.artist.php:236
+#: ../../../core/app/class.artist.php:331
 msgid "First name"
 msgstr "Keresztnév"
 
-#: ../../../core/app/class.artist.php:237
+#: ../../../core/app/class.artist.php:332
 msgid "Last name"
 msgstr "Vezetéknév"
 
-#: ../../../core/app/class.artist.php:238
+#: ../../../core/app/class.artist.php:333
+msgid "Fist name first"
+msgstr "Keresztnév előre"
+
+#: ../../../core/app/class.artist.php:334
 msgid "Year of Birth"
 msgstr "Születés éve"
 
-#: ../../../core/app/class.artist.php:239
+#: ../../../core/app/class.artist.php:335
 msgid "Year of Death"
 msgstr "Halálozás éve"
 
-#: ../../../core/app/class.artist.php:240
+#: ../../../core/app/class.artist.php:336
 msgid "Place of Birth"
 msgstr "Születés helye"
 
-#: ../../../core/app/class.artist.php:241
+#: ../../../core/app/class.artist.php:337
 msgid "Place of Death"
 msgstr "Halál helye"
 
-#: ../../../core/app/class.artist.php:243
-#: ../../../core/app/class.artist.php:253
+#: ../../../core/app/class.artist.php:339
+#: ../../../core/app/class.artist.php:349
 msgid "Update"
 msgstr "Frissítés"
 
-#: ../../../core/app/class.artist.php:250
+#: ../../../core/app/class.artist.php:346
 msgid "Excerpt"
 msgstr "Kivonat"
 
-#: ../../../core/app/class.artist.php:274
+#: ../../../core/app/class.artist.php:375
 msgid "Update successful!"
 msgstr "Sikeres frissítés!"
 
-#: ../../../core/app/class.artist.php:276
+#: ../../../core/app/class.artist.php:377
 msgid "An error occured, and could not update!"
 msgstr "Hiba történt, nem sikerült a frissítés!"
 
-#: ../../../core/app/class.artist.php:284
+#: ../../../core/app/class.artist.php:389
 msgid "Edit Artist"
 msgstr "Alkotó szerkesztése"
 
-#: ../../../core/app/class.artist.php:342
+#: ../../../core/app/class.artist.php:447
 msgid "Translation needed"
 msgstr ""
 
-#: ../../../core/app/class.options.php:179
-msgid "User Manager"
+#: ../../../core/app/class.artist.php:454
+#: ../../../core/app/class.artist.php:457
+msgid "Artist Index"
+msgstr "Művész Index"
+
+#: ../../../core/app/class.options.php:143
+msgid "Available langugages"
 msgstr ""
 
-#: ../../../core/app/class.options.php:201
-msgid "Add user"
-msgstr ""
-
-#: ../../../core/app/class.options.php:217
-msgid "johnDoe"
-msgstr ""
-
-#: ../../../core/app/class.options.php:217
-msgid "Username"
-msgstr ""
-
-#: ../../../core/app/class.options.php:218
-msgid "john.doe@example.com"
-msgstr ""
-
-#: ../../../core/app/class.options.php:218
-msgid "email"
-msgstr ""
-
-#: ../../../core/app/class.options.php:221
+#: ../../../core/app/class.options.php:145
+#: ../../../core/app/class.options.php:340
+#: ../../../core/app/class.news.php:133
 msgid "Save"
 msgstr ""
 
-#: ../../../core/app/class.options.php:232
+#: ../../../core/app/class.options.php:155
+msgid "Available languages"
+msgstr ""
+
+#: ../../../core/app/class.options.php:156
+msgid "Add language"
+msgstr ""
+
+#: ../../../core/app/class.options.php:160
+msgid "Successfully added a new language!"
+msgstr ""
+
+#: ../../../core/app/class.options.php:162
+msgid ""
+"An error occured, and failed to add the new language, check the error log "
+"for what went wrong!"
+msgstr ""
+
+#: ../../../core/app/class.options.php:298
+msgid "User Manager"
+msgstr ""
+
+#: ../../../core/app/class.options.php:320
+msgid "Add user"
+msgstr ""
+
+#: ../../../core/app/class.options.php:336
+msgid "johnDoe"
+msgstr ""
+
+#: ../../../core/app/class.options.php:336
+msgid "Username"
+msgstr ""
+
+#: ../../../core/app/class.options.php:337
+msgid "john.doe@example.com"
+msgstr ""
+
+#: ../../../core/app/class.options.php:337
+msgid "email"
+msgstr ""
+
+#: ../../../core/app/class.options.php:351
 msgid "LogViewer"
 msgstr ""
 
@@ -154,7 +195,7 @@ msgstr ""
 msgid "New Article"
 msgstr ""
 
-#: ../../../core/app/class.content.php:272
+#: ../../../core/app/class.content.php:272 ../../../core/app/class.news.php:43
 msgid "New article"
 msgstr ""
 
@@ -168,8 +209,56 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
-#: ../../../core/app/class.content.php:358
+#: ../../../core/app/class.content.php:358 ../../../core/app/class.news.php:77
 msgid "Edit article"
+msgstr ""
+
+#: ../../../core/app/class.news.php:41
+msgid "List News"
+msgstr ""
+
+#: ../../../core/app/class.news.php:78
+msgid "View article"
+msgstr ""
+
+#: ../../../core/app/class.news.php:88
+msgid "There are no news entries available"
+msgstr ""
+
+#: ../../../core/app/class.news.php:102
+msgid "Add new article"
+msgstr ""
+
+#: ../../../core/app/class.news.php:126
+msgid "Language"
+msgstr ""
+
+#: ../../../core/app/class.news.php:127
+msgid "Title"
+msgstr ""
+
+#: ../../../core/app/class.news.php:128
+msgid "Meta keys"
+msgstr ""
+
+#: ../../../core/app/class.news.php:129
+msgid "Meta description"
+msgstr ""
+
+#: ../../../core/app/class.news.php:130
+msgid "Link tooltip"
+msgstr ""
+
+#: ../../../core/app/class.news.php:131
+msgid "Content"
+msgstr ""
+
+#: ../../../core/app/class.news.php:141
+msgid "Invalid input!"
+msgstr ""
+
+#: ../../../core/app/class.news.php:147
+msgid "New article successfully created!"
 msgstr ""
 
 #~ msgid "HELLO_WORLD"

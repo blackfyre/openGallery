@@ -17,6 +17,7 @@
         </div>
         <div class="col-md-6">
             <h3>{$artworkButton}</h3>
+            <div>
             {foreach from=$artData item=i}
                 <div class="media">
                     <a class="pull-left" href="#">
@@ -28,6 +29,7 @@
                     </div>
                 </div>
             {/foreach}
+            </div>
             <p><a href="{$artworkLink}" class="btn btn-primary btn-lg">{$moreButton} &raquo;</a></p>
         </div>
     </div>
