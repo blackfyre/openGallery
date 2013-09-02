@@ -52,4 +52,21 @@ class newsModel extends modelsHandler {
 
         return $this->fetchAll($query);
     }
+
+    /**
+     * Get a single article
+     * @param null $articleId
+     * @return array|bool|null
+     */
+    function getArticle($articleId = null) {
+
+        if (is_numeric($articleId)) {
+            $query = "SELECT * FROM content_news WHERE newsId='$articleId'";
+            return $this->fetchSingleRow($query);
+        }
+
+        return null;
+    }
+
+
 }

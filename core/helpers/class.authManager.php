@@ -80,8 +80,7 @@ class authManager
     }
 
     /**
-     * Kijelentkezés
-     * Sütik / Session pusztítása
+     * Logout
      *
      * @return bool
      */
@@ -119,7 +118,7 @@ class authManager
         if (responseText=="OK") {
             location.reload();
         } else {
-        alert("' . gettext('Érvénytelen bejelentkezési adatok!') . '");
+        alert("' . gettext('Invalid login data!') . '");
         }
 
     }
@@ -180,7 +179,7 @@ class authManager
     }
 
     /**
-     * Bejelentkezés
+     * Login
      *
      * @param string $user
      * @param string $pass
@@ -213,19 +212,6 @@ class authManager
         } else {
             return false;
         }
-    }
-
-
-    /**
-     * @deprecated
-     */
-    function logout()
-    {
-        setcookie('user', '', time() - 3600);
-        setcookie('pass', '', time() - 3600);
-        session_unset(); //session kiürítése
-        session_destroy(); //session törlése
-        header('Location: http://' . $_SERVER['SERVER_NAME']);
     }
 
 }

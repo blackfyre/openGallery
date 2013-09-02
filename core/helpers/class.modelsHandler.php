@@ -227,4 +227,12 @@ class modelsHandler
         $query = "SELECT * FROM languages WHERE active='1'";
         return $this->fetchAll($query);
     }
+
+    /**
+     * @return array|bool
+     */
+    function getCurrentThroneUserData() {
+        $query = "SELECT * FROM users WHERE userName='{$_SESSION['user']}' AND pass='{$_SESSION['pass']}'";
+        return $this->fetchSingleRow($query);
+    }
 }

@@ -130,9 +130,19 @@ class news {
         $this->form->addInput('textArea','linkAlt',null,null,gettext('Link tooltip'),true);
         $this->form->addInput('ckeditor','content',null,null,gettext('Content'),true);
 
+        if(isset($_SESSION['postBack']['addedOn'])) {
+            $this->form->addInput('hidden','addedOn');
+            $this->form->addInput('hidden','newsId');
+            $this->form->addInput('hidden','published');
+        }
+
+
         return $this->form->generateForm('saveArticle',gettext('Save'),null,null,'bootstrap-horizontal');
     }
 
+    /**
+     * @return string
+     */
     private function saveNewNews() {
         $data = $this->form->validator();
 
@@ -149,5 +159,61 @@ class news {
             $_SESSION['postBack'] = $data;
             return buildingBlocks::formSaveFail();
         }
+    }
+
+    private function saveArticleEdit() {
+
+        $data = $this->form->validator();
+
+        unset($data['editForm']);
+
+
+
+        $user = $this->model->getCurrentThroneUserData();
+
+        $data['editorId'] = $user['uid'];
+        $data['slug'] = coreFunctions::slugger($data['title']);
+
+        Kint::dump($data);
+
+        if ($this->model->fragger($data,'content_news_history','insert',null,true)) {
+
+            $articleId = $data['newsId'];
+
+            unset($data['editorId'],$data['newsId'],$data['published']);
+
+            if ($this->model->fragger($data,'content_new','update',"newsId='$articleId'")) {
+                return buildingBlocks::successMSG(gettext('Article successfully saved!'));
+            } else {
+                $_SESSION['postBack'] = $data;
+                return buildingBlocks::formSaveFail();
+            }
+
+        } else {
+            $_SESSION['postBack'] = $data;
+            return buildingBlocks::formSaveFail();
+        }
+
+    }
+
+    function throne_editArticle($articleId =  null) {
+
+        if (isset($_POST['submit-saveArticle'])) {
+            $r['msg'] = $this->saveArticleEdit();
+        }
+
+
+        $articleId = coreFunctions::cleanVar($articleId);
+
+        $data = $this->model->getArticle($articleId);
+        $data['content'] = coreFunctions::decoder($data['content']);
+
+        $_SESSION['postBack'] = $data;
+
+        $r['moduleTitle'] = gettext('Edit article');
+
+        $r['content'] = $this->newsForm();
+
+        return $r;
     }
 }
