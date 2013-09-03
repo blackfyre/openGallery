@@ -1,4 +1,4 @@
-/* Frissítők */
+/* Refreshers */
 
 function refreshLangTable() {
     $.ajax({
@@ -12,10 +12,26 @@ function refreshLangTable() {
     });
 }
 
+function refreshNewsArticleTable() {
+    $.ajax({
+        url: '/responders/newsResponder.php?action=getNewTable',
+        success: function(retData) {
+            $('.newstable').fadeOut(500).replaceWith(retData).fadeIn(500);
+        },
+        error: function () {
+            alert('Hiba történt a kiszolgálóval való kommunikáció közben!');
+        }
+    });
+}
+
 function refreshMenuTable() {
 
     location.reload();
 }
+
+/*
+Actions
+ */
 
 function deactivateLang(langId) {
     $.ajax({
@@ -34,6 +50,31 @@ function activateLang(langId) {
         url: '/responders/modLang.php?lid=' + langId + '&action=activate',
         success: function() {
             refreshLangTable();
+        },
+        error: function () {
+            alert('Hiba történt a kiszolgálóval való kommunikáció közben!');
+        }
+    });
+}
+function publishArticle(articleId) {
+    $.ajax({
+        url: '/responders/newsResponder.php?articleId=' + articleId + '&action=publish',
+        success: function(data) {
+            $('.jMsg').html(data);
+            refreshNewsArticleTable();
+        },
+        error: function () {
+            alert('Hiba történt a kiszolgálóval való kommunikáció közben!');
+        }
+    });
+}
+
+function unpublishArticle(articleId) {
+    $.ajax({
+        url: '/responders/newsResponder.php?articleId=' + articleId + '&action=unpublish',
+        success: function(data) {
+            $('.jMsg').html(data);
+            refreshNewsArticleTable();
         },
         error: function () {
             alert('Hiba történt a kiszolgálóval való kommunikáció közben!');

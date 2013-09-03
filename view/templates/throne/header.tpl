@@ -86,3 +86,5 @@
     {if isset($msg)}
         {$msg}
     {/if}
+
+    <div class="jMsg"></div>

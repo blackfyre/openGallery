@@ -73,16 +73,28 @@ class news {
 
                 $t['flag'] = '<img class="tblFlag" src="/img/flags/flag-' . $t['isoCode'] . '.png">';
 
-                $t['edit'] = '<div class="btn-group">';
+                $t['edit'] = '<div class="btn-toolbar"><div class="btn-group">';
                 $t['edit'] .= '<a title="' . gettext('Edit article') . '" href="/throne/news/throne_editArticle/' . $t['newsId'] . '.html" type="button" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-edit"></span></a>';
+
+                if ($t['published']=='1') {
+                    $t['edit'] .= '<a title="' . gettext('Unpublish article') . '" href="#" onClick="unpublishArticle(' . $t['newsId'] . ')" type="button" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-eye-close"></span></a>';
+                } else {
+                    $t['edit'] .= '<a title="' . gettext('Publish article') . '" href="#" onClick="publishArticle(' . $t['newsId'] . ')" type="button" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>';
+                }
+
+                $t['edit'] .= '</div><div class="btn-group">';
+
+
+                $t['edit'] .= '<a title="' . gettext('Delete article') . '" target="_blank" href="#" type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span></a>';
+                $t['edit'] .= '</div><div class="btn-group">';
                 $t['edit'] .= '<a title="' . gettext('View article') . '" target="_blank" href="/' . $t['isoCode'] . '/artist/' . $t['slug'] . '.html" type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-new-window"></span></a>';
-                $t['edit'] .= '</div>';
+                $t['edit'] .= '</div></div>';
 
 
                 $newData[] = $t;
             }
 
-            $r['content'] = $this->table->createSimpleTable($heads,$newData);
+            $r['content'] = $this->table->createSimpleTable($heads,$newData,null,true,'newsTable');
 
         } else {
             $r['msg'] = buildingBlocks::infoMSG(gettext('There are no news entries available'),false);
@@ -90,6 +102,19 @@ class news {
 
 
         return $r;
+
+    }
+
+    /**
+     * @param null $articleId
+     * @param null $state
+     * @return bool|null
+     */
+    function modifyPublishState($articleId = null, $state = null) {
+
+        $data['published'] = $state;
+
+        return $this->model->fragger($data,'content_news','update',"newsId='$articleId'");
 
     }
 
@@ -176,13 +201,13 @@ class news {
 
         Kint::dump($data);
 
-        if ($this->model->fragger($data,'content_news_history','insert',null,true)) {
+        if ($this->model->fragger($data,'content_news_history','insert',null)) {
 
             $articleId = $data['newsId'];
 
             unset($data['editorId'],$data['newsId'],$data['published']);
 
-            if ($this->model->fragger($data,'content_new','update',"newsId='$articleId'")) {
+            if ($this->model->fragger($data,'content_news','update',"newsId='$articleId'")) {
                 return buildingBlocks::successMSG(gettext('Article successfully saved!'));
             } else {
                 $_SESSION['postBack'] = $data;
@@ -213,6 +238,23 @@ class news {
         $r['moduleTitle'] = gettext('Edit article');
 
         $r['content'] = $this->newsForm();
+
+        return $r;
+    }
+
+    function getLatest($lang = null, $count = 5) {
+
+        if (is_null($lang)) {
+            $lang = $_SESSION['lang'];
+        }
+
+        $data = $this->model->getNews($lang,1,$count);
+
+        $r = null;
+
+        foreach ($data AS $a) {
+            $r .= '<h3>' . $a['title'] . '</h3>';
+        }
 
         return $r;
     }

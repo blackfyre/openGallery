@@ -22,9 +22,14 @@
         <p>The project is continued for achieve the above objective. Simultaneously to adding new images we intend to broaden the scope of the collection by extending it to the fields of architecture and applied arts, as well as extending the time-frame up to the end of the 20th century. Background information related to history, literature and culture will be added. It is highly important to work out the methods by which the interactivity of the visitors - both with the editors of the website and with each other - can be increased. Regarding the research activities, the main objective is to build a large, professional database consisting authentic data. To support the work of the museum curators our objective is to create virtual models of planned exhibitions then digital archives of realized exhibitions.</p>
 
     </div>
+    {if isset($news)}
     <div class="col-lg-3">
-        <h2>News</h2>
+        <h2>{$newsTitle}</h2>
+
+            {$news}
+
     </div>
+    {/if}
     <div class="col-lg-3">
         <h2>We're looking for</h2>
 

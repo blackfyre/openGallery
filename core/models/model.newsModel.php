@@ -15,9 +15,10 @@ class newsModel extends modelsHandler {
      *
      * @param null|string|array $lang isoCode for narrowing the result set for the given lang
      * @param int|null $published
+     * @param null $count
      * @return null
      */
-    function getNews($lang = null, $published = null) {
+    function getNews($lang = null, $published = null, $count = null) {
 
         $query = "SELECT * FROM content_news";
 
@@ -48,6 +49,10 @@ class newsModel extends modelsHandler {
             $query .= 'AND ' . implode(' AND ', $t);
 
 
+        }
+
+        if (is_numeric($count)) {
+            $query .= " LIMIT $count";
         }
 
         return $this->fetchAll($query);

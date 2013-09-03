@@ -36,10 +36,16 @@ class Overseer extends controlHandler
     {
         $content = new content();
         $menu = new menu();
+        $news = new news();
 
         $homeContent = $content->homeContent();
 
+        $data['newsTitle'] = gettext('News');
+
+        $data['news'] = $news->getLatest();
+
         $data['menu'] = $menu->generateMainNav();
+
 
         $data = array_merge($data,$homeContent);
 
