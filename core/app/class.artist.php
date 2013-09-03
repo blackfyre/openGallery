@@ -221,6 +221,22 @@ class artist {
 
         }
 
+        /*
+         * And this is for the langSwitcher
+         */
+        foreach ($this->activeLangs as $l) {
+
+            if ($l['isoCode']!=$_SESSION['lang']) {
+                $t = null;
+                $t['url'] =     '/' . $l['isoCode'] .  '/artist/artBy/' . $artistSlug . '.html';
+                $t['flag'] = $l['isoCode'];
+                $t['full'] = $l['full'];
+
+                $r['langSwitch'][] = $t;
+            }
+
+        }
+
         $r['content'] .= '</div>';
 
         return $r;
@@ -446,6 +462,22 @@ $r['content'] .= '
 
         $r['artInfo'] = ($desc!=''?$desc:'<p>' . gettext('Translation needed') . '</p>');
 
+        /*
+         * And this is for the langSwitcher
+         */
+        foreach ($this->activeLangs as $l) {
+
+            if ($l['isoCode']!=$_SESSION['lang']) {
+                $t = null;
+                $t['url'] =     '/' . $l['isoCode'] .  '/artist/viewArt/' . $artId . '/' . $artistSlug . '/' . $artData['titleSlug_' . $l['isoCode']] . '.html';
+                $t['flag'] = $l['isoCode'];
+                $t['full'] = $l['full'];
+
+                $r['langSwitch'][] = $t;
+            }
+
+        }
+
         return $r;
     }
 
@@ -455,6 +487,52 @@ $r['content'] .= '
 
         if (is_string($index) AND (strlen(coreFunctions::cleanVar($index))==1 OR coreFunctions::cleanVar($index)=='Anonymus')) {
             $r['metaTitle'] = gettext('Artist Index') . ' / ' . strtoupper($index);
+
+        }
+
+        $r['index'] = null;
+
+        $aToZ = range('A','Z');
+
+        $indexNav = null;
+
+        foreach ($aToZ as $char) {
+
+            $t = null;
+
+            $t['active'] = 0;
+
+            if (strtolower($char)==$index) {
+                $t['active'] = 1;
+            }
+
+            $t['title'] = $char;
+            $t['link'] = '/' . $_SESSION['lang'] . '/artist/index/' . strtolower($char) . '.html';
+
+            $indexNav[] = $t;
+
+        }
+
+        $r['index'] = $indexNav;
+
+        if (is_string($index)) {
+            $data = $this->model->getArtistIndex($index);
+
+            $newData = null;
+
+            foreach ($data as $row) {
+                $t = $row;
+
+                $t['name'] = $this->artistName($row);
+                $t['life'] = '(' . $t['dateOfBirth'] . ', ' . $t['placeOfBirth'] . ' - ' . $t['dateOfDeath'] . ', ' . $t['placeOfDeath'] . ')';
+                $t['link'] = '/' . $_SESSION['lang'] . '/artist/viewArtist/' . $t['slug'] . '.html';
+                $t['background'] = '142a41af4abc885e1c9f08274287f4024aee8605.jpg';
+
+                $newData[] = $t;
+
+            }
+
+            $r['artists'] = $newData;
         }
 
         return $r;

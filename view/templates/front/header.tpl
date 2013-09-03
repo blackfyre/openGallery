@@ -55,6 +55,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="/">Home</a></li>
+                    <li><a href="/en/artist/index.html">Artist Index</a></li>
                     <li><a href="/en/artist/viewArtist/aba-novak-vilmos.html">Example Artist</a></li>
                     {*
                     <li><a href="#about">ABC Index</a></li>
