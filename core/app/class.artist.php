@@ -120,7 +120,7 @@ class artist {
             if (isset ($artData[$i])) {
                 $t = $artData[$i];
                 $t['title'] = $t['title_' . $_SESSION['lang']];
-                $t['description'] = $t['description_' . $_SESSION['lang']];
+                $t['description'] = coreFunctions::trimmer($t['description_' . $_SESSION['lang']],140);
 
                 $r['artData'][] = $t;
             }
