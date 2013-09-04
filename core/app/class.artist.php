@@ -74,6 +74,12 @@ class artist {
         $r['moreButton'] = gettext('More');
 
         /*
+         * Default values
+         */
+
+        $r['showMore'] = false;
+
+        /*
          * The link for the artworks page
          */
         $r['artworkLink'] = '/' . $_SESSION['lang'] .  '/artist/artBy/' . $artistSlug . '.html';
@@ -110,6 +116,10 @@ class artist {
          */
         $artData = $this->model->getArt($data['id']);
 
+        if (count($artData)>10) {
+            $r['showMore'] = true;
+        }
+
         $r['artData'] = null;
 
         /*
@@ -121,6 +131,7 @@ class artist {
                 $t = $artData[$i];
                 $t['title'] = $t['title_' . $_SESSION['lang']];
                 $t['description'] = coreFunctions::trimmer($t['description_' . $_SESSION['lang']],140);
+                $t['link'] = "/{$_SESSION['lang']}/artist/viewArt/{$t['id']}/$artistSlug/" . $t['titleSlug_' . $_SESSION['lang']] . '.html';
 
                 $r['artData'][] = $t;
             }
@@ -163,7 +174,7 @@ class artist {
 
         $r['bioButton'] = gettext('Biography');
         $r['metaTitle'] = gettext('The works of %s');
-        $r['metaTitle'] = str_replace('%s',$r['artistName'],$r['metaTitle']);
+        $r['metaTitle'] = str_replace('%s',$this->artistName($data),$r['metaTitle']);
 
         /*
          * The biography link
@@ -460,7 +471,25 @@ $r['content'] .= '
 
         $r['metaTitle'] = $r['artistName'] . ' - ' . $r['artTitle'];
 
-        $r['artInfo'] = ($desc!=''?$desc:'<p>' . gettext('Translation needed') . '</p>');
+        /*
+         * Content aware default content
+         */
+
+        $translation = false;
+
+        foreach ($this->activeLangs AS $l) {
+            if (strlen($artData['description_' . $l['isoCode']])>0) {
+                $translation = true;
+            }
+        }
+
+        $defaultText = gettext("There's no content, please help!");
+
+        if ($translation) {
+            $defaultText = gettext('Translation needed, please help!');
+        }
+
+        $r['artInfo'] = ($desc!=''?$desc:'<p>' . $defaultText . '</p>');
 
         /*
          * And this is for the langSwitcher
@@ -484,6 +513,7 @@ $r['content'] .= '
     function index($index = null) {
 
         $r['metaTitle'] = gettext('Artist Index');
+        $r['bioTitle'] = gettext('Biography');
 
         if (is_string($index) AND (strlen(coreFunctions::cleanVar($index))==1 OR coreFunctions::cleanVar($index)=='Anonymus')) {
             $r['metaTitle'] = gettext('Artist Index') . ' / ' . strtoupper($index);

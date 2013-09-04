@@ -82,3 +82,9 @@ define('_SMARTY_TPLDIR', _BASE_PATH . '/view/templates');
 define('_SMARTY_COMPILEDIR', _BASE_PATH . '/view/templates_c');
 define('_SMARTY_CONFIGDIR', _BASE_PATH . '/plugins/smarty/libs/config');
 define('_SMARTY_CACHE', _BASE_PATH . '/cache/smarty');
+
+/*
+ * Social
+ */
+
+define('_GOOGLE_PUBLISHER_ID',null);

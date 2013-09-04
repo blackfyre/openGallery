@@ -43,6 +43,8 @@ class smartyManager {
         $this->dataToDisplay['metaDesc'] = _DEFAULT_METADESC;
         $this->dataToDisplay['metaTags'] = _DEFAULT_METATAGS;
         $this->dataToDisplay['chromeFrameContent'] = gettext('Ön egy<strong>elavult</strong> böngészőt használ. Kérjük frissítse!');
+        $this->dataToDisplay['googlePublisherLinkText'] = gettext('Find us on Google+');
+        $this->dataToDisplay['googlePublisherID'] = _GOOGLE_PUBLISHER_ID;
         $this->dataToDisplay['jQuery'] = null;
         $this->dataToDisplay['jFunctions'] = null;
         $this->dataToDisplay['content'] = null;

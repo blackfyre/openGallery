@@ -8,6 +8,7 @@
         <div class="col-md-4">
             <h4>Information</h4>
             <p>The blackEngine powering the site is created by Galicz Miklós, and will be made publicly available (under GNU GPL V2) once the initial development is complete</p>
+            <p><a href="https://plus.google.com/{$googlePublisherID}" target="_blank" rel="publisher">{$googlePublisherLinkText}</a></p>
         </div>
         <div class="col-md-4">
             <h4>Sponsors</h4>

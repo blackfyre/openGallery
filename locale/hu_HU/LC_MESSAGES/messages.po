@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: openGallery\n"
-"POT-Creation-Date: 2013-08-31 20:58+0100\n"
-"PO-Revision-Date: 2013-08-31 20:58+0100\n"
+"POT-Creation-Date: 2013-09-04 07:24+0100\n"
+"PO-Revision-Date: 2013-09-04 07:24+0100\n"
 "Last-Translator: Galicz Miklós <galicz.miklos@blackworks.org>\n"
 "Language-Team: blackFyre Studios <galicz.miklos@blackworks.org>\n"
 "Language: hu\n"
@@ -15,8 +15,12 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: ../../..\n"
 
-#: ../../../core/helpers/class.authManager.php:122
-msgid "Érvénytelen bejelentkezési adatok!"
+#: ../../../core/control.overseer.php:43
+msgid "News"
+msgstr ""
+
+#: ../../../core/helpers/class.authManager.php:121
+msgid "Invalid login data!"
 msgstr ""
 
 #: ../../../core/helpers/class.buildingBlocks.php:88
@@ -32,13 +36,17 @@ msgstr "Jelszó"
 msgid "Ön egy<strong>elavult</strong> böngészőt használ. Kérjük frissítse!"
 msgstr "Ön egy<strong>elavult</strong> böngészőt használ. Kérjük frissítse!"
 
+#: ../../../core/helpers/class.smartyManager.php:46
+msgid "Find us on Google+"
+msgstr ""
+
 #: ../../../core/app/class.artist.php:71
-#: ../../../core/app/class.artist.php:347
+#: ../../../core/app/class.artist.php:374
 msgid "Bio"
 msgstr "Életrajz"
 
 #: ../../../core/app/class.artist.php:72 ../../../core/app/class.artist.php:73
-#: ../../../core/app/class.artist.php:423
+#: ../../../core/app/class.artist.php:450
 msgid "Works"
 msgstr "Munkásság"
 
@@ -46,87 +54,92 @@ msgstr "Munkásság"
 msgid "More"
 msgstr ""
 
-#: ../../../core/app/class.artist.php:164
-#: ../../../core/app/class.artist.php:435
+#: ../../../core/app/class.artist.php:175
+#: ../../../core/app/class.artist.php:462
+#: ../../../core/app/class.artist.php:516
 msgid "Biography"
 msgstr "Életrajz"
 
-#: ../../../core/app/class.artist.php:165
+#: ../../../core/app/class.artist.php:176
 #, php-format
 msgid "The works of %s"
 msgstr "%s munkái"
 
-#: ../../../core/app/class.artist.php:196
+#: ../../../core/app/class.artist.php:207
 msgid "An art piece by"
 msgstr ""
 
-#: ../../../core/app/class.artist.php:196
+#: ../../../core/app/class.artist.php:207
 msgid "titled"
 msgstr ""
 
-#: ../../../core/app/class.artist.php:238
+#: ../../../core/app/class.artist.php:265
 msgid "Artist index"
 msgstr "Művész Index"
 
-#: ../../../core/app/class.artist.php:320
+#: ../../../core/app/class.artist.php:347
 msgid "Artist data"
 msgstr "Művész adatai"
 
-#: ../../../core/app/class.artist.php:331
+#: ../../../core/app/class.artist.php:358
 msgid "First name"
 msgstr "Keresztnév"
 
-#: ../../../core/app/class.artist.php:332
+#: ../../../core/app/class.artist.php:359
 msgid "Last name"
 msgstr "Vezetéknév"
 
-#: ../../../core/app/class.artist.php:333
+#: ../../../core/app/class.artist.php:360
 msgid "Fist name first"
 msgstr "Keresztnév előre"
 
-#: ../../../core/app/class.artist.php:334
+#: ../../../core/app/class.artist.php:361
 msgid "Year of Birth"
 msgstr "Születés éve"
 
-#: ../../../core/app/class.artist.php:335
+#: ../../../core/app/class.artist.php:362
 msgid "Year of Death"
 msgstr "Halálozás éve"
 
-#: ../../../core/app/class.artist.php:336
+#: ../../../core/app/class.artist.php:363
 msgid "Place of Birth"
 msgstr "Születés helye"
 
-#: ../../../core/app/class.artist.php:337
+#: ../../../core/app/class.artist.php:364
 msgid "Place of Death"
 msgstr "Halál helye"
 
-#: ../../../core/app/class.artist.php:339
-#: ../../../core/app/class.artist.php:349
+#: ../../../core/app/class.artist.php:366
+#: ../../../core/app/class.artist.php:376
 msgid "Update"
 msgstr "Frissítés"
 
-#: ../../../core/app/class.artist.php:346
+#: ../../../core/app/class.artist.php:373
 msgid "Excerpt"
 msgstr "Kivonat"
 
-#: ../../../core/app/class.artist.php:375
+#: ../../../core/app/class.artist.php:402
 msgid "Update successful!"
 msgstr "Sikeres frissítés!"
 
-#: ../../../core/app/class.artist.php:377
+#: ../../../core/app/class.artist.php:404
 msgid "An error occured, and could not update!"
 msgstr "Hiba történt, nem sikerült a frissítés!"
 
-#: ../../../core/app/class.artist.php:389
+#: ../../../core/app/class.artist.php:416
 msgid "Edit Artist"
 msgstr "Alkotó szerkesztése"
 
-#: ../../../core/app/class.artist.php:447
-msgid "Translation needed"
+#: ../../../core/app/class.artist.php:486
+msgid "There's no content, please help!"
 msgstr ""
 
-#: ../../../core/app/class.artist.php:454
-#: ../../../core/app/class.artist.php:457
+#: ../../../core/app/class.artist.php:489
+msgid "Translation needed, please help!"
+msgstr ""
+
+#: ../../../core/app/class.artist.php:515
+#: ../../../core/app/class.artist.php:519
 msgid "Artist Index"
 msgstr "Művész Index"
 
@@ -136,7 +149,7 @@ msgstr ""
 
 #: ../../../core/app/class.options.php:145
 #: ../../../core/app/class.options.php:340
-#: ../../../core/app/class.news.php:133
+#: ../../../core/app/class.news.php:165
 msgid "Save"
 msgstr ""
 
@@ -210,6 +223,7 @@ msgid "Back"
 msgstr ""
 
 #: ../../../core/app/class.content.php:358 ../../../core/app/class.news.php:77
+#: ../../../core/app/class.news.php:238
 msgid "Edit article"
 msgstr ""
 
@@ -217,48 +231,81 @@ msgstr ""
 msgid "List News"
 msgstr ""
 
-#: ../../../core/app/class.news.php:78
-msgid "View article"
+#: ../../../core/app/class.news.php:80
+msgid "Unpublish article"
+msgstr ""
+
+#: ../../../core/app/class.news.php:82
+msgid "Publish article"
 msgstr ""
 
 #: ../../../core/app/class.news.php:88
+msgid "Delete article"
+msgstr ""
+
+#: ../../../core/app/class.news.php:90
+msgid "View article"
+msgstr ""
+
+#: ../../../core/app/class.news.php:100
 msgid "There are no news entries available"
 msgstr ""
 
-#: ../../../core/app/class.news.php:102
+#: ../../../core/app/class.news.php:127
 msgid "Add new article"
 msgstr ""
 
-#: ../../../core/app/class.news.php:126
+#: ../../../core/app/class.news.php:151
 msgid "Language"
 msgstr ""
 
-#: ../../../core/app/class.news.php:127
+#: ../../../core/app/class.news.php:152
 msgid "Title"
 msgstr ""
 
-#: ../../../core/app/class.news.php:128
+#: ../../../core/app/class.news.php:153
 msgid "Meta keys"
 msgstr ""
 
-#: ../../../core/app/class.news.php:129
+#: ../../../core/app/class.news.php:154
 msgid "Meta description"
 msgstr ""
 
-#: ../../../core/app/class.news.php:130
+#: ../../../core/app/class.news.php:155
 msgid "Link tooltip"
 msgstr ""
 
-#: ../../../core/app/class.news.php:131
+#: ../../../core/app/class.news.php:156
 msgid "Content"
 msgstr ""
 
-#: ../../../core/app/class.news.php:141
+#: ../../../core/app/class.news.php:176
 msgid "Invalid input!"
 msgstr ""
 
-#: ../../../core/app/class.news.php:147
+#: ../../../core/app/class.news.php:182
 msgid "New article successfully created!"
+msgstr ""
+
+#: ../../../core/app/class.news.php:211
+#, fuzzy
+msgid "Article successfully saved!"
+msgstr "Sikeres frissítés!"
+
+#: ../../../core/app/class.news.php:274
+msgid "Latest entries"
+msgstr ""
+
+#: ../../../responders/newsResponder.php:22
+msgid "Undefined action"
+msgstr ""
+
+#: ../../../responders/newsResponder.php:46
+msgid "Missing parameters"
+msgstr ""
+
+#: ../../../responders/newsResponder.php:50
+msgid "You're not authorised to do so!"
 msgstr ""
 
 #~ msgid "HELLO_WORLD"

@@ -16,11 +16,10 @@
             {$bio}
         </div>
         <div class="col-md-6">
-            <h3>{$artworkButton}</h3>
-            <div>
+            <h3>{$artworkButton}{if $showMore} <a href="{$artworkLink}" class="btn btn-primary">{$moreButton} &raquo;</a>{/if}</h3>
             {foreach from=$artData item=i}
                 <div class="media">
-                    <a class="pull-left" href="#">
+                    <a class="pull-left" href="{$i.link}">
                         <img style="max-width: 64px; max-height: 64px" class="media-object" src="/image.php?width=64&height=64&cropratio=1:1&image=/img/art/{$i.img}" alt="{$i.title}">
                     </a>
                     <div class="media-body">
@@ -29,8 +28,7 @@
                     </div>
                 </div>
             {/foreach}
-            </div>
-            <p><a href="{$artworkLink}" class="btn btn-primary btn-lg">{$moreButton} &raquo;</a></p>
+
         </div>
     </div>
 

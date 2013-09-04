@@ -87,7 +87,7 @@ class news {
 
                 $t['edit'] .= '<a title="' . gettext('Delete article') . '" target="_blank" href="#" type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span></a>';
                 $t['edit'] .= '</div><div class="btn-group">';
-                $t['edit'] .= '<a title="' . gettext('View article') . '" target="_blank" href="/' . $t['isoCode'] . '/artist/' . $t['slug'] . '.html" type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-new-window"></span></a>';
+                $t['edit'] .= '<a title="' . gettext('View article') . '" target="_blank" href="/' . $t['isoCode'] . '/news/viewArticle/' . $t['newsId'] .'/' . $t['slug'] . '.html" type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-new-window"></span></a>';
                 $t['edit'] .= '</div></div>';
 
 
@@ -253,9 +253,40 @@ class news {
         $r = null;
 
         foreach ($data AS $a) {
-            $r .= '<h3>' . $a['title'] . '</h3>';
+            $r .= '<h3><a href="/' . $lang .'/news/viewArticle/' . $a['newsId'] . '/' . $a['slug'] . '.html" hreflang="' . $lang . '" title="' . $a['linkAlt'] . '">' . $a['title'] . '</a></h3>';
         }
 
         return $r;
+    }
+
+    /**
+     * This method is responsible for viewing the article on the front-end.
+     *
+     * Keep in mind that there's no filtering, so anyone can access unpublished articles as well if that person has a direct link to the article
+     *
+     * @param null|int $articleId
+     * @param null|string $articleSlug
+     * @return mixed
+     */
+    function viewArticle($articleId = null, $articleSlug = null) {
+
+        $r['content'] = null;
+        $r['latestNews'] = gettext('Latest entries');
+        $r['latest'] = $this->getLatest();
+
+        if (is_numeric($articleId)) {
+            $article = $this->model->getArticle(coreFunctions::cleanVar($articleId));
+
+            $r['title'] = $article['title'];
+            $r['created'] = $article['addedOn'];
+            $r['metaTitle'] = $article['title'];
+            $r['metaDesc'] = $article['metaDesc'];
+            $r['content'] = coreFunctions::decoder($article['content']);
+            $r['keywords'] = $article['metaKey'];
+        }
+
+        return $r;
+
+
     }
 }

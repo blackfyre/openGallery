@@ -17,7 +17,8 @@
             {foreach from=$artists item=i}
                 <div class="jumbotron artistIndexElement" style="background-image: url(/img/art/{$i.background}); color: #ffffff; background-position: top center">
                     <h1 class="artista">{$i.name}<br><small>{$i.life}</small></h1>
-                    <p class="artistIndexElementButton"><a href="{$i.link}" class="btn btn-primary" hreflang="{$smarty.session.lang}" >Bio</a> </p>
+                    {if isset($excerpt)}<p>{$excerpt}</p>{/if}
+                    <p class="artistIndexElementButton"><a href="{$i.link}" class="btn btn-primary" hreflang="{$smarty.session.lang}" >{$bioTitle}</a></p>
                 </div>
             {/foreach}
         </div>

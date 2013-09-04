@@ -109,7 +109,21 @@
     *}
 </div>
 
+<hr class="featurette-divider">
+
+<div class="row featurette">
+    {*
+    <div class="col-md-5">
+        <img class="featurette-image img-responsive" src="data:image/png;base64," data-src="/_bootstrap3/assets/js/holder.js/500x500/auto" alt="Generic placeholder image">
+    </div>
+    *}
+    <div class="col-md-8 col-md-offset-4">
+        <h2 class="featurette-heading">API <span class="text-muted">If you need something.</span></h2>
+        <p class="lead">The 1.0 release will provide an easy and secure API access to the database containing all the artist and art data that's available!</p>
+    </div>
 </div>
+
+
 
 <!-- /END THE FEATURETTES -->
 
