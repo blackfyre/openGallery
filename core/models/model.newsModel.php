@@ -16,9 +16,10 @@ class newsModel extends modelsHandler {
      * @param null|string|array $lang isoCode for narrowing the result set for the given lang
      * @param int|null $published
      * @param null $count
+     * @param string $order
      * @return null
      */
-    function getNews($lang = null, $published = null, $count = null) {
+    function getNews($lang = null, $published = null, $count = null, $order = 'DESC') {
 
         $query = "SELECT * FROM content_news";
 
@@ -50,6 +51,8 @@ class newsModel extends modelsHandler {
 
 
         }
+
+        $query .= " ORDER BY addedOn $order";
 
         if (is_numeric($count)) {
             $query .= " LIMIT $count";

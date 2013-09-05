@@ -55,7 +55,39 @@
 // CODE STARTS HERE
 /////////////////////
 
-if (!isset($_GET['image']))
+/*
+ * Custom additions, to adapt it to the openGallery System
+ */
+
+require_once $_SERVER['DOCUMENT_ROOT'] . '/autoload.php';
+
+switch ($_GET['mode']) {
+    default:
+        break;
+    case 'small-thumbnail':
+        $settings['width'] = 64;
+        $settings['height'] = 64;
+        $settings['cropratio'] = '1:1';
+        break;
+    case 'large-thumbnail':
+        $settings['width'] = 300;
+        $settings['height'] = 300;
+        $settings['cropratio'] = '1:1';
+        break;
+    case 'header-background':
+        $settings['width'] = 1900;
+        break;
+    case 'full':
+        break;
+}
+
+require_once $_SERVER['DOCUMENT_ROOT'] . '/autoload.php';
+
+$artist = new artist();
+
+$settings['image'] = '/img/art/' . $artist->getArtById($_GET['img']);
+
+if (!isset($settings['image']))
 {
     header('HTTP/1.1 400 Bad Request');
     echo 'Error: no image was specified';
@@ -70,7 +102,7 @@ define('CACHE_DIR',				CURRENT_DIR . CACHE_DIR_NAME);
 define('DOCUMENT_ROOT',			$_SERVER['DOCUMENT_ROOT']);
 
 // Images must be local files, so for convenience we strip the domain if it's there
-$image			= preg_replace('/^(s?f|ht)tps?:\/\/[^\/]+/i', '', (string) $_GET['image']);
+$image			= preg_replace('/^(s?f|ht)tps?:\/\/[^\/]+/i', '', (string) $settings['image']);
 
 // For security, directories cannot contain ':', images cannot contain '..' or '<', and
 // images must start with '/'
@@ -115,11 +147,11 @@ if (substr($mime, 0, 6) != 'image/')
 $width			= $size[0];
 $height			= $size[1];
 
-$maxWidth		= (isset($_GET['width'])) ? (int) $_GET['width'] : 0;
-$maxHeight		= (isset($_GET['height'])) ? (int) $_GET['height'] : 0;
+$maxWidth		= (isset($settings['width'])) ? (int) $settings['width'] : 0;
+$maxHeight		= (isset($settings['height'])) ? (int) $settings['height'] : 0;
 
-if (isset($_GET['color']))
-    $color		= preg_replace('/[^0-9a-fA-F]/', '', (string) $_GET['color']);
+if (isset($settings['color']))
+    $color		= preg_replace('/[^0-9a-fA-F]/', '', (string) $settings['color']);
 else
     $color		= FALSE;
 
@@ -162,9 +194,9 @@ if ((!$maxWidth && !$maxHeight) || (!$color && $maxWidth >= $width && $maxHeight
 $offsetX	= 0;
 $offsetY	= 0;
 
-if (isset($_GET['cropratio']))
+if (isset($settings['cropratio']))
 {
-    $cropRatio		= explode(':', (string) $_GET['cropratio']);
+    $cropRatio		= explode(':', (string) $settings['cropratio']);
     if (count($cropRatio) == 2)
     {
         $ratioComputed		= $width / $height;
@@ -202,7 +234,7 @@ else // Resize the image based on height
 }
 
 // Determine the quality of the output image
-$quality	= (isset($_GET['quality'])) ? (int) $_GET['quality'] : DEFAULT_QUALITY;
+$quality	= (isset($settings['quality'])) ? (int) $settings['quality'] : DEFAULT_QUALITY;
 
 // Before we actually do any crazy resizing of the image, we want to make sure that we
 // haven't already done this one at these dimensions. To the cache!
@@ -212,8 +244,8 @@ $quality	= (isset($_GET['quality'])) ? (int) $_GET['quality'] : DEFAULT_QUALITY;
 $resizedImageSource		= $tnWidth . 'x' . $tnHeight . 'x' . $quality;
 if ($color)
     $resizedImageSource	.= 'x' . $color;
-if (isset($_GET['cropratio']))
-    $resizedImageSource	.= 'x' . (string) $_GET['cropratio'];
+if (isset($settings['cropratio']))
+    $resizedImageSource	.= 'x' . (string) $settings['cropratio'];
 $resizedImageSource		.= '-' . $image;
 
 $resizedImage	= md5($resizedImageSource);
@@ -222,7 +254,7 @@ $resized		= CACHE_DIR . $resizedImage;
 
 // Check the modified times of the cached file and the original file.
 // If the original file is older than the cached file, then we simply serve up the cached file
-if (!isset($_GET['nocache']) && file_exists($resized))
+if (!isset($settings['nocache']) && file_exists($resized))
 {
     $imageModified	= filemtime($docRoot . $image);
     $thumbModified	= filemtime($resized);

@@ -312,41 +312,12 @@ class coreFunctions
     }
 
 
-    /**
-     * Átalakítja a beérkező tömböt, hogy könnyebben lehessen SQL Insertet csinálni
-     * @param array $array
-     * @return bool|array
-     */
-    public static function prepareForSQLInsert($array = null)
-    {
-        if (is_array($array)) {
-            $headers = null;
-            $values = null;
+    public static function getExtension($string) {
+        $string = explode('.',$string);
 
-            foreach ($array as $key => $value) {
-                $headers[] = '`' . $key . '`';
-
-                switch ($value) {
-                    case 'NOW()':
-                        $values[] = $value;
-                        break;
-                    default:
-                        $values[] = "'" . $value . "'";
-                        break;
-                }
-
-
-            }
-
-            $r['headers'] = implode(',', $headers);
-            $r['values'] = implode(',', $values);
-
-            return $r;
-
-        } else {
-            return false;
-        }
+        return end($string);
     }
+
 
     /**
      * @param null $value

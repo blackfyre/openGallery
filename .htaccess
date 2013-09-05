@@ -223,7 +223,10 @@ AddDefaultCharset utf-8
     RewriteRule ^throne/([^/]*)/([^/]*)/([^/]*)/([^/]*)\.html$ /throne.php?class=$1&method=$2&var1=$3&var2=$4 [L]
     RewriteRule ^throne/([^/]*)/([^/]*)/([^/]*)/([^/]*)/([^/]*)\.html$ /throne.php?class=$1&method=$2&var1=$3&var2=$4&var3=$5 [L]
 
-  # Front end
+  # Front-end images
+  RewriteRule ^images/([^/]*)/([^/]*)/([^/]*)$ /image.php?mode=$1&img=$2&slug=$3 [L]
+
+  # Front-end everything else
   RewriteRule ^([^/]*)/([^/]*)/([^/]*)\.html$ /index.php?lang=$1&class=$2&method=$3 [L]
   RewriteRule ^([^/]*)/([^/]*)/([^/]*)/([^/]*)\.html$ /index.php?lang=$1&class=$2&method=$3&var1=$4 [L]
   RewriteRule ^([^/]*)/([^/]*)/([^/]*)/([^/]*)/([^/]*)\.html$ /index.php?lang=$1&class=$2&method=$3&var1=$4&var2=$5 [L]

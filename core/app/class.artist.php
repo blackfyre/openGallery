@@ -129,9 +129,11 @@ class artist {
 
             if (isset ($artData[$i])) {
                 $t = $artData[$i];
+                $t['artId'] = $t['id'];
                 $t['title'] = $t['title_' . $_SESSION['lang']];
                 $t['description'] = coreFunctions::trimmer($t['description_' . $_SESSION['lang']],140);
                 $t['link'] = "/{$_SESSION['lang']}/artist/viewArt/{$t['id']}/$artistSlug/" . $t['titleSlug_' . $_SESSION['lang']] . '.html';
+                $t['slug'] = $artistSlug . '-' . $t['titleSlug_' . $_SESSION['lang']] . '.' . coreFunctions::getExtension($t['img']);
 
                 $r['artData'][] = $t;
             }
@@ -204,10 +206,16 @@ class artist {
         $counter = 1;
 
         foreach ($artData AS $a) {
-            $r['content'] .= '<a href="/' . $_SESSION['lang'] . '/artist/viewArt/' . $a['id'] . '/' . $data['slug'] . '/' . $a['titleSlug_' . $_SESSION['lang']] . '.html" hreflang="' . $_SESSION['lang'] . '" title="' . gettext('An art piece by') . ' ' . $r['artistName'] . ' ' . gettext('titled') . ' ' . $a['title_' . $_SESSION['lang']] . '">';
+
+            $altText = gettext('An art piece by') . ' ' . $r['artistName'] . ' ' . gettext('titled') . ' ' . $a['title_' . $_SESSION['lang']];
+
+            $r['content'] .= '<a href="/' . $_SESSION['lang'] . '/artist/viewArt/' . $a['id'] . '/' . $data['slug'] . '/' . $a['titleSlug_' . $_SESSION['lang']] . '.html" hreflang="' . $_SESSION['lang'] . '" title="' . $altText . '">';
             $r['content'] .= '<div class="col-md-3">';
 
+            /*
             $r['content'] .= '<img class="img-responsive img-rounded" src="/image.php?width=300&height=300&cropratio=1:1&image=/img/art/' . $a['img'] . '">';
+            */
+            $r['content'] .= '<img alt="' . $altText . '" class="img-responsive img-rounded" src="/images/large-thumbnail/' . $a['id'] . '/' . $artistSlug . '-' . $a['titleSlug_' . $_SESSION['lang']] . '.' . coreFunctions::getExtension($a['img']) . '">';
 
             $r['content'] .= '<h3>' . $a['title_' . $_SESSION['lang']] .'</h3>';
 
@@ -464,8 +472,9 @@ $r['content'] .= '
 
         $artData = $this->model->getArtPiece($artId);
 
-        $r['artImg'] = '/img/art/' . $artData['img'];
+        $r['artImg'] = '/images/full/' . $artData['id'] . '/' . $artistSlug . '-' . $artData['titleSlug_' . $_SESSION['lang']] . '.' . coreFunctions::getExtension($artData['img']);
         $r['artTitle'] = $artData['title_' . $_SESSION['lang']];
+        $r['artImgAlt'] = '';
 
         $desc = $artData['description_' . $_SESSION['lang']];
 
@@ -508,6 +517,11 @@ $r['content'] .= '
         }
 
         return $r;
+    }
+
+    function getArtById($artId = null) {
+        $artData = $this->model->getArtPiece($artId);
+        return $artData['img'];
     }
 
     function index($index = null) {

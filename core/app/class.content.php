@@ -327,8 +327,15 @@ class content {
     function homeContent() {
         $data = $this->model->getFixedContentById(1);
 
-        $r['head'] = htmlspecialchars_decode($data['title_' . $_SESSION['lang']]);
-        $r['lead'] = htmlspecialchars_decode(htmlspecialchars_decode($data['content_' . $_SESSION['lang']]));
+        $r['head'] = null;
+        $r['lead'] = null;
+
+        if (is_array($data)) {
+            $r['head'] = htmlspecialchars_decode($data['title_' . $_SESSION['lang']]);
+            $r['lead'] = htmlspecialchars_decode(htmlspecialchars_decode($data['content_' . $_SESSION['lang']]));
+        }
+
+
 
         return $r;
 

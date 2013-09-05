@@ -38,16 +38,13 @@ class Overseer extends controlHandler
         $menu = new menu();
         $news = new news();
 
-        $homeContent = $content->homeContent();
+        //$homeContent = $content->homeContent();
 
         $data['newsTitle'] = gettext('News');
 
         $data['news'] = $news->getLatest();
 
         $data['menu'] = $menu->generateMainNav();
-
-
-        $data = array_merge($data,$homeContent);
 
 
         $this->smarty->addToDisplay($data);
