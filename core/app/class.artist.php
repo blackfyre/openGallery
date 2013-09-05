@@ -110,6 +110,11 @@ class artist {
         $r['metaTitle'] = $r['artistName'];
         $r['metaDesc'] = coreFunctions::trimmer($r['excerpt'],160);
 
+        /*
+         * TODO add artist bio img to og website img
+         */
+        $r['openGraph'] = openGraph::websiteTag($r['metaTitle'],$r['metaDesc']);
+
 
         /*
          * Creating the sample works section
@@ -161,6 +166,9 @@ class artist {
 
     /**
      * Get works page by slug
+     *
+     * TODO add meta desc
+     *
      * @param string $artistSlug
      * @return array
      */
@@ -177,6 +185,8 @@ class artist {
         $r['bioButton'] = gettext('Biography');
         $r['metaTitle'] = gettext('The works of %s');
         $r['metaTitle'] = str_replace('%s',$this->artistName($data),$r['metaTitle']);
+
+        $r['openGraph'] = openGraph::websiteTag($r['metaTitle']);
 
         /*
          * The biography link
@@ -479,6 +489,9 @@ $r['content'] .= '
         $desc = $artData['description_' . $_SESSION['lang']];
 
         $r['metaTitle'] = $r['artistName'] . ' - ' . $r['artTitle'];
+
+        $r['openGraph'] = openGraph::websiteTag($r['metaTitle'],null,'http://' . $_SERVER['HTTP_HOST'] . $r['artImg']);
+
 
         /*
          * Content aware default content

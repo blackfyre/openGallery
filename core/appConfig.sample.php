@@ -87,4 +87,16 @@ define('_SMARTY_CACHE', _BASE_PATH . '/cache/smarty');
  * Social
  */
 
+/* Google+ */
 define('_GOOGLE_PUBLISHER_ID',null);
+
+/* openGraph */
+define('_OG_DEFAULT_TITLE','openGallery');
+define('_OG_DEFAULT_TYPE','website');
+define('_OG_DEFAULT_URL', 'http://' . $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]);
+define('_OG_DEFAULT_IMG','');
+
+
+define('_FACEBOOK_APP_ID', null);
+
+/* Twitter */

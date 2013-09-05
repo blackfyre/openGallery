@@ -48,6 +48,9 @@ class controlHandler {
                 break;
         }
 
+        $locale = explode('.', $lang);
+        $_SESSION['locale'] = $locale[0];
+
         putenv('LC_ALL=' . $lang);
         putenv('LANG=' . $lang);
         setlocale(LC_ALL, $lang);

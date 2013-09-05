@@ -15,6 +15,13 @@
     <meta name="description" content="{$metaDesc}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    {* Open Graph *}
+
+    {if isset($openGraph)}
+        {$openGraph}
+    {/if}
+
+
     <link rel="stylesheet" href="/_bootstrap3/dist/css/bootstrap.css">
     <link rel="stylesheet" href="/_bootstrap3/dist/css/bootstrap-theme.css">
 
