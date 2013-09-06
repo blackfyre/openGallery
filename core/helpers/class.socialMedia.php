@@ -41,7 +41,7 @@ class socialMedia {
         return $r;
     }
 
-    static function googleMobileRecommend() {
+    public static function googleMobileRecommend() {
 
         $publisher = _GOOGLE_PUBLISHER_ID;
 
