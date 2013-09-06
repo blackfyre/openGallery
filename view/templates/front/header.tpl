@@ -22,6 +22,10 @@
         {$openGraph}
     {/if}
 
+    {if isset($twitterCard)}
+        {$twitterCard}
+    {/if}
+
 
     <link rel="stylesheet" href="/_bootstrap3/dist/css/bootstrap.css">
     <link rel="stylesheet" href="/_bootstrap3/dist/css/bootstrap-theme.css">

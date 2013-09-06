@@ -100,3 +100,5 @@ define('_OG_DEFAULT_IMG','');
 define('_FACEBOOK_APP_ID', null);
 
 /* Twitter */
+define('_TWITTER_SITE',null);
+define('_TWITTER_DEF_CREATOR', null);

@@ -185,6 +185,7 @@ class artist {
         $r['bioButton'] = gettext('Biography');
         $r['metaTitle'] = gettext('The works of %s');
         $r['metaTitle'] = str_replace('%s',$this->artistName($data),$r['metaTitle']);
+        $r['metaDesc'] = _DEFAULT_METADESC;
 
         $r['openGraph'] = socialMedia::websiteTag($r['metaTitle']);
 
@@ -267,6 +268,8 @@ class artist {
         }
 
         $r['content'] .= '</div>';
+
+        $r['twitterCard'] = socialMedia::twitterGalleryCard(_TWITTER_DEF_CREATOR,$r['metaTitle'],$r['metaDesc'],$artData,$artistSlug);
 
         return $r;
     }
