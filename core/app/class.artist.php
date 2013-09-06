@@ -113,7 +113,7 @@ class artist {
         /*
          * TODO add artist bio img to og website img
          */
-        $r['openGraph'] = openGraph::websiteTag($r['metaTitle'],$r['metaDesc']);
+        $r['openGraph'] = socialMedia::websiteTag($r['metaTitle'],$r['metaDesc']);
 
 
         /*
@@ -186,7 +186,7 @@ class artist {
         $r['metaTitle'] = gettext('The works of %s');
         $r['metaTitle'] = str_replace('%s',$this->artistName($data),$r['metaTitle']);
 
-        $r['openGraph'] = openGraph::websiteTag($r['metaTitle']);
+        $r['openGraph'] = socialMedia::websiteTag($r['metaTitle']);
 
         /*
          * The biography link
@@ -490,7 +490,7 @@ $r['content'] .= '
 
         $r['metaTitle'] = $r['artistName'] . ' - ' . $r['artTitle'];
 
-        $r['openGraph'] = openGraph::websiteTag($r['metaTitle'],null,'http://' . $_SERVER['HTTP_HOST'] . $r['artImg']);
+        $r['openGraph'] = socialMedia::websiteTag($r['metaTitle'],null,'http://' . $_SERVER['HTTP_HOST'] . $r['artImg']);
 
 
         /*

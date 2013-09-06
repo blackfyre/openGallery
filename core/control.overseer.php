@@ -46,9 +46,6 @@ class Overseer extends controlHandler
 
         $data['menu'] = $menu->generateMainNav();
 
-        $data['openGraph'] = openGraph::websiteTag();
-
-
         $this->smarty->addToDisplay($data);
         $this->smarty->displaySelectedPage('front/home.tpl');
     }

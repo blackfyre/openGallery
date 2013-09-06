@@ -36,6 +36,10 @@
     <script src="/_bootstrap3/assets/js/respond.min.js"></script>
     <![endif]-->
 
+    {if isset($googlePlusOne)}
+        {$googlePlusOne}
+    {/if}
+
 </head>
 <body>
 

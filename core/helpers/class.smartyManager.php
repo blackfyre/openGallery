@@ -48,6 +48,8 @@ class smartyManager {
         $this->dataToDisplay['jQuery'] = null;
         $this->dataToDisplay['jFunctions'] = null;
         $this->dataToDisplay['content'] = null;
+        $this->dataToDisplay['openGraph'] = socialMedia::websiteTag();
+        $this->dataToDisplay['googlePlusOne'] = socialMedia::googleMobileRecommend();
 
         $this->smartyAssigner($this->dataToDisplay);
 
