@@ -14,23 +14,23 @@ class errorHandler
 {
 
     /**
-     * Adatbázis kapcsolat az adatbázis hibák megjelenítéséhez
-     *
      * @var null|PDO
      */
     private $db = null;
 
     /**
-     * Az alapfunkciók, mert a rendszerben sem bízunk
-     *
-     * @var coreFunctions|null
+     * @var bool|null
      */
-    private $core = null;
-
     private $debug = null;
 
+    /**
+     * @var logger|null
+     */
     private $logger = null;
 
+    /**
+     * @var null|array
+     */
     private $data = null;
 
 
@@ -42,7 +42,6 @@ class errorHandler
         $this->debug = $debug;
         $dbi = database::getInstance();
         $this->db = $dbi->getConnection();
-        $this->core = new coreFunctions();
         $this->logger = new logger();
 
     }
@@ -175,12 +174,12 @@ class errorHandler
     public function errorMSG($string = null,$cData = null)
     {
 
-        $string = $this->core->cleanVar($string);
+        $string = coreFunctions::cleanVar($string);
 
         $this->logger->logEntry($string,$cData);
 
         if ($this->debug) {
-            $string = $this->core->cleanVar($string);
+            $string = coreFunctions::cleanVar($string);
 
             if (!isset($_SESSION['errorInfo']) OR !is_array($_SESSION['errorInfo'])) {
                  $_SESSION['errorInfo'] = array();
@@ -197,7 +196,7 @@ class errorHandler
      * @param mixed $cData A naplóba rögzítendő extra tartalom... lehet bármi
      */
     public function alwaysShowError($string = null,$cData = null) {
-        $string = $this->core->cleanVar($string);
+        $string = coreFunctions::cleanVar($string);
 
         $this->logger->logEntry($string,$cData,$this->data);
 
@@ -217,6 +216,6 @@ class errorHandler
             $_SESSION['successInfo'] = array();
         }
 
-        $_SESSION['successInfo'][] = $this->core->cleanVar($string);
+        $_SESSION['successInfo'][] = coreFunctions::cleanVar($string);
     }
 }

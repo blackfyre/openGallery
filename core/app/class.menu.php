@@ -46,7 +46,7 @@ class menu {
     function main() {
 
         /*
-         * Szedjük le a menüket
+         * Getting the main menu elements
          */
         $data = $this->model->getMainMenuElements();
 
@@ -59,7 +59,7 @@ class menu {
             $langAvailable = null;
 
             /*
-             * Hozzuk létre az üres tömböket
+             * A couple of empty arrays for sorting the results
              */
 
             foreach ($this->lang AS $l) {
@@ -68,7 +68,7 @@ class menu {
             }
 
             /*
-             * Az üres tömb megfelelő részeihez adjuk hozzá a lekérdezés eredményeit, nyelv szerint szét válogatva azt
+             * Sorting the results
              */
 
             foreach ($data AS $row) {
@@ -89,7 +89,7 @@ class menu {
 
 
                         /*
-                         * Pörgessük végig a tömböt, módosítva az egyes oszlopok tartalmát
+                         * Modifying the table
                          */
 
                         foreach ($table AS $row) {
@@ -123,7 +123,7 @@ class menu {
                         }
 
                         /*
-                         * Adjunk hozzá egy új sort a + gomb hozzáadásához
+                         * Add a new line to the end for the controls
                          */
 
                         $addRow['id'] = '';
@@ -187,15 +187,15 @@ class menu {
         $formName = 'menuForm';
 
 
-        $this->form->addInput('textField','linkText',null,null,'Link text',true);
-        $this->form->addInput('textField','linkTitle',null,null,'Link tooltip',true);
-        $this->form->addInput('urlField','linkHref',null,'htttp://(www.)valami.hu','Link target',true);
+        $this->form->addInput('textField','linkText',null,null,gettext('Link text'),true);
+        $this->form->addInput('textField','linkTitle',null,null,gettext('Link tooltip'),true);
+        $this->form->addInput('urlField','linkHref',null,gettext('htttp://(www.)valami.hu'),gettext('Link target'),true);
 
         /*
-         * A dropdown tartalma
+         * The content of the dropdown
          */
-        $window['_self'] = 'Jelenlegi ablak';
-        $window['_blank'] = 'Új ablak';
+        $window['_self'] = gettext('Current window');
+        $window['_blank'] = gettext('New Window');
 
         $this->form->addInput('hidden','positionId',$positionId);
         $this->form->addInput('hidden','type',1);
@@ -289,6 +289,10 @@ class menu {
         return $data['langCode'];
     }
 
+    /**
+     * @deprecated Revision needed to use the recursive generator
+     * @return null|string
+     */
     function generateMainNav() {
 
         $lang = $_SESSION['lang'];
@@ -356,7 +360,41 @@ class menu {
         return $this->model->fragger($data,'menu_elements','update',"id='$menuId'");
     }
 
-    function footer() {
+    /**
+     * Recursive list generator
+     *
+     * Original by Baba @ http://stackoverflow.com/a/12772019/1012431
+     *
+     * @param array $array
+     * @param int $no
+     * @return string
+     */
+    private function make(array $array, $no = 0) {
+        $child = $this->hasChildren($array, $no);
+        if (empty($child))
+            return "";
+        $content = "<ol>\n";
+        foreach ( $child as $value ) {
+            $content .= sprintf("\t<li>%s</li>\n", $value['title']);
+            $content .= $this->make($array, $value['id']);
+        }
+        $content .= "</ol>\n";
+        return $content;
+    }
 
+    /**
+     *
+     * Recursive list generator
+     *
+     * Original by Baba @ http://stackoverflow.com/a/12772019/1012431
+     *
+     * @param $array
+     * @param $id
+     * @return array
+     */
+    private function hasChildren($array, $id) {
+        return array_filter($array, function ($var) use($id) {
+            return $var['parent_id'] == $id;
+        });
     }
 }

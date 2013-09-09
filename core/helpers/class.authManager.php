@@ -27,11 +27,6 @@ class authManager
     private $error = null;
 
     /**
-     * @var null|passHandler
-     */
-    private $pass = null;
-
-    /**
      * @var modelAuth|null
      */
     private $model = null;
@@ -47,7 +42,6 @@ class authManager
         $this->db = $dbInstance->getConnection();
         $this->error = new errorHandler(true);
         $this->form = new formHandler();
-        $this->pass = new passHandler();
         $this->model = new modelAuth();
 
 
@@ -57,7 +51,7 @@ class authManager
 
 
     /**
-     * A megadott felhasználói adatokat ellenőri le, hogy léteznek -e, helyesek -e és aktív -e a megadott felhasználó
+     * Checks the given credentials to the db, and determines if the user is somehow invalid (not regged, inactive, ...)
      *
      * @param string $user
      * @param string $pass
@@ -69,7 +63,7 @@ class authManager
 
         $user = coreFunctions::cleanVar($user);
         if ($encode) {
-            $pass = $this->pass->fullSpicer(coreFunctions::cleanVar($pass));
+            $pass = passHandler::encryptPass(coreFunctions::cleanVar($pass));
         } else {
             $pass = coreFunctions::cleanVar($pass);
         }
@@ -200,7 +194,7 @@ class authManager
 
         if ($this->checkLogin($user, $pass)) {
 
-            $passEnc = $this->pass->encryptPass($pass);
+            $passEnc = passHandler::encryptPass($pass);
 
             $_SESSION['user'] = $user;
             $_SESSION['pass'] = $passEnc;

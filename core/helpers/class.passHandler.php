@@ -6,23 +6,8 @@
  */
 class passHandler
 {
-    private $secKey = '[cloudEngine]';
-    private $db = null;
-    private $core = null;
-    private $error = null;
 
-    function __construct()
-    {
-
-        $this->core = new coreFunctions();
-
-        $dbI = database::getInstance();
-        $this->db = $dbI->getConnection();
-
-        $this->error = new errorHandler();
-
-    }
-
+    private $secKey = 'oWGA-HA';
 
     /**
      * @param null $pass
@@ -30,7 +15,7 @@ class passHandler
      */
     function halfSpicer($pass = null)
     {
-        $pass = $this->core->cleanVar($pass);
+        $pass = coreFunctions::cleanVar($pass);
         return sha1($this->secKey . $pass . $this->secKey);
     }
 
@@ -40,51 +25,20 @@ class passHandler
      */
     function fullSpicer($pass = null)
     {
-        $pass = $this->core->cleanVar($pass);
+        $pass = coreFunctions::cleanVar($pass);
         return md5($this->secKey . $this->halfSpicer($pass) . $this->secKey);
     }
 
     /**
-     * Jelszó kódolásához szükséges metódus
+     *
+     * This creates the encoded password...
      *
      * @param string $passToEncrypt
      * @return bool|string
      */
-    function encryptPass($passToEncrypt = null)
+    public static function encryptPass($passToEncrypt = null)
     {
-        $passToEncrypt = $this->core->cleanVar($passToEncrypt);
-        return $this->fullSpicer($passToEncrypt);
-    }
-
-    /**
-     * Jelszó visszafejtéshez szükséges metódus
-     *
-     * @param string $encryptedPass
-     * @return bool|string
-     * @deprecated Ehhez a projekthez nem kell
-     */
-    function decryptPass($encryptedPass = null)
-    {
-
-        if (!is_null($encryptedPass)) {
-            $encryptedPass = $this->core->cleanVar($encryptedPass);
-            $query = "SELECT pass FROM users WHERE `fullHash`='$encryptedPass'";
-
-            if ($result = $this->db->query($query)) {
-
-                $result = $result->fetch();
-
-                return $result['pass'];
-
-            } else {
-                $this->error->queryError();
-                return false;
-            }
-
-        } else {
-            $this->error->isNullError();
-            return false;
-        }
-
+        $passToEncrypt = coreFunctions::cleanVar($passToEncrypt);
+        return self::fullSpicer($passToEncrypt);
     }
 }
