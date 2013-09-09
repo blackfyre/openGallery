@@ -16,13 +16,25 @@ class Overseer extends controlHandler
     public function invoke()
     {
 
-        if (isset($_GET['lang'])) {
+        $menu = new menu();
 
-            $this->methodLoader();
+        $this->smarty->addToDisplay(array('frontMenu'=>$menu->generateMainNav()));
 
+        if (_MULTILANG) {
+            if (isset($_GET['lang'])) {
+                $this->methodLoader();
+            } else {
+                $this->displayHome();
+            }
         } else {
-            $this->displayHome();
+            if (count($_GET)>1) {
+                $this->methodLoader();
+            } else {
+                $this->displayHome();
+            }
         }
+
+
 
     }
 
@@ -34,17 +46,11 @@ class Overseer extends controlHandler
      */
     private function displayHome()
     {
-        $content = new content();
-        $menu = new menu();
         $news = new news();
-
-        //$homeContent = $content->homeContent();
 
         $data['newsTitle'] = gettext('News');
 
         $data['news'] = $news->getLatest();
-
-        $data['menu'] = $menu->generateMainNav();
 
         $this->smarty->addToDisplay($data);
         $this->smarty->displaySelectedPage('front/home.tpl');

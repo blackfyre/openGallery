@@ -48,6 +48,7 @@ class content {
 
         $r['content'] = null;
         $r['moduleTitle'] = gettext('Articles');
+        $r['control'] = null;
         $r['control'] .= '<p><a href="/throne/content/newArticle.html" role="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus-sign"></span> ' . gettext('New Article') . '</a></p>';
 
         if (is_array($data) AND count($data)>0) {
@@ -87,7 +88,7 @@ class content {
             $r['content'] .= $this->table->createSimpleTable($heads,$newData);
 
         } else {
-            $r['content'] = '<p>No data to show!</p>';
+            $r['msg'] =  buildingBlocks::noRecords();
         }
 
         return $r;
@@ -195,7 +196,7 @@ class content {
             $r['content'] .= $this->table->createSimpleTable($heads,$newData);
 
         } else {
-            $r['content'] .= '<p>Nincs megjeleníthető adat!</p>';
+            $r['msg'] = buildingBlocks::noRecords();
         }
 
         return $r;
@@ -269,7 +270,7 @@ class content {
 
         $r['content'] = null;
         $r['msg'] = null;
-        $r['moduleTitle'] = gettext('New article');
+        $r['moduleTitle'] = gettext('New Article');
         $r['navTitle'] = gettext('Navigation');
         $r['backLink'] = gettext('Back');
 

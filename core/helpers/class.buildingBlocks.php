@@ -105,7 +105,11 @@ class buildingBlocks {
         return "
         <div class='alert alert-info $dismiss'>
             <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-            <strong>INFORMATION!</strong> $string
+            <strong>" . gettext('INFORMATION!') . "</strong> $string
         </div>";
+    }
+
+    static function noRecords() {
+        return self::infoMSG(gettext('No records in the database.'));
     }
 }

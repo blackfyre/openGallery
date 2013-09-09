@@ -46,7 +46,7 @@ class menu {
     function main() {
 
         /*
-         * Getting the main menu elements
+         * Szedjük le a menüket
          */
         $data = $this->model->getMainMenuElements();
 
@@ -59,7 +59,7 @@ class menu {
             $langAvailable = null;
 
             /*
-             * A couple of empty arrays for sorting the results
+             * Hozzuk létre az üres tömböket
              */
 
             foreach ($this->lang AS $l) {
@@ -68,7 +68,7 @@ class menu {
             }
 
             /*
-             * Sorting the results
+             * Az üres tömb megfelelő részeihez adjuk hozzá a lekérdezés eredményeit, nyelv szerint szét válogatva azt
              */
 
             foreach ($data AS $row) {
@@ -89,7 +89,7 @@ class menu {
 
 
                         /*
-                         * Modifying the table
+                         * Pörgessük végig a tömböt, módosítva az egyes oszlopok tartalmát
                          */
 
                         foreach ($table AS $row) {
@@ -123,7 +123,7 @@ class menu {
                         }
 
                         /*
-                         * Add a new line to the end for the controls
+                         * Adjunk hozzá egy új sort a + gomb hozzáadásához
                          */
 
                         $addRow['id'] = '';
@@ -172,7 +172,7 @@ class menu {
             }
 
         } else {
-            $r['content'] = '<div class="span12"><p>Nincs megjeleníthető adat</p></div>';
+            $r['content'] = '<div class="span12"><p>' . buildingBlocks::noRecords() . '</p></div>';
         }
 
         return $r;
@@ -187,15 +187,15 @@ class menu {
         $formName = 'menuForm';
 
 
-        $this->form->addInput('textField','linkText',null,null,gettext('Link text'),true);
-        $this->form->addInput('textField','linkTitle',null,null,gettext('Link tooltip'),true);
-        $this->form->addInput('urlField','linkHref',null,gettext('htttp://(www.)valami.hu'),gettext('Link target'),true);
+        $this->form->addInput('textField','linkText',null,null,'Link text',true);
+        $this->form->addInput('textField','linkTitle',null,null,'Link tooltip',true);
+        $this->form->addInput('urlField','linkHref',null,'htttp://(www.)valami.hu','Link target',true);
 
         /*
-         * The content of the dropdown
+         * A dropdown tartalma
          */
-        $window['_self'] = gettext('Current window');
-        $window['_blank'] = gettext('New Window');
+        $window['_self'] = 'Jelenlegi ablak';
+        $window['_blank'] = 'Új ablak';
 
         $this->form->addInput('hidden','positionId',$positionId);
         $this->form->addInput('hidden','type',1);
@@ -289,10 +289,6 @@ class menu {
         return $data['langCode'];
     }
 
-    /**
-     * @deprecated Revision needed to use the recursive generator
-     * @return null|string
-     */
     function generateMainNav() {
 
         $lang = $_SESSION['lang'];
@@ -302,43 +298,23 @@ class menu {
         $r = null;
 
         if (is_array($data)) {
-
-            foreach ($data AS $m) {
-                switch ($m['type']) {
-                    case '1':
-
-                        $r .= '<li>';
-
-                        $r .= '<a href="' . $m['linkHref'] . '" hreflang="' . $lang  . '" title="' . $m['linkTitle'] . '" target="' . $m['linkTarget'] . '">';
-
-                        $r .= $m['linkText'];
-
-                        $r .= '</a>';
-                        $r .= '</li>';
-
-                        break;
-                    case '2':
-
-                        $r .= '<li>';
-
-                        $r .= '<a href="/' . $_SESSION['lang']  . '/content/view/' . $m['slug_' . $lang] . '.html" hreflang="' . $lang  . '" title="" target="' . $m['linkTarget'] . '">';
-
-                        $r .= $m['title_' . $lang];
-
-                        $r .= '</a>';
-                        $r .= '</li>';
-
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-
-
+            $r = $this->frontMake($data);
         }
 
         return $r;
+    }
+
+    function adminMenu() {
+        $data = $this->model->getAdminMenu();
+
+        $r = null;
+
+        if (is_array($data)) {
+            $r = $this->make($data);
+        }
+
+        return $r;
+
     }
 
     function setMenu($action = null, $menuId = null) {
@@ -366,19 +342,94 @@ class menu {
      * Original by Baba @ http://stackoverflow.com/a/12772019/1012431
      *
      * @param array $array
-     * @param int $no
+     * @param int $parentId
      * @return string
      */
-    private function make(array $array, $no = 0) {
-        $child = $this->hasChildren($array, $no);
-        if (empty($child))
+    private function make(array $array, $parentId = 0) {
+
+        $child = $this->hasChildren($array, $parentId);
+
+        if (empty($child)) {
             return "";
-        $content = "<ol>\n";
-        foreach ( $child as $value ) {
-            $content .= sprintf("\t<li>%s</li>\n", $value['title']);
-            $content .= $this->make($array, $value['id']);
         }
-        $content .= "</ol>\n";
+
+        if ($parentId == 0) {
+            $content = '<ul class="nav navbar-nav">';
+        } else {
+            $content = '<ul class="dropdown-menu">';
+        }
+
+
+        foreach ( $child as $value ) {
+
+            /*
+             * Icon
+             */
+            $icon = $value['icon'];
+
+            /*
+             * If there's child content it will be in here
+             */
+            $subData = $this->make($array, $value['id']);
+
+            if (strlen($subData)>1) {
+                $content .= '<li class="dropdown">';
+                $content .= '<a class="dropdown-toggle" data-toggle="dropdown" href="' . $value['link'] . '">' . ($icon!=''?'<span class="glyphicon glyphicon-' . $icon . '"></span> ':'') . $value['title_' . $_SESSION['lang']] . '<b class="caret"></b></a>';
+            } else {
+                $content .= '<li>';
+                $content .= '<a href="' . $value['link'] . '">' . ($icon!=''?'<span class="glyphicon glyphicon-' . $icon . '"></span> ':'') . $value['title_' . $_SESSION['lang']] . '</a>';
+            }
+
+            $content .= $subData;
+
+            $content .= '</li>';
+
+        }
+        $content .= "</ul>";
+        return $content;
+    }
+
+    private function frontMake(array $array, $parentId = 0) {
+
+        $child = $this->hasChildren($array, $parentId);
+
+        if (empty($child)) {
+            return "";
+        }
+
+        if ($parentId == 0) {
+            $content = '<ul class="nav navbar-nav">';
+        } else {
+            $content = '<ul class="dropdown-menu">';
+        }
+
+
+        foreach ( $child as $value ) {
+
+            /*
+             * Icon
+             */
+            $icon = $value['icon'];
+
+            /*
+             * If there's child content it will be in here
+             */
+            $subData = $this->make($array, $value['id']);
+
+            if (strlen($subData)>1) {
+                $content .= '<li class="dropdown">';
+                $content .= '<a class="dropdown-toggle" data-toggle="dropdown" href="' . $value['linkHref'] . '">' . ($icon!=''?'<span class="glyphicon glyphicon-' . $icon . '"></span> ':'') . $value['linkTitle'] . '<b class="caret"></b></a>';
+            } else {
+                $content .= '<li>';
+                $content .= '<a href="' . $value['linkHref'] . '">' . ($icon!=''?'<span class="glyphicon glyphicon-' . $icon . '"></span> ':'') . $value['linkTitle'] . '</a>';
+            }
+
+            $content .= $subData;
+
+            $content .= '</li>';
+
+        }
+        $content .= "</ul>";
         return $content;
     }
 
@@ -394,7 +445,7 @@ class menu {
      */
     private function hasChildren($array, $id) {
         return array_filter($array, function ($var) use($id) {
-            return $var['parent_id'] == $id;
+            return $var['pid'] == $id;
         });
     }
 }

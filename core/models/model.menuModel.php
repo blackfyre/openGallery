@@ -38,10 +38,17 @@ class menuModel extends modelsHandler {
 
     function getMainMenu($lang = null) {
         $query = "
-        SELECT *,menu_elements.id AS `mId` FROM menu_elements
-        LEFT JOIN content ON content.id=menu_elements.contentId
-        WHERE positionId='1' AND deleted='0' AND active='1' AND langCode='$lang'
+        SELECT * FROM menu_elements WHERE langCode='$lang' AND active='1' AND deleted='0'
         ";
+
+        return $this->fetchAll($query);
+    }
+
+    /**
+     * @return array|bool
+     */
+    function getAdminMenu() {
+        $query = "SELECT * FROM menu_admin WHERE active='1'";
 
         return $this->fetchAll($query);
     }

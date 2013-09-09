@@ -7,7 +7,7 @@
 class passHandler
 {
 
-    private $secKey = 'oWGA-HA';
+    private static $secKey = 'oWGA-HA';
 
     /**
      * @param null $pass
@@ -16,7 +16,7 @@ class passHandler
     function halfSpicer($pass = null)
     {
         $pass = coreFunctions::cleanVar($pass);
-        return sha1($this->secKey . $pass . $this->secKey);
+        return sha1(self::$secKey . $pass . self::$secKey);
     }
 
     /**
@@ -26,7 +26,7 @@ class passHandler
     function fullSpicer($pass = null)
     {
         $pass = coreFunctions::cleanVar($pass);
-        return md5($this->secKey . $this->halfSpicer($pass) . $this->secKey);
+        return md5(self::$secKey . self::halfSpicer($pass) . self::$secKey);
     }
 
     /**

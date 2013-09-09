@@ -54,7 +54,6 @@ class controlHandler {
         putenv('LC_ALL=' . $lang);
         putenv('LANG=' . $lang);
         setlocale(LC_ALL, $lang);
-        setlocale(LC_MESSAGES, $lang);
 
         ini_set("default_charset", "UTF-8");
         date_default_timezone_set('Europe/Budapest');

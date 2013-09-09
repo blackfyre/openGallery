@@ -140,7 +140,7 @@ class options {
 
         }
 
-        $this->form->addInput('dropdownList','lang',$dropDown,null,gettext('Available langugages'));
+        $this->form->addInput('dropdownList','lang',$dropDown,null,gettext('Available languages'));
 
         return $this->form->generateForm('addLang',gettext('Save'),null,null,'bootstrap-horizontal');
     }

@@ -32,6 +32,7 @@ class news {
         $this->table = new tableHandler();
 
         $this->activeLangs = $this->model->getActiveLanguages();
+
     }
 
     function throne_listNews($listType = null) {
@@ -40,7 +41,7 @@ class news {
 
         $r['moduleTitle'] = gettext('List News');
         $r['newArticleLink'] = '/throne/news/throne_addNewArticle.html';
-        $r['newArticle'] = gettext('New article');
+        $r['newArticle'] = gettext('New Article');
 
         switch ($listType) {
             default:
@@ -53,7 +54,6 @@ class news {
                 $listType = 0;
                 break;
         }
-
 
         $data = $this->model->getNews(null,$listType);
 
@@ -252,8 +252,10 @@ class news {
 
         $r = null;
 
-        foreach ($data AS $a) {
-            $r .= '<h3><a href="/' . $lang .'/news/viewArticle/' . $a['newsId'] . '/' . $a['slug'] . '.html" hreflang="' . $lang . '" title="' . $a['linkAlt'] . '">' . $a['title'] . '</a></h3>';
+        if (is_array($data)) {
+            foreach ($data AS $a) {
+                $r .= '<h3><a href="/' . $lang .'/news/viewArticle/' . $a['newsId'] . '/' . $a['slug'] . '.html" hreflang="' . $lang . '" title="' . $a['linkAlt'] . '">' . $a['title'] . '</a></h3>';
+            }
         }
 
         return $r;
