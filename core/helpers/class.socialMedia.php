@@ -94,7 +94,7 @@ class socialMedia {
                 if (isset ($images[$i])) {
                     $t = $images[$i];
 
-                    $link = 'http://' . $_SERVER['HTTP_HOST'] . '/images/small-thumbnail/' . $artistSlug . '-' . $t['titleSlug_' . $_SESSION['lang']] . '.' . coreFunctions::getExtension($t['img']);
+                    $link = 'http://' . $_SERVER['HTTP_HOST'] . '/images/large-thumbnail/' . $t['id'] . '/' . $artistSlug . '-' . $t['titleSlug_' . $_SESSION['lang']] . '.' . coreFunctions::getExtension($t['img']);
 
                     $r .= "<meta name='twitter:image$i' content='$link'>";
 

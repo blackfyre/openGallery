@@ -394,6 +394,7 @@ $etag				= md5($data);
 doConditionalGet($etag, $lastModifiedString);
 
 // Send the image to the browser with some delicious headers
+header('HTTP/1.1 200 Ok');
 header("Content-type: $mime");
 header('Content-Length: ' . strlen($data));
 echo $data;
