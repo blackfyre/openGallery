@@ -82,4 +82,48 @@ class modelArtist extends modelsHandler {
 
         return false;
     }
+
+    /**
+     * Gets the profession names from the DB for the current language
+     * @return bool|null
+     */
+    function getProfessionsForDropdown() {
+        $query = "SELECT * FROM artist_profession";
+
+        $result = $this->fetchAll($query);
+
+        $r = null;
+
+        if (is_array($result)) {
+            foreach ($result AS $p) {
+                $r[$p['id']] = $p['professionName_' . $_SESSION['lang']];
+            }
+
+            return $r;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return array|bool
+     */
+    function getProfessions() {
+        $query = "SELECT * FROM artist_profession";
+
+        return $this->fetchAll($query);
+    }
+
+    /**
+     * @param int $professionId
+     * @return array|bool
+     */
+    function getProfessionById($professionId = null) {
+        if (is_numeric($professionId)) {
+            $query = "SELECT * FROM artist_profession WHERE id='$professionId'";
+            return $this->fetchSingleRow($query);
+        }
+
+        return false;
+    }
 }

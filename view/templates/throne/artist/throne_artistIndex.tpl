@@ -3,16 +3,15 @@
 
 <div class="row">
     <div class="col-md-2" role="navigation">
-        <div class="well sidebar-nav">
-            <ul class="nav">
-                <li>Index</li>
 
+        <div class="well">
+            <ul class="list-inline">
                 {foreach from=$index item=i}
-                    <li{if $i.active eq 1}  class="active"{/if}><a href="{$i.link}">{$i.title}</a></li>
+                    <li><a {if $i.active eq 1}  class="active"{/if} href="{$i.link}">{$i.title}</a></li>
                 {/foreach}
-
             </ul>
-        </div><!--/.well -->
+        </div>
+
     </div><!--/span-->
     <div class="col-md-10">{$content}</div>
 </div>

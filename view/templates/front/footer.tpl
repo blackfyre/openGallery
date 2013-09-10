@@ -52,6 +52,7 @@
 
 <script src="/js/plugins.js"></script>
 <script src="/js/main-front.js"></script>
+<script src="/js/main-common.js"></script>
 
 {literal}
     <script>

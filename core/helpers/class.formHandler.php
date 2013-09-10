@@ -533,9 +533,16 @@ class formHandler
                         $rows[] = $input1;
                         break;
                     case 'onOffBox':
+
+                        $checked = null;
+
+                        if (isset($_SESSION['postBack'][$formElement['name']]) AND $_SESSION['postBack'][$formElement['name']] == '1') {
+                            $checked = 'checked="checked"';
+                        }
+
                         $input1['label'] = '<label class="col-lg-2 control-label" for="text-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
                         $input1['input'] = '<input type="hidden" name="' . $formElement['name'] . '" value="0" />';
-                        $input1['input'] .= '<input type="checkbox" name="' . $formElement['name'] . '" value="1" ' . (isset($_SESSION['postBack'][$formElement['name']]) ? 'checked="checked"' : null) . '>';
+                        $input1['input'] .= '<input type="checkbox" name="' . $formElement['name'] . '" value="1" ' . $checked . '>';
                         $rows[] = $input1;
                         break;
                     case 'dropdownList':

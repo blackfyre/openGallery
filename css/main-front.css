@@ -22,8 +22,9 @@ body {
 }
 
 .curLangFlag {
-    width: 48px;
     height: auto;
+    margin: 10px 0;
+    width: 30px;
 }
 
 /* Featurettes

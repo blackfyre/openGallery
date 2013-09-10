@@ -308,6 +308,11 @@ class artist {
 
         }
 
+        $indexNav[] = array(
+            'title' => gettext('Anonymous'),
+            'link' => '/throne/artist/throne_artistIndex/anonymous.html'
+        );
+
         $r['index'] = $indexNav;
 
         if (is_string($index)) {
@@ -335,7 +340,7 @@ class artist {
 
                 $t['edit'] = '<div class="btn-group">';
                 $t['edit'] .= '<a href="/throne/artist/throne_editArtist/' . $t['id'] . '.html" type="button" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-edit"></span></a>';
-                $t['edit'] .= '<a type="button" class="btn btn-default btn-xs">Extra small button</a>';
+                $t['edit'] .= '<a href="/throne/artist/throne_listArt/' . $t['id'] .'.html" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-picture"></span></a>';
                 $t['edit'] .= '</div>';
 
                 $newData[] = $t;
@@ -344,6 +349,21 @@ class artist {
 
             $r['content'] = $this->table->createSimpleTable($head,$newData,$classes,true,'artists');
         }
+
+        return $r;
+    }
+
+    function throne_listArt($artistId = null) {
+
+        $artistId = coreFunctions::cleanVar($artistId);
+
+        $artistData = $this->model->getArtistById($artistId);
+
+        $r['moduleTitle'] = gettext('List art by %s');
+        $r['moduleTitle'] = str_replace('%s',$this->artistName($artistData),$r['moduleTitle']);
+
+        $r['content'] = null;
+
 
         return $r;
     }
@@ -358,6 +378,7 @@ class artist {
     private function throne_artistForm() {
         $r = null;
 
+        $professions = $this->model->getProfessionsForDropdown();
 
         $r['content'] = '
 <ul class="nav nav-tabs" id="myTab">
@@ -380,9 +401,12 @@ $r['content'] .= '
         $this->form->addInput('textField','lastName',null,null,gettext('Last name'));
         $this->form->addInput('onOffBox','firstNameFirst',null,null,gettext('Fist name first'));
         $this->form->addInput('numField','dateOfBirth',null,null,gettext('Year of Birth'));
+        $this->form->addInput('onOffBox','exactBirth',null,null,gettext('Exact year of birth'));
         $this->form->addInput('numField','dateOfDeath',null,null,gettext('Year of Death'));
+        $this->form->addInput('onOffBox','exactDeath',null,null,gettext('Exact year of death'));
         $this->form->addInput('textField','placeOfBirth',null,null,gettext('Place of Birth'));
         $this->form->addInput('textField','placeOfDeath',null,null,gettext('Place of Death'));
+        $this->form->addInput('dropdownList','profession',$professions,null,gettext('Profession'));
 
         $r['content'] .= $this->form->generateForm('updateArtist',gettext('Update'));
 
@@ -597,5 +621,124 @@ $r['content'] .= '
 
         return $r;
 
+    }
+
+    function throne_listProfessions() {
+        $r['content'] = null;
+        $r['control'] = null;
+        $r['moduleTitle'] = gettext('Professions');
+
+        $r['control'] = null;
+        $r['control'] .= '<p><a href="/throne/artist/throne_addProfession.html" role="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus-sign"></span> ' . gettext('New Profession') . '</a></p>';
+
+        $data = $this->model->getProfessions();
+
+        if (is_array($data) AND count($data)>0) {
+
+            $newData = null;
+
+            foreach ($data AS $row) {
+                $t = $row;
+
+                $t['title'] = buildingBlocks::langTableDropDown($this->activeLangs,$row,'professionName');
+
+                $t['edit'] = '<div class="btn-group">';
+                $t['edit'] .= '<a href="/throne/artist/throne_editProfession/' . $t['id'] . '.html" type="button" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-edit"></span></a>';
+                $t['edit'] .= '</div>';
+
+                $newData[] = $t;
+
+            }
+
+            $heads['id'] = gettext('id');
+            $heads['title'] = gettext('Title');
+            $heads['edit'] = gettext('Edit');
+
+            $r['content'] = $this->table->createSimpleTable($heads,$newData);
+
+        } else {
+            $r['msg'] = buildingBlocks::noRecords();
+        }
+
+        return $r;
+    }
+
+    private function professionEditForm() {
+
+        foreach ($this->activeLangs AS $l) {
+            $this->form->addInput('textField','professionName_'.$l['isoCode'],null, null, '<img src="/img/flags/flag-' . $l['isoCode'] . '.png" class="inputFlag">&nbsp;' . gettext('Profession Name'),true);
+        }
+
+        return $this->form->generateForm('professionForm',gettext('Save'));
+
+    }
+
+    /**
+     * @param null $professionId
+     * @return string
+     */
+    private function processProfessionEdit($professionId = null) {
+        $data = $this->form->validator();
+
+        unset($data['editForm']);
+
+        if ($this->model->fragger($data,'artist_profession','update',"id='$professionId'")) {
+            return buildingBlocks::successMSG(gettext('Profession updated!'));
+        } else {
+            return buildingBlocks::errorMSG(gettext('Could not update profession, check error log for details!'));
+        }
+    }
+
+    /**
+     * @param null $professionId
+     * @return mixed
+     */
+    function throne_editProfession($professionId = null) {
+
+        $professionId = coreFunctions::cleanVar($professionId);
+
+        if (isset($_POST['submit-professionForm'])) {
+            $r['msg'] = $this->processProfessionEdit($professionId);
+        }
+
+        $r['content'] = null;
+        $r['moduleTitle'] = gettext('Edit profession');
+
+        if (is_numeric($professionId)) {
+            $_SESSION['postBack'] = $this->model->getProfessionById($professionId);
+            $r['content'] = $this->professionEditForm();
+        }
+
+        return $r;
+    }
+
+    private function processNewProfession() {
+        $data = $this->form->validator();
+
+        unset($data['editForm']);
+
+        if ($this->model->fragger($data,'artist_profession')) {
+            return buildingBlocks::successMSG(gettext('New profession added!'));
+        } else {
+            $_SESSION['postBack'] = $data;
+            $_SESSION['postBack']['rePost'] = 1;
+            return buildingBlocks::errorMSG(gettext('Could not add profession, check error log for details!'));
+        }
+    }
+
+    function throne_addProfession() {
+
+        if (!isset($_SESSION['postBack']['rePost'])) {
+            unset($_SESSION['postBack']);
+        }
+
+        if (isset($_POST['submit-professionForm'])) {
+            $r['msg'] = $this->processNewProfession();
+        }
+
+        $r['moduleTitle'] = gettext('New profession');
+        $r['content'] = $this->professionEditForm();
+
+        return $r;
     }
 }

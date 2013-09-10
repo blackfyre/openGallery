@@ -15,9 +15,8 @@ body {
 }
 
 .inputFlag {
-    width: 28px;
+    width: 20px;
     float: left;
-    vertical-align: top !important;
 }
 
 .tblFlag {

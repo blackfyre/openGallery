@@ -109,7 +109,28 @@ class buildingBlocks {
         </div>";
     }
 
+    /**
+     * @return string
+     */
     static function noRecords() {
         return self::infoMSG(gettext('No records in the database.'));
+    }
+
+    /**
+     * @param null $activeLangData
+     * @param null $rowData
+     * @param null $title
+     * @return string
+     */
+    static public function langTableDropDown($activeLangData = null, $rowData = null, $title = null) {
+        $r = '<div class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><img src="/img/flags/flag-' . $_SESSION['lang'] . '.png" class="smallFlag">&nbsp;' . $rowData[$title . '_' . $_SESSION['lang']] . '</a><ul class="dropdown-menu" role="menu">';
+
+        foreach ($activeLangData AS $lang) {
+            $r .= '<li>&nbsp;<img class="smallFlag" src="/img/flags/flag-' . $lang['isoCode'] . '.png">&nbsp;' . $rowData[ $title .'_' . $lang['isoCode']] . '</li>';
+        }
+
+        $r .= '</ul></div>';
+
+        return $r;
     }
 }

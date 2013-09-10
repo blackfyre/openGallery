@@ -55,6 +55,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Artists <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="/throne/artist/throne_artistIndex.html">Index</a></li>
+                        <li><a href="/throne/artist/throne_listProfessions.html">Professions</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">

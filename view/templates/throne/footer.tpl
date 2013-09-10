@@ -11,6 +11,7 @@
 
 <script src="/js/plugins.js"></script>
 <script src="/js/main-throne.js"></script>
+<script src="/js/main-common.js"></script>
 
 {if isset($jFunctions) OR isset($jQuery)}
 
