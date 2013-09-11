@@ -27,6 +27,9 @@ class formHandler
      */
     private $table = null;
 
+    /**
+     * @param bool $debug
+     */
     function __construct($debug = false)
     {
         if (is_null($this->error)) {
@@ -56,7 +59,6 @@ class formHandler
         if (isset($_SESSION['postBack'])) {
             unset($_SESSION['postBack']);
         }
-
 
         $returnArray = null;
 
@@ -102,7 +104,49 @@ class formHandler
             }
         }
 
+
+        if (isset($_FILES) AND count($_FILES)>0) {
+
+            $returnArray = array_merge($returnArray,$this->handleFileUpload());
+        }
+
         return $returnArray;
+    }
+
+    /**
+     * @return null|array
+     */
+    private function handleFileUpload() {
+        $result = null;
+
+        foreach ($_FILES AS $key=>$f) {
+            $ext = pathinfo($f['name'], PATHINFO_EXTENSION);
+            $ext = strtolower($ext);
+
+            $fileName = sha1($f['name'] . date('Y-m-d H:i:s')) . '.' . $ext;
+
+            $filePath = _UPLOAD_PATH . '/';
+
+            if (!file_exists($filePath)) {
+                mkdir($filePath, 777, true);
+            }
+
+            $fullPath = $filePath . $fileName;
+
+            $output = null;
+
+            if (move_uploaded_file($f['tmp_name'], $fullPath)) {
+                $output = $fileName;
+            } else {
+                $output = false;
+
+            }
+
+            $key = explode('-',$key);
+            $result[$key[1]] = $output;
+        }
+
+        return $result;
     }
 
     /**
@@ -321,6 +365,7 @@ class formHandler
      *
      * Add an input to a yet to be created form
      *
+     *
      * @param string $inputType
      * @param string $inputName
      * @param string|array $value
@@ -346,6 +391,43 @@ class formHandler
         $_SESSION['lastFormInputs'][$inputName] = $labelContent;
 
         $this->normalForm[] = $input;
+    }
+
+    /**
+     *
+     * Shortcut for adding a text input to the form
+     *
+     * @param null $inputName
+     * @param null $value
+     * @param null $placeholder
+     * @param null $labelContent
+     * @param bool $required
+     */
+    public function addTextField($inputName = null, $value = null, $placeholder = null, $labelContent = null, $required = false) {
+        $this->addInput('textField', $inputName, $value, $placeholder, $labelContent, $required);
+    }
+
+    /**
+     *
+     * Shortcut for adding a ckEditor Field to the form
+     *
+     * @param null $inputName
+     * @param null $value
+     * @param null $placeholder
+     * @param null $labelContent
+     * @param bool $required
+     */
+    public function addCKEditor($inputName = null, $value = null, $placeholder = null, $labelContent = null, $required = false) {
+        $this->addInput('ckeditor', $inputName, $value, $placeholder, $labelContent, $required);
+    }
+
+
+    /**
+     * @param null $inputName
+     * @param null $labelContent
+     */
+    public function addFileUpload($inputName = null, $labelContent = null) {
+        $this->addInput('fileUpload', $inputName, null, null, $labelContent, false);
     }
 
     /**
@@ -533,16 +615,9 @@ class formHandler
                         $rows[] = $input1;
                         break;
                     case 'onOffBox':
-
-                        $checked = null;
-
-                        if (isset($_SESSION['postBack'][$formElement['name']]) AND $_SESSION['postBack'][$formElement['name']] == '1') {
-                            $checked = 'checked="checked"';
-                        }
-
                         $input1['label'] = '<label class="col-lg-2 control-label" for="text-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
                         $input1['input'] = '<input type="hidden" name="' . $formElement['name'] . '" value="0" />';
-                        $input1['input'] .= '<input type="checkbox" name="' . $formElement['name'] . '" value="1" ' . $checked . '>';
+                        $input1['input'] .= '<input type="checkbox" name="' . $formElement['name'] . '" value="1" ' . (isset($_SESSION['postBack'][$formElement['name']]) ? 'checked="checked"' : null) . '>';
                         $rows[] = $input1;
                         break;
                     case 'dropdownList':

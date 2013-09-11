@@ -19,6 +19,10 @@ class throne extends controlHandler {
         $this->auth = new authManager();
 
         if ($this->auth->checkForActiveLogin()) {
+
+            $menu = new menu();
+            $this->smarty->addToDisplay(array('adminMenu'=>$menu->adminMenu()));
+
             if (!isset($_GET['class']) AND !isset($_GET['method'])) {
                 $_GET['class'] = 'dashboard';
                 $_GET['method'] = 'defaultView';

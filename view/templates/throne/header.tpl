@@ -9,8 +9,8 @@
     <title>{$metaTitle}</title>
     <meta name="description" content="{$metaDesc}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/_bootstrap3/dist/css/bootstrap.css">
-    <link rel="stylesheet" href="/_bootstrap3/dist/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="/_bs3_dist/css/bootstrap-admin.css">
+
 
     <!--
     <link rel="stylesheet" href="/css/bootstrap-responsive.css">
@@ -19,8 +19,8 @@
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-    <script src="/_bootstrap3/assets/js/html5shiv.js"></script>
-    <script src="/_bootstrap3/assets/js/respond.min.js"></script>
+    <script src="/_bs3_assets/js/html5shiv.js"></script>
+    <script src="/_bs3_assets/js/respond.min.js"></script>
     <![endif]-->
 </head>
 <body>
@@ -41,42 +41,17 @@
             <a class="navbar-brand" href="/throne/">blackCMS 0.1b</a>
         </div>
         <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li class=""><a href="/throne/"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Content <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/throne/content/articles.html">Articles</a></li>
-                        <li><a href="/throne/content/fixedContent.html">Fixed content</a></li>
-                        <li><a href="/throne/news/throne_listNews.html">News</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Artists <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/throne/artist/throne_artistIndex.html">Index</a></li>
-                        <li><a href="/throne/artist/throne_listProfessions.html">Professions</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/throne/menu/main.html">Main menu</a></li>
-                        <li><a href="/throne/menu/footer.html">Footer</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/throne/options/lang.html">Languages</a></li>
-                        <li><a href="/throne/options/listUsers.html">User Manager</a></li>
-                        <li><a href="/throne/options/logView.html">logView</a></li>
-                    </ul>
-                </li>
-
-            </ul>
+            {if isset($adminMenu)}
+                {$adminMenu}
+            {/if}
             <ul class="nav navbar-nav pull-right">
-                <li><a href="/throne/logout.html"><span class="glyphicon glyphicon-warning-sign"></span> Logout</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-home"></span> User <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#"><span class="glyphicon glyphicon-user"></span> myProfile</a></li>
+                        <li><a href="/throne/logout.html"><span class="glyphicon glyphicon-warning-sign"></span> Logout</a></li>
+                    </ul>
+                </li>
             </ul>
         </div><!--/.navbar-collapse -->
     </div>

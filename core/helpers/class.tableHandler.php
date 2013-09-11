@@ -26,6 +26,7 @@ class tableHandler {
      * Néhány tömb segítségével generálja az alap táblát...
      * Az 'edit' kulcs az különleges, mert azt jobbra igazítja
      *
+     * @deprecated
      *
      * @param array $heads fejlécek $heads['oszlopNév'] = 'Emberi név'
      * @param array $content A tartalom... lekérdezési eredményekre kihegyezve...

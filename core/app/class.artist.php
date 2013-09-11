@@ -57,6 +57,18 @@ class artist {
     }
 
     /**
+     * Function to normalize the the date of birth and date of death values, with the addition of places and exactness
+     *
+     * TODO update variations
+     *
+     * @param null $artistData
+     * @return string
+     */
+    private function artistDateControl($artistData = null) {
+        return '(' . $artistData['dateOfBirth'] . ', ' . $artistData['placeOfBirth'] . ' - ' . $artistData['dateOfDeath'] . ', ' . $artistData['placeOfDeath'] . ')';
+    }
+
+    /**
      * Get the artist page
      * @param string $artistSlug
      * @return array
@@ -96,12 +108,12 @@ class artist {
 
         /*
          * compiling artist data for the template
-         * @TODO watch the firstNameFirst value and change the name accordingly
          */
-        $r['artistName'] = $data['lastName'] . ' ' . $data['firstName'];
-        $r['subTitle'] = '(' . $data['dateOfBirth'] . ', ' . $data['placeOfBirth'] . ' - ' . $data['dateOfDeath'] . ', ' . $data['placeOfDeath'] . ')';
+        $r['artistName'] = $this->artistName($data);
+        $r['subTitle'] = $this->artistDateControl($data);
         $r['bio'] = coreFunctions::decoder($data['bio_' . $_SESSION['lang']]);
         $r['excerpt'] = coreFunctions::decoder($data['excerpt_' . $_SESSION['lang']]);
+        $r['headerImg'] = $data['headerImg'];
 
         /*
          * The page title and meta data
@@ -198,7 +210,7 @@ class artist {
          * compiling artist data for the template
          */
         $r['artistName'] = $this->artistName($data);
-        $r['subTitle'] = '(' . $data['dateOfBirth'] . ', ' . $data['placeOfBirth'] . ' - ' . $data['dateOfDeath'] . ', ' . $data['placeOfDeath'] . ')';
+        $r['subTitle'] = $this->artistDateControl($data);
         $r['excerpt'] = coreFunctions::decoder($data['excerpt_' . $_SESSION['lang']]);
 
         /*
@@ -336,7 +348,7 @@ class artist {
                 $t = $row;
 
                 $t['name'] = $this->artistName($row);
-                $t['life'] = '(' . $t['dateOfBirth'] . ', ' . $t['placeOfBirth'] . ' - ' . $t['dateOfDeath'] . ', ' . $t['placeOfDeath'] . ')';
+                $t['life'] = $this->artistDateControl($row);
 
                 $t['edit'] = '<div class="btn-group">';
                 $t['edit'] .= '<a href="/throne/artist/throne_editArtist/' . $t['id'] . '.html" type="button" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-edit"></span></a>';
@@ -347,7 +359,7 @@ class artist {
 
             }
 
-            $r['content'] = $this->table->createSimpleTable($head,$newData,$classes,true,'artists');
+            $r['content'] = buildingBlocks::createSimpleTable($head,$newData,$classes,true,'artists');
         }
 
         return $r;
@@ -407,6 +419,7 @@ $r['content'] .= '
         $this->form->addInput('textField','placeOfBirth',null,null,gettext('Place of Birth'));
         $this->form->addInput('textField','placeOfDeath',null,null,gettext('Place of Death'));
         $this->form->addInput('dropdownList','profession',$professions,null,gettext('Profession'));
+        $this->form->addFileUpload('headerImg',gettext('Header Image'));
 
         $r['content'] .= $this->form->generateForm('updateArtist',gettext('Update'));
 
@@ -443,10 +456,10 @@ $r['content'] .= '
         unset($data['editForm']);
 
 
-        if ($this->model->fragger($data,'artist','update',"id='$artistId'")) {
+        if ($this->model->updater($data,'artist',"id='$artistId'")) {
             $r = buildingBlocks::successMSG(gettext('Update successful!'));
         } else {
-            $r = buildingBlocks::errorMSG(gettext('An error occured, and could not update!'));
+            $r = buildingBlocks::errorMSG(gettext('An error occurred, and could not update!'));
         }
 
         return $r;
@@ -500,7 +513,7 @@ $r['content'] .= '
         $data = $this->model->getArtistBySlug($artistSlug);
 
         $r['artistName'] = $this->artistName($data);
-        $r['subTitle'] = '(' . $data['dateOfBirth'] . ', ' . $data['placeOfBirth'] . ' - ' . $data['dateOfDeath'] . ', ' . $data['placeOfDeath'] . ')';
+        $r['subTitle'] = $this->artistDateControl($data);
 
         $r['excerpt'] = coreFunctions::decoder($data['excerpt_' . $_SESSION['lang']]);
 
@@ -559,11 +572,19 @@ $r['content'] .= '
         return $r;
     }
 
+    /**
+     * @param null $artId
+     * @return mixed
+     */
     function getArtById($artId = null) {
         $artData = $this->model->getArtPiece($artId);
         return $artData['img'];
     }
 
+    /**
+     * @param null $index
+     * @return mixed
+     */
     function index($index = null) {
 
         $r['metaTitle'] = gettext('Artist Index');
@@ -608,9 +629,10 @@ $r['content'] .= '
                 $t = $row;
 
                 $t['name'] = $this->artistName($row);
-                $t['life'] = '(' . $t['dateOfBirth'] . ', ' . $t['placeOfBirth'] . ' - ' . $t['dateOfDeath'] . ', ' . $t['placeOfDeath'] . ')';
+                $t['life'] = $this->artistDateControl($row);
                 $t['link'] = '/' . $_SESSION['lang'] . '/artist/viewArtist/' . $t['slug'] . '.html';
-                $t['background'] = '142a41af4abc885e1c9f08274287f4024aee8605.jpg';
+                $t['excerpt'] = strip_tags(coreFunctions::decoder($t['excerpt_' . $_SESSION['lang']]));
+                $t['background'] = $t['headerImg'];
 
                 $newData[] = $t;
 
@@ -623,6 +645,9 @@ $r['content'] .= '
 
     }
 
+    /**
+     * @return mixed
+     */
     function throne_listProfessions() {
         $r['content'] = null;
         $r['control'] = null;
@@ -654,7 +679,7 @@ $r['content'] .= '
             $heads['title'] = gettext('Title');
             $heads['edit'] = gettext('Edit');
 
-            $r['content'] = $this->table->createSimpleTable($heads,$newData);
+            $r['content'] = buildingBlocks::createSimpleTable($heads,$newData);
 
         } else {
             $r['msg'] = buildingBlocks::noRecords();
@@ -663,6 +688,9 @@ $r['content'] .= '
         return $r;
     }
 
+    /**
+     * @return bool|string
+     */
     private function professionEditForm() {
 
         foreach ($this->activeLangs AS $l) {

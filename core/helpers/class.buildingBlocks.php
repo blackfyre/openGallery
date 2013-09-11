@@ -10,7 +10,8 @@
 /**
  * Class buildingBlocks
  */
-class buildingBlocks {
+class buildingBlocks
+{
 
     /**
      * This functions is much like the simpleTableGenerator
@@ -20,7 +21,8 @@ class buildingBlocks {
      * @param null|string $blockName optional, this will be the name (slug(#id)) of the block
      * @return null|string
      */
-    static function generateInfo($keys = null, $infoData = null, $blockName = null) {
+    static function generateInfo($keys = null, $infoData = null, $blockName = null)
+    {
 
         if (is_array($keys) AND is_array($infoData)) {
 
@@ -37,7 +39,7 @@ class buildingBlocks {
 
             $infoBox .= '<dl>';
 
-            foreach ($keys AS $key=>$name) {
+            foreach ($keys AS $key => $name) {
                 $infoBox .= '<dt>';
                 $infoBox .= $name;
                 $infoBox .= '</dt>';
@@ -60,30 +62,21 @@ class buildingBlocks {
      * @param string $string
      * @return string
      */
-    static function successMSG($string = null) {
+    static function successMSG($string = null)
+    {
 
         $string = coreFunctions::cleanVar($string);
 
         return "
         <div class='alert alert-success alert-dismissable'>
             <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-            <strong>SUCCESS!</strong> $string
+            <strong>" . gettext('SUCCESS!') . "</strong> $string
         </div>
         ";
     }
 
-    static function errorMSG($string = null) {
-
-        $string = coreFunctions::cleanVar($string);
-
-        return "
-        <div class='alert alert-danger alert-dismissable'>
-            <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-            <strong>ERROR!</strong> $string
-        </div>";
-    }
-
-    static function formSaveFail() {
+    static function formSaveFail()
+    {
 
         $string = gettext('An error occurred, check the error log for more details!');
 
@@ -91,16 +84,34 @@ class buildingBlocks {
 
     }
 
+    static function errorMSG($string = null)
+    {
+
+        $string = coreFunctions::cleanVar($string);
+
+        return "
+        <div class='alert alert-danger alert-dismissable'>
+            <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+            <strong>" . gettext('ERROR!') . "</strong> $string
+        </div>";
+    }
+
+    static function noRecords()
+    {
+        return self::infoMSG(gettext('No records in the database.'));
+    }
+
     /**
      * @param null $string
      * @param bool $dismiss
      * @return string
      */
-    static function infoMSG($string = null,$dismiss = true) {
+    static function infoMSG($string = null, $dismiss = true)
+    {
 
         $string = coreFunctions::cleanVar($string);
 
-        $dismiss = ($dismiss?'alert-dismissable':'');
+        $dismiss = ($dismiss ? 'alert-dismissable' : '');
 
         return "
         <div class='alert alert-info $dismiss'>
@@ -110,27 +121,116 @@ class buildingBlocks {
     }
 
     /**
+     * @param array $activeLangData
+     * @param array $rowData
+     * @param string $title
      * @return string
      */
-    static function noRecords() {
-        return self::infoMSG(gettext('No records in the database.'));
+    static public function langTableDropDown($activeLangData = null, $rowData = null, $title = null)
+    {
+
+        if (_MULTILANG) {
+            $r = '<div class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><img src="/img/flags/flag-' . $_SESSION['lang'] . '.png" class="smallFlag">&nbsp;' . $rowData[$title . '_' . $_SESSION['lang']] . '</a><ul class="dropdown-menu" role="menu">';
+
+            foreach ($activeLangData AS $lang) {
+                $r .= '<li>&nbsp;<img class="smallFlag" src="/img/flags/flag-' . $lang['isoCode'] . '.png">&nbsp;' . $rowData[$title . '_' . $lang['isoCode']] . '</li>';
+            }
+
+            $r .= '</ul></div>';
+        } else {
+            $r = $rowData[$title . '_' . $_SESSION['lang']];
+        }
+
+        return $r;
     }
 
     /**
-     * @param null $activeLangData
-     * @param null $rowData
-     * @param null $title
-     * @return string
+     * Table generator
+     *
+     * @param array $heads Table columns title and footer row $heads['columnName'] = 'Column name'
+     * @param array $content The content array
+     * @param null|array $extraClasses extra CSS classes, array(class1, class2, ...)
+     * @param bool $footer Show footer
+     * @param null $tableName An extra class as the name of the table, useful for jQuery ant other JS calls
+     * @return null|string String null if there's an error
      */
-    static public function langTableDropDown($activeLangData = null, $rowData = null, $title = null) {
-        $r = '<div class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><img src="/img/flags/flag-' . $_SESSION['lang'] . '.png" class="smallFlag">&nbsp;' . $rowData[$title . '_' . $_SESSION['lang']] . '</a><ul class="dropdown-menu" role="menu">';
+    public static function createSimpleTable($heads, $content, $extraClasses = null, $footer = true, $tableName = null)
+    {
+        if (is_array($heads) AND is_array($content)) {
 
-        foreach ($activeLangData AS $lang) {
-            $r .= '<li>&nbsp;<img class="smallFlag" src="/img/flags/flag-' . $lang['isoCode'] . '.png">&nbsp;' . $rowData[ $title .'_' . $lang['isoCode']] . '</li>';
+            $colsInTable = array_keys($heads);
+
+            $table = null;
+
+            $classes[] = 'table';
+            $classes[] = 'table-hover';
+            $classes[] = coreFunctions::slugger($tableName);
+
+            if (is_array($extraClasses)) {
+                $classes = array_merge($classes, $extraClasses);
+            }
+
+            $table .= '<table class="' . implode(' ', $classes) . '">';
+
+            $table .= '<thead>';
+            $table .= '<tr>';
+            foreach ($heads AS $head) {
+                $table .= '<th>';
+                $table .= $head;
+                $table .= '</th>';
+            }
+            $table .= '</tr>';
+            $table .= '</thead>';
+            $table .= '<tbody>';
+
+            foreach ($content AS $row) {
+                $table .= '<tr';
+
+                if (isset($row['rowClass'])) {
+                    $table .= ' class="' . $row['rowClass'] . '"';
+                }
+
+                $table .= '>';
+
+                foreach ($colsInTable AS $colName) {
+                    $table .= '<td>';
+                    $table .= (isset($row[$colName]) ? $row[$colName] : '');
+                    $table .= '</td>';
+                }
+
+                $table .= '</tr>';
+            }
+
+            $table .= '</tbody>';
+
+            if ($footer) {
+                $table .= '<tfoot>';
+                $table .= '<tr>';
+                foreach ($heads AS $head) {
+                    $table .= '<th>';
+                    $table .= $head;
+                    $table .= '</th>';
+                }
+                $table .= '</tr>';
+                $table .= '</tfoot>';
+            }
+
+
+            $table .= '</table>';
+
+            return $table;
+
         }
 
-        $r .= '</ul></div>';
+        return null;
+    }
 
-        return $r;
+    /**
+     * @param $data
+     */
+    public static function consoleDump($data) {
+        echo '<pre>';
+        print_r($data);
+        echo '</pre>';
     }
 }

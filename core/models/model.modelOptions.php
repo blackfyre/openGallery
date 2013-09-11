@@ -53,4 +53,11 @@ class modelOptions extends modelsHandler {
             return $this->fetchAll($query);
     }
 
+    /**
+     * Clears the log
+     */
+    function clearLog() {
+        $query = "TRUNCATE _log_error";
+        $this->db->query($query);
+    }
 }

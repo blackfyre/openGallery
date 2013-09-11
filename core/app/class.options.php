@@ -199,7 +199,7 @@ class options {
         $extraClass[] = 'table-condensed';
         */
 
-        $r['table'] = $this->table->createSimpleTable($heads,$reRenderedData,null,true,'langTable');
+        $r['table'] = buildingBlocks::createSimpleTable($heads,$reRenderedData,null,true,'langTable');
         $r['form'] = $this->addLangForm();
 
         return $r;
@@ -220,7 +220,7 @@ class options {
 
         if (is_array($data)) {
 
-            if ($this->model->fragger($dataToInsert,'languages')) {
+            if ($this->model->insert($dataToInsert,'languages')) {
 
                 $this->updateTables($dataToInsert['isoCode']);
 
@@ -286,7 +286,7 @@ class options {
 
     function setLang($langId = null,$toState = null) {
         $data['active'] = $toState;
-        return $this->model->fragger($data,'languages','update',"id='$langId'",false);
+        return $this->model->updater($data,'languages',"id='$langId'");
     }
 
     /**
@@ -303,7 +303,7 @@ class options {
         $heads['userName'] = 'userName';
         $heads['email'] = 'email';
 
-        $r['content'] = $this->table->createSimpleTable($heads,$data);
+        $r['content'] = buildingBlocks::createSimpleTable($heads,$data);
 
         return $r;
 
@@ -345,29 +345,47 @@ class options {
     /**
      * View log
      *
+     * @param null $action
      * @return mixed
      */
-    function logView() {
+    function logView($action = null) {
         $r['moduleTitle'] = gettext('LogViewer');
         $r['control'] = null;
         $r['content'] = null;
 
-        $data = $this->model->getLog();
-
-        $newData = null;
-
-        foreach ($data AS $d) {
-            $t = $d;
-
-            $t['message'] = htmlspecialchars_decode($t['message']);
-
-            $newData[] = $t;
+        if (!is_null($action)) {
+            switch (coreFunctions::cleanVar($action)) {
+                case 'clearLog':
+                    $this->model->clearLog();
+                    break;
+            }
         }
 
-        $heads['addedOn'] = 'addedOn';
-        $heads['message'] = 'message';
+        $data = $this->model->getLog();
 
-        $r['content'] = $this->table->createSimpleTable($heads,$newData);
+        if (is_array($data) AND count($data)>0) {
+
+            $r['control'] = '<a href="/throne/options/logView/clearLog.html" role="button" class="btn btn-primary"><span class="glyphicon glyphicon-trash"></span> ' . gettext('Delete Log') . '</a>';
+
+            $newData = null;
+
+            foreach ($data AS $d) {
+                $t = $d;
+
+                $t['message'] = htmlspecialchars_decode($t['message']);
+
+                $newData[] = $t;
+            }
+
+            $heads['addedOn'] = 'addedOn';
+            $heads['message'] = 'message';
+
+            $r['content'] = buildingBlocks::createSimpleTable($heads,$newData);
+        } else {
+            $r['msg'] = buildingBlocks::noRecords();
+        }
+
+
 
         return $r;
     }

@@ -48,8 +48,16 @@ class menuModel extends modelsHandler {
      * @return array|bool
      */
     function getAdminMenu() {
-        $query = "SELECT * FROM menu_admin WHERE active='1'";
+        $query = "SELECT * FROM menu_admin WHERE active='1' ORDER BY `order` ASC, id ASC";
 
+        return $this->fetchAll($query);
+    }
+
+    /**
+     * @return array|bool
+     */
+    function getPositions() {
+        $query = "SELECT * FROM menu_positions WHERE deleted='0'";
         return $this->fetchAll($query);
     }
 }

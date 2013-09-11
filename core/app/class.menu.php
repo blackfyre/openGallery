@@ -139,7 +139,7 @@ class menu {
 
                         $r['content'] .= '<img src="/img/flags/flag-' . $lang . '.png" style="width: 32px">';
 
-                        $r['content'] .= $this->table->createSimpleTable($heads,$newTable, array($tblName));
+                        $r['content'] .= buildingBlocks::createSimpleTable($heads,$newTable, array($tblName));
 
                         $r['content'] .= '</div>';
                     } else {
@@ -159,16 +159,12 @@ class menu {
 
                         $r['content'] .= '<img src="/img/flags/flag-' . $lang . '.png" style="width: 32px">';
 
-                        $r['content'] .= $this->table->createSimpleTable($heads,$newTable, array($tblName));
+                        $r['content'] .= buildingBlocks::createSimpleTable($heads,$newTable, array($tblName));
 
                         $r['content'] .= '</div>';
 
                     }
                 }
-
-
-
-
             }
 
         } else {
@@ -178,6 +174,11 @@ class menu {
         return $r;
     }
 
+    /**
+     * @param null $lang
+     * @param int $positionId
+     * @return bool|string
+     */
     function menuForm($lang = null,$positionId = 1) {
 
         $form = null;
@@ -209,6 +210,11 @@ class menu {
         return $this->form->generateForm($formName,'Save',null,'/responders/saveMenu.php','bootstrap-horizontal',true);
     }
 
+    /**
+     * @param null $lang
+     * @param int $positionId
+     * @return bool|string
+     */
     function articleForm($lang = null,$positionId = 1) {
         $form = null;
 
@@ -241,6 +247,10 @@ class menu {
         return $this->form->generateForm($formName,'Save',null,'/responders/saveMenu.php','bootstrap-horizontal',true);
     }
 
+    /**
+     * @param null $id
+     * @return bool|string
+     */
     function editMenu($id = null) {
         if (is_numeric($id)) {
 
@@ -289,6 +299,9 @@ class menu {
         return $data['langCode'];
     }
 
+    /**
+     * @return null|string
+     */
     function generateMainNav() {
 
         $lang = $_SESSION['lang'];
@@ -304,7 +317,10 @@ class menu {
         return $r;
     }
 
-    function adminMenu() {
+    /**
+     * @return null|string
+     */
+    public function adminMenu() {
         $data = $this->model->getAdminMenu();
 
         $r = null;
@@ -317,6 +333,11 @@ class menu {
 
     }
 
+    /**
+     * @param null $action
+     * @param null $menuId
+     * @return bool|null
+     */
     function setMenu($action = null, $menuId = null) {
         switch (coreFunctions::cleanVar($action)) {
             case 'del':
@@ -334,6 +355,105 @@ class menu {
         }
 
         return $this->model->fragger($data,'menu_elements','update',"id='$menuId'");
+    }
+
+    /**
+     * @return array
+     */
+    public function listMenu() {
+        $r['moduleTitle'] = gettext('Menu manager');
+        $r['content'] = null;
+        $r['control'] = null;
+
+        $r['control'] .= '<a href="/throne/menu/addNewMenu.html" role="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus-sign"></span> ' . gettext('New Menu') . '</a>';
+
+        $data = $this->model->getPositions();
+
+        if (is_array($data) AND count($data)>0) {
+
+            $newData = null;
+
+            $heads['id'] = gettext('ID');
+            $heads['title'] = gettext('Title');
+            $heads['edit'] = gettext('Edit');
+
+            foreach ($data AS $row) {
+                $t = $row;
+
+                $t['title'] = buildingBlocks::langTableDropDown($this->lang,$row,'positionName');
+
+                $t['edit'] = '<div class="btn-toolbar">';
+                $t['edit'] .= '<div class="btn-group">';
+                $t['edit'] .= '<a href="/throne/menu/editMenu/' . $row['id'] . '.html" role="button" class="btn btn-primary btn-xs" title="' . gettext('Edit item') . '"><span class="glyphicon glyphicon-edit"></span></a>';
+                $t['edit'] .= '</div>';
+                $t['edit'] .= '<div class="btn-group">';
+                $t['edit'] .= '<a href="#" role="button" class="btn btn-danger btn-xs" title="' . gettext('Delete item') . '"><span class="glyphicon glyphicon-trash"></span></a>';
+                $t['edit'] .= '</div>';
+                $t['edit'] .= '</div>';
+
+                $newData[] = $t;
+            }
+
+            $r['content'] = buildingBlocks::createSimpleTable($heads,$newData);
+
+
+        } else {
+            $r['msg'] = buildingBlocks::noRecords();
+        }
+
+        return $r;
+    }
+
+    /**
+     * @return bool|string
+     */
+    private function addPositionForm() {
+
+        if (!_MULTILANG) {
+            $this->form->addTextField('positionName_' . $_SESSION['lang'],null,null,gettext('Menu name'));
+        } else {
+            foreach ($this->lang AS $l) {
+                $this->form->addTextField('positionName_' . $l['isoCode'],null,null,'<img src="/img/flags/flag-' . $l['isoCode'] . '.png" class="inputFlag">&nbsp;' . gettext('Menu name'));
+            }
+        }
+
+        return $this->form->generateForm('positionForm',gettext('Save'));
+
+    }
+
+    /**
+     * @return string
+     */
+    private function saveNewMenu() {
+        $data = $this->form->validator();
+
+        if ($this->model->insert($data,'menu_positions')) {
+            return buildingBlocks::successMSG(gettext('New menu successfully added!'));
+        } else {
+            $_SESSION['postBack'] = $data;
+            $_SESSION['postBack']['rePost'] = 1;
+            return buildingBlocks::errorMSG(gettext('Failed to save the new menu!'));
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function addNewMenu() {
+
+        if (!isset($_SESSION['postBack']['rePost'])) {
+            unset($_SESSION['postBack']);
+        }
+
+        if (isset($_POST['submit-positionForm'])) {
+            $r['msg'] = $this->saveNewMenu();
+        }
+
+        $r['moduleTitle'] = gettext('New Menu');
+        $r['content'] = $this->addPositionForm();
+        $r['backLink'] = gettext('Back');
+
+        return $r;
     }
 
     /**
@@ -389,6 +509,12 @@ class menu {
         return $content;
     }
 
+    /**
+     * Alternative make for front-end
+     * @param array $array
+     * @param int $parentId
+     * @return string
+     */
     private function frontMake(array $array, $parentId = 0) {
 
         $child = $this->hasChildren($array, $parentId);

@@ -19,6 +19,7 @@ define('_DEFAULT_METATAGS','nincs');
 define('_MULTILANG',true);
 
 define('_BASE_PATH',$_SERVER['DOCUMENT_ROOT']);
+define('_UPLOAD_PATH',_BASE_PATH . '/uploads');
 
 mb_internal_encoding('UTF-8');
 

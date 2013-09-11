@@ -1,6 +1,6 @@
 {include 'front/header.tpl'}
 
-<div class="jumbotron" style="background-image: url(/img/art/142a41af4abc885e1c9f08274287f4024aee8605.jpg); color: #ffffff; background-position: top center">
+<div class="jumbotron{if isset($headerImg)} shadowedJumbo{/if}" {if isset($headerImg)}style="background-image: url(/uploads/{$headerImg});background-size: 100% auto;"{/if}>
     <div class="container">
         <h1 class="artista">{$artistName} <small>{$subTitle}</small></h1>
         <div class="artista">{$excerpt}</div>
