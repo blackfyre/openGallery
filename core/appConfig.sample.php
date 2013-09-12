@@ -12,9 +12,10 @@
  * Oldal adatok
  */
 
-define('_DEFAULT_TITLE','AirFranceQuiz');
-define('_DEFAULT_METADESC','nincs');
-define('_DEFAULT_METATAGS','nincs');
+define('_DEFAULT_TITLE','');
+define('_SITE_NAME','');
+define('_DEFAULT_METADESC','');
+define('_DEFAULT_METATAGS','');
 
 define('_MULTILANG',true);
 
