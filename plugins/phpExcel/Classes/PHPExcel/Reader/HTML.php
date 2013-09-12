@@ -22,7 +22,7 @@
  * @package    PHPExcel_Reader
  * @copyright  Copyright (c) 2006 - 2013 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
- * @version    1.7.9, 2013-06-02
+ * @version    ##VERSION##, ##DATE##
  */
 
 
@@ -117,7 +117,7 @@ class PHPExcel_Reader_HTML extends PHPExcel_Reader_Abstract implements PHPExcel_
 	{
 		//	Reading 2048 bytes should be enough to validate that the format is HTML
 		$data = fread($this->_fileHandle, 2048);
-		if ((strpos('<',$data) !== FALSE) &&
+		if ((strpos($data, '<') !== FALSE) &&
 			(strlen($data) !== strlen(strip_tags($data)))) {
 			return TRUE;
 		}

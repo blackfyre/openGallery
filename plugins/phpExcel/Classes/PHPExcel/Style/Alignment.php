@@ -22,7 +22,7 @@
  * @package	PHPExcel_Style
  * @copyright  Copyright (c) 2006 - 2013 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license	http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
- * @version	1.7.9, 2013-06-02
+ * @version	##VERSION##, ##DATE##
  */
 
 
@@ -42,12 +42,15 @@ class PHPExcel_Style_Alignment extends PHPExcel_Style_Supervisor implements PHPE
 	const HORIZONTAL_CENTER					= 'center';
 	const HORIZONTAL_CENTER_CONTINUOUS		= 'centerContinuous';
 	const HORIZONTAL_JUSTIFY				= 'justify';
+	const HORIZONTAL_FILL				    = 'fill';
+	const HORIZONTAL_DISTRIBUTED		    = 'distributed';        // Excel2007 only
 
 	/* Vertical alignment styles */
 	const VERTICAL_BOTTOM					= 'bottom';
 	const VERTICAL_TOP						= 'top';
 	const VERTICAL_CENTER					= 'center';
 	const VERTICAL_JUSTIFY					= 'justify';
+	const VERTICAL_DISTRIBUTED		        = 'distributed';        // Excel2007 only
 
 	/**
 	 * Horizontal

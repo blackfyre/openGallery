@@ -22,7 +22,7 @@
  * @package    PHPExcel_Shared
  * @copyright  Copyright (c) 2006 - 2013 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
- * @version    1.7.9, 2013-06-02
+ * @version    ##VERSION##, ##DATE##
  */
 
 
@@ -85,6 +85,7 @@ class PHPExcel_Shared_CodePage
 			case 10000:	return 'MAC';				break;	//	Apple Roman
 			case 10006:	return 'MACGREEK';			break;	//	Macintosh Greek
 			case 10007:	return 'MACCYRILLIC';		break;	//	Macintosh Cyrillic
+            case 10008: return 'CP936';             break;  //  Macintosh - Simplified Chinese (GB 2312)
 			case 10029:	return 'MACCENTRALEUROPE';	break;	//	Macintosh Central Europe
 			case 10079: return 'MACICELAND';		break;	//	Macintosh Icelandic
 			case 10081: return 'MACTURKISH';		break;	//	Macintosh Turkish

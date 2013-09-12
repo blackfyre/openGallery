@@ -22,7 +22,7 @@
  * @package    PHPExcel_Reader_Excel5
  * @copyright  Copyright (c) 2006 - 2013 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
- * @version    1.7.9, 2013-06-02
+ * @version    ##VERSION##, ##DATE##
  */
 
 // Original file header of ParseXL (used as the base for this class):
@@ -1569,11 +1569,15 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 	private function _readFilepass()
 	{
 		$length = self::_GetInt2d($this->_data, $this->_pos + 2);
-//		$recordData = substr($this->_data, $this->_pos + 4, $length);
+		$recordData = substr($this->_data, $this->_pos + 4, $length);
 
 		// move stream pointer to next record
 		$this->_pos += 4 + $length;
 
+		if (!$this->_readDataOnly) {
+			// offset: 0; size: 2; 16-bit hash value of password
+			$password = strtoupper(dechex(self::_GetInt2d($recordData, 0))); // the hashed password
+        }
 		throw new PHPExcel_Reader_Exception('Cannot read encrypted file');
 	}
 
@@ -1835,6 +1839,9 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 					break;
 				case 3:
 					$objStyle->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
+					break;
+				case 4:
+					$objStyle->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_FILL);
 					break;
 				case 5:
 					$objStyle->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_JUSTIFY);

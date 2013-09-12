@@ -33,11 +33,11 @@ date_default_timezone_set('Europe/London');
  * @package    PHPExcel
  * @copyright  Copyright (c) 2006 - 2013 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
- * @version    1.7.9, 2013-06-02
+ * @version    ##VERSION##, ##DATE##
  */
 
 /** PHPExcel */
-require_once '../Classes/PHPExcel.php';
+require_once dirname(__FILE__) . '/../Classes/PHPExcel.php';
 
 
 $objPHPExcel = new PHPExcel();
