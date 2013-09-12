@@ -44,9 +44,6 @@ class authManager
         $this->form = new formHandler();
         $this->model = new modelAuth();
 
-
-
-
     }
 
 
@@ -132,6 +129,9 @@ class authManager
 
     }
 
+    /**
+     * @return bool
+     */
     function throneLoginFormAction() {
         $data = $this->form->validator();
 

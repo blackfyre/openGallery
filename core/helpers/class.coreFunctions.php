@@ -12,8 +12,9 @@
  */
 class coreFunctions
 {
-
-
+    /**
+     * @return mixed
+     */
     static function docRoot() {
         return $_SERVER['DOCUMENT_ROOT'];
     }
@@ -98,7 +99,7 @@ class coreFunctions
      */
     static function cleanTextField($var)
     {
-        $var = strip_tags($var, '<br><b><string><ul><ol><li><a><i><em><pre><table><tbody><thead><tfoor><th><tr><td><p><div><img><sub><sup>');
+        $var = strip_tags($var, '<br><b><string><ul><ol><li><a><i><em><pre><table><tbody><thead><tfoor><th><tr><td><p><div><img><iframe><sub><sup>');
         $var = htmlspecialchars($var, ENT_QUOTES);
         return $var;
     }
@@ -159,6 +160,11 @@ class coreFunctions
         return false;
     }
 
+    /**
+     * @param $needle
+     * @param $haystack
+     * @return bool|int|string
+     */
     static function multiArrayKeyExists($needle, $haystack) {
         foreach ($haystack as $key=>$value) {
             if ($needle===$key) {
@@ -312,6 +318,12 @@ class coreFunctions
     }
 
 
+    /**
+     * Get the file extension
+     *
+     * @param $string
+     * @return mixed
+     */
     public static function getExtension($string) {
         $string = explode('.',$string);
 
@@ -364,9 +376,10 @@ class coreFunctions
 
 
     /**
-     * Specifikus taget eltávolít a stringből
-     * Forrás: http://altafphp.blogspot.hu/2011/12/remove-specific-tag-from-php-string.html
-     * @param string $tag
+     * Remove a tag type from the string
+     *
+     * Source: http://altafphp.blogspot.hu/2011/12/remove-specific-tag-from-php-string.html
+     * @param string $tag a, img, tr, p, ...
      * @param string $string
      * @return string
      */
@@ -377,7 +390,8 @@ class coreFunctions
     }
 
     /**
-     * Ellenőrzése, hogy a vizsgált szám ($int) a megadott intervallumon ($min - $max) belül van -e
+     * Check if the given $int is in between $min and $max
+     *
      * @param int $int
      * @param int $min
      * @param int $max
@@ -387,6 +401,9 @@ class coreFunctions
         return ($int>$min && $int<$max);
     }
 
+    /**
+     * Kill the run on the line
+     */
     public static function killer() {
         unset($_SESSION['errorInfo'],$_SESSION['successInfo']);
         $trace = debug_backtrace();
@@ -396,7 +413,7 @@ class coreFunctions
     }
 
     /**
-     * A mostani oldal url-e a requestekkel együtt
+     * Full url of the page with $_GET
      * @return string
      */
     public static function currentPage() {
@@ -404,7 +421,7 @@ class coreFunctions
     }
 
     /**
-     * Konstans dekódolása
+     * Decode a defined constant if it contains json code
      *
      * @param null $constant
      * @return bool|mixed
@@ -415,5 +432,18 @@ class coreFunctions
         } else {
             return false;
         }
+    }
+
+    /**
+     * Gets the src url from an iframe
+     *
+     * useful for getting the src links from embed codes like youtube's
+     *
+     * @param null $iframeString
+     * @return mixed
+     */
+    public static function getIframeSrc($iframeString = null) {
+        preg_match('/src="([^"]+)"/', $iframeString, $match);
+        return $match[1];
     }
 }

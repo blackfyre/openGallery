@@ -72,9 +72,20 @@ class controlHandler {
 
     }
 
+    /**
+     * @param null $reRouter
+     * @param string $tplFolder
+     */
     public function methodLoader($reRouter = null, $tplFolder = 'front') {
 
-        $data = $_GET;
+        $get = $_GET;
+
+        $data = null;
+
+        foreach ($get AS $key=>$value) {
+            $data[$key] = $value;
+        }
+
 
         if (isset($data['lang'])) {
             unset($data['lang']);

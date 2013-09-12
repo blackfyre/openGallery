@@ -145,6 +145,28 @@ class buildingBlocks
     }
 
     /**
+     * @param null $activeLangData
+     * @param null $rowData
+     * @param null $title
+     * @return null
+     */
+    static public function decodeForEdit($activeLangData = null, $rowData = null, $title = null)
+    {
+
+        if (_MULTILANG) {
+
+            foreach ($activeLangData AS $lang) {
+                $rowData[$title . '_' . $lang['isoCode']] = coreFunctions::decoder($rowData[$title . '_' . $lang['isoCode']]);
+            }
+
+        } else {
+            $rowData[$title . '_' . $_SESSION['lang']] = coreFunctions::decoder($rowData[$title . '_' . $_SESSION['lang']]);
+        }
+
+        return $rowData;
+    }
+
+    /**
      * Table generator
      *
      * @param array $heads Table columns title and footer row $heads['columnName'] = 'Column name'
@@ -223,14 +245,5 @@ class buildingBlocks
         }
 
         return null;
-    }
-
-    /**
-     * @param $data
-     */
-    public static function consoleDump($data) {
-        echo '<pre>';
-        print_r($data);
-        echo '</pre>';
     }
 }

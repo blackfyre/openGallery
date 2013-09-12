@@ -39,10 +39,13 @@ class smartyManager {
         $this->smarty->setConfigDir(_SMARTY_CONFIGDIR);
         $this->smarty->setCacheDir(_SMARTY_CACHE);
 
+        $this->dataToDisplay['siteName'] = _SITE_NAME;
+        /*
         $this->dataToDisplay['metaTitle'] = _DEFAULT_TITLE;
+        */
         $this->dataToDisplay['metaDesc'] = _DEFAULT_METADESC;
         $this->dataToDisplay['metaTags'] = _DEFAULT_METATAGS;
-        $this->dataToDisplay['chromeFrameContent'] = gettext('Ön egy<strong>elavult</strong> böngészőt használ. Kérjük frissítse!');
+        $this->dataToDisplay['chromeFrameContent'] = gettext('You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.');
         $this->dataToDisplay['googlePublisherLinkText'] = gettext('Find us on Google+');
         $this->dataToDisplay['googlePublisherID'] = _GOOGLE_PUBLISHER_ID;
         $this->dataToDisplay['jQuery'] = null;
@@ -50,6 +53,7 @@ class smartyManager {
         $this->dataToDisplay['content'] = null;
         $this->dataToDisplay['openGraph'] = socialMedia::websiteTag();
         $this->dataToDisplay['googlePlusOne'] = socialMedia::googleMobileRecommend();
+        $this->dataToDisplay['logout'] = gettext('Logout');
 
         $this->smartyAssigner($this->dataToDisplay);
 

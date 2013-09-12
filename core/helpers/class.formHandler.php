@@ -431,6 +431,17 @@ class formHandler
     }
 
     /**
+     * @param null $inputName
+     * @param null $value
+     * @param null $placeholder
+     * @param null $labelContent
+     * @param bool $required
+     */
+    public function addTextArea($inputName = null, $value = null, $placeholder = null, $labelContent = null, $required = false) {
+        $this->addInput('textArea',$inputName,$value,$placeholder,$labelContent,$required);
+    }
+
+    /**
      *
      * Generate the form, based on the already added inputs
      *
@@ -564,7 +575,7 @@ class formHandler
                         break;
                     case 'textArea':
                         $input1['label'] = '<label class="col-lg-2 control-label" for="textArea-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
-                        $input1['input'] = '<textarea class="form-control" ' . ($formElement['required']==true?'required':'') . ' name="textArea-' . $formElement['name'] . '" id="textArea-' . $formElement['name'] . '">' . $formElement['value'] . '</textarea>';
+                        $input1['input'] = '<textarea class="form-control" ' . ($formElement['required']==true?'required':'') . ' name="textArea-' . $formElement['name'] . '" id="textArea-' . $formElement['name'] . '"  placeholder="' . $formElement['placeholder'] . '">' . $formElement['value'] . '</textarea>';
                         $input1['required'] = $formElement['required'];
 
                         $rows[] = $input1;
