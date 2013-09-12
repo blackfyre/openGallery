@@ -41,8 +41,8 @@
             <a class="navbar-brand" href="/throne/">blackCMS 0.1b</a>
         </div>
         <div class="navbar-collapse collapse">
-            {if isset($adminMenu)}
-                {$adminMenu}
+            {if isset($menu)}
+                {$menu}
             {/if}
             <ul class="nav navbar-nav pull-right">
                 <li class="dropdown">

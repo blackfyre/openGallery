@@ -246,4 +246,30 @@ class buildingBlocks
 
         return null;
     }
+
+    public static function sideMenu($array = null) {
+        if (is_array($array)) {
+
+            $r = "<ul class='nav' role='nav'>";
+
+            foreach ($array AS $a) {
+
+                $icon = null;
+
+                if (isset($a['icon'])) {
+                    $icon = "<span class='glyphicon glyphicon-{$a['icon']}'></span>  ";
+                }
+
+                $r .="<li><a href='{$a['link']}'>$icon {$a['text']}</a></li>";
+            }
+
+            $r .= "</ul>";
+
+
+            return $r;
+
+        }
+
+        return null;
+    }
 }

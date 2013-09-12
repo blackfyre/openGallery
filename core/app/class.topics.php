@@ -44,7 +44,9 @@ class topics {
         $r['content'] = null;
         $r['control'] = null;
 
-        $r['control'] .= '<a href="/throne/topics/addNewTopic.html" role="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus-sign"></span> ' . gettext('New topic') . '</a>';
+        $control[] = array('link'=>"/throne/topics/addNewTopic.html","icon"=>'plus-sign',"text"=>gettext('New topic'));
+
+        $r['control'] = buildingBlocks::sideMenu($control);
 
         $data = $this->model->getTopics();
 
@@ -172,11 +174,11 @@ class topics {
 
         $r['moduleTitle'] = '<span class="glyphicon glyphicon-edit"></span> ' . gettext('Edit Topic');
 
-        $r['control'] = "
-        <ul class='nav' role='nav'>
-            <li><a href='/throne/topics/throne_listTopics.html'><span class='glyphicon glyphicon-arrow-left'></span>  " . gettext('Back') . "</a></li>
-        </ul>
-        ";
+
+        $control[] = array('link'=>"/throne/topics/throne_listTopics.html","icon"=>'arrow-left',"text"=>gettext('Back'));
+
+        $r['control'] = buildingBlocks::sideMenu($control);
+
 
         $data = $this->model->getTopicDataById($topicId);
 
@@ -199,7 +201,11 @@ class topics {
         }
 
         $r['moduleTitle'] = gettext('Topic Manager');
-        $r['control'] = null;
+
+        $control[] = array('link'=>"/throne/topics/throne_listTopics.html","icon"=>'arrow-left',"text"=>gettext('Back'));
+
+        $r['control'] = buildingBlocks::sideMenu($control);
+
         $r['content'] = $this->topicForm();
 
         return $r;
@@ -211,13 +217,13 @@ class topics {
      */
     function throne_listArticles($topicId = null) {
         $r['moduleTitle'] = gettext('Article manager');
-        $r['control'] = "
-        <ul class='nav' role='nav'>
-            <li><a href='/throne/topics/throne_newTextArticle/$topicId.html'><span class='glyphicon glyphicon-file'></span> " . gettext('New text article') . "</a></li>
-            <li><a href='/throne/topics/throne_newVideoArticle/$topicId.html'><span class='glyphicon glyphicon-film'></span> " . gettext('New video article') . "</a></li>
-            <li><a href='/throne/topics/throne_listTopics.html'><span class='glyphicon glyphicon-arrow-left'></span> " . gettext('Back') . "</a></li>
-        </ul>
-        ";
+
+        $control[] = array('link'=>"/throne/topics/throne_newTextArticle/$topicId.html","icon"=>'file',"text"=>gettext('New text article'));
+        $control[] = array('link'=>"/throne/topics/throne_newVideoArticle/$topicId.html","icon"=>'film',"text"=>gettext('New video article'));
+        $control[] = array('link'=>"/throne/topics/throne_listTopics.html","icon"=>'arrow-left',"text"=>gettext('Back'));
+
+        $r['control'] = buildingBlocks::sideMenu($control);
+
         $r['content'] = null;
 
         $data = $this->model->getArticleForTopic($topicId);
@@ -331,11 +337,9 @@ class topics {
         }
 
         $r['moduleTitle'] = '<span class="glyphicon glyphicon-file"></span> ' . gettext('New text article');
-        $r['control'] = "
-        <ul class='nav' role='nav'>
-            <li><a href='/throne/topics/throne_listArticles/$topicId.html'><span class='glyphicon glyphicon-arrow-left'></span>  " . gettext('Back') . "</a></li>
-        </ul>
-        ";
+        $control[] = array('link'=>"/throne/topics/throne_listArticles/$topicId.html","icon"=>'arrow-left',"text"=>gettext('Back'));
+
+        $r['control'] = buildingBlocks::sideMenu($control);
         $r['content'] = $this->textArticleForm();
 
         return $r;
@@ -407,11 +411,9 @@ class topics {
 
         $_SESSION['postBack'] = $data;
 
-        $r['control'] = "
-        <ul class='nav' role='nav'>
-            <li><a href='/throne/topics/throne_listArticles/$topicId.html'><span class='glyphicon glyphicon-arrow-left'></span>  " . gettext('Back') . "</a></li>
-        </ul>
-        ";
+        $control[] = array('link'=>"/throne/topics/throne_listArticles/$topicId.html","icon"=>'arrow-left',"text"=>gettext('Back'));
+
+        $r['control'] = buildingBlocks::sideMenu($control);
 
         $r['content'] = $this->textArticleForm();
 
@@ -494,11 +496,10 @@ class topics {
         }
 
         $r['moduleTitle'] = '<span class="glyphicon glyphicon-file"></span> ' . gettext('New text article');
-        $r['control'] = "
-        <ul class='nav' role='nav'>
-            <li><a href='/throne/topics/throne_listArticles/$topicId.html'><span class='glyphicon glyphicon-arrow-left'></span>  " . gettext('Back') . "</a></li>
-        </ul>
-        ";
+
+        $control[] = array('link'=>"/throne/topics/throne_listArticles/$topicId.html","icon"=>'arrow-left',"text"=>gettext('Back'));
+
+        $r['control'] = buildingBlocks::sideMenu($control);
         $r['content'] = $this->videoArticleForm();
 
         return $r;
