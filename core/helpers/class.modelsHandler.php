@@ -22,6 +22,9 @@ class modelsHandler
      */
     protected $error = null;
 
+    /**
+     * @param bool $debug
+     */
     function __construct($debug = true)
     {
         $this->debug = $debug;
@@ -157,6 +160,12 @@ class modelsHandler
         }
     }
 
+    /**
+     * @param array $data
+     * @param string $tableName
+     * @param bool $checkForDuplicates
+     * @return bool|null
+     */
     public function insert($data, $tableName, $checkForDuplicates = true)
     {
 
@@ -325,6 +334,19 @@ class modelsHandler
             }
 
         } else {
+            return false;
+        }
+    }
+
+    /**
+     * @param $query
+     * @return bool|int
+     */
+    protected function getRecordCount($query) {
+        if ($result = $this->db->query($query)) {
+            return $result->rowCount();
+        } else {
+            $this->error->queryError();
             return false;
         }
     }

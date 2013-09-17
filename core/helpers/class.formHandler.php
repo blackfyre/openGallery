@@ -638,7 +638,7 @@ class formHandler
                         $input1['input'] = null;
 
                         if (is_array($formElement['value'])) {
-                            $input1['input'] = '<select ' . ($formElement['required']==true?'required':'') . ' name="select-' . $formElement['name'] . '" id="select-' . $formElement['name'] . '">';
+                            $input1['input'] = '<select class="form-control" ' . ($formElement['required']==true?'required':'') . ' name="select-' . $formElement['name'] . '" id="select-' . $formElement['name'] . '">';
 
                             foreach ($formElement['value'] AS $key => $value) {
 
@@ -698,6 +698,15 @@ class formHandler
         return false;
     }
 
+    /**
+     * @param      $rows
+     * @param      $formName
+     * @param      $submitText
+     * @param      $submitAdd
+     * @param bool $modalForm
+     *
+     * @return bool|null|string
+     */
     private function bootstrapFormLayout($rows, $formName, $submitText, $submitAdd, $modalForm = false) {
         if (is_array($rows)) {
 
@@ -724,7 +733,7 @@ class formHandler
                 $r .= '
 <div class="form-group">
     <div class="col-lg-offset-2 col-lg-10">
-        <button class="btn btn-primary" type="submit" name="submit-' . $formName . '">' . $submitText . '</button>' . $submitAdd  .'
+        <button class="btn btn-primary" type="submit" name="submit-' . $formName . '">' . (is_null($submitText)?gettext('Save'):$submitText) . '</button>' . $submitAdd  .'
     </div>
 </div>
             ';

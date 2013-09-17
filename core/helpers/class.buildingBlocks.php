@@ -32,7 +32,7 @@ class buildingBlocks
 
                 $slugName = coreFunctions::slugger($blockName);
 
-                $infoBox .= "<h3 id='$slugName'>";
+                $infoBox .= "<h3 id='$slugName' class='infoBoxHead'>";
                 $infoBox .= $blockName;
                 $infoBox .= '</h3>';
             }
@@ -75,6 +75,9 @@ class buildingBlocks
         ";
     }
 
+    /**
+     * @return string
+     */
     static function formSaveFail()
     {
 
@@ -84,6 +87,11 @@ class buildingBlocks
 
     }
 
+    /**
+     * @param null $string
+     *
+     * @return string
+     */
     static function errorMSG($string = null)
     {
 
@@ -96,6 +104,9 @@ class buildingBlocks
         </div>";
     }
 
+    /**
+     * @return string
+     */
     static function noRecords()
     {
         return self::infoMSG(gettext('No records in the database.'));
@@ -174,9 +185,10 @@ class buildingBlocks
      * @param null|array $extraClasses extra CSS classes, array(class1, class2, ...)
      * @param bool $footer Show footer
      * @param null $tableName An extra class as the name of the table, useful for jQuery ant other JS calls
+     * @param bool|string $sortable
      * @return null|string String null if there's an error
      */
-    public static function createSimpleTable($heads, $content, $extraClasses = null, $footer = true, $tableName = null)
+    public static function createSimpleTable($heads, $content, $extraClasses = null, $footer = true, $tableName = null, $sortable = false)
     {
         if (is_array($heads) AND is_array($content)) {
 
@@ -207,6 +219,10 @@ class buildingBlocks
 
             foreach ($content AS $row) {
                 $table .= '<tr';
+
+                if (is_string($sortable)) {
+                    $table .= ' id="sort_' .  $row[$sortable] .'"';
+                }
 
                 if (isset($row['rowClass'])) {
                     $table .= ' class="' . $row['rowClass'] . '"';
@@ -247,6 +263,10 @@ class buildingBlocks
         return null;
     }
 
+    /**
+     * @param null $array
+     * @return null|string
+     */
     public static function sideMenu($array = null) {
         if (is_array($array)) {
 

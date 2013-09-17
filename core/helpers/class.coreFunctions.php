@@ -446,4 +446,14 @@ class coreFunctions
         preg_match('/src="([^"]+)"/', $iframeString, $match);
         return $match[1];
     }
+
+    /**
+     * @param null $toDump
+     * @param bool $html
+     */
+    public static function simpleDump($toDump = null, $html=false) {
+        echo ($html?'<pre>':'');
+        print_r($toDump);
+        echo ($html?'</pre>':'');
+    }
 }

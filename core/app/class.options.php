@@ -220,7 +220,7 @@ class options {
 
         if (is_array($data)) {
 
-            if ($this->model->insert($dataToInsert,'languages')) {
+            if ($this->model->fragger($dataToInsert,'languages')) {
 
                 $this->updateTables($dataToInsert['isoCode']);
 
@@ -295,7 +295,11 @@ class options {
      */
     function listUsers() {
         $r['content'] = null;
-        $r['moduleTitle'] = gettext('User Manager');
+        $r['moduleTitle'] = "<span class='glyphicon glyphicon-user'></span> " .gettext('User Manager');
+
+        $control[] = array('link'=>'/throne/options/newUser.html','icon'=>'plus','text'=>gettext('New user'));
+
+        $r['control'] = buildingBlocks::sideMenu($control);
 
         $data = $this->model->getUsers();
 
@@ -349,7 +353,7 @@ class options {
      * @return mixed
      */
     function logView($action = null) {
-        $r['moduleTitle'] = gettext('LogViewer');
+        $r['moduleTitle'] = "<span class='glyphicon glyphicon-fire'></span> " . gettext('LogViewer');
         $r['control'] = null;
         $r['content'] = null;
 
@@ -365,7 +369,9 @@ class options {
 
         if (is_array($data) AND count($data)>0) {
 
-            $r['control'] = '<a href="/throne/options/logView/clearLog.html" role="button" class="btn btn-primary"><span class="glyphicon glyphicon-trash"></span> ' . gettext('Delete Log') . '</a>';
+            $control[] = array('link'=>'/throne/options/logView/clearLog.html','icon'=>'trash','text'=>gettext('Delete Log'));
+
+            $r['control'] = buildingBlocks::sideMenu($control);
 
             $newData = null;
 

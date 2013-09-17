@@ -40,9 +40,6 @@ class smartyManager {
         $this->smarty->setCacheDir(_SMARTY_CACHE);
 
         $this->dataToDisplay['siteName'] = _SITE_NAME;
-        /*
-        $this->dataToDisplay['metaTitle'] = _DEFAULT_TITLE;
-        */
         $this->dataToDisplay['metaDesc'] = _DEFAULT_METADESC;
         $this->dataToDisplay['metaTags'] = _DEFAULT_METATAGS;
         $this->dataToDisplay['chromeFrameContent'] = gettext('You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.');
@@ -54,6 +51,8 @@ class smartyManager {
         $this->dataToDisplay['openGraph'] = socialMedia::websiteTag();
         $this->dataToDisplay['googlePlusOne'] = socialMedia::googleMobileRecommend();
         $this->dataToDisplay['logout'] = gettext('Logout');
+        $this->dataToDisplay['areYouSure'] = gettext('Are you sure?');
+        $this->dataToDisplay['jSCommunicationError'] = gettext('Communication error, please try again.');
 
         $this->smartyAssigner($this->dataToDisplay);
 
