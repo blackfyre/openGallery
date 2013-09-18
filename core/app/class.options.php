@@ -379,12 +379,14 @@ class options {
                 $t = $d;
 
                 $t['message'] = htmlspecialchars_decode($t['message']);
+                $t['edit'] .= '<a class="btn btn-warning btn-xs" href="/throne/options/viewEvent/' . $t['id'] . '.html"><span class="glyphicon glyphicon-edit"></span></a>';
 
                 $newData[] = $t;
             }
 
             $heads['addedOn'] = 'addedOn';
             $heads['message'] = 'message';
+            $heads['edit'] = '';
 
             $r['content'] = buildingBlocks::createSimpleTable($heads,$newData);
         } else {
@@ -392,6 +394,54 @@ class options {
         }
 
 
+
+        return $r;
+    }
+
+
+    /**
+     * @param null $eventId
+     */
+    function viewEvent($eventId = null) {
+        $data = $this->model->getLogEntry($eventId);
+
+        $r['moduleTitle'] = "<span class='glyphicon glyphicon-fire'></span> " . gettext('eventView');
+
+        $control[] = array('link'=>'/throne/options/logView.html','icon'=>'arrow-left','text'=>gettext('Back'));
+
+        $r['control'] = buildingBlocks::sideMenu($control);
+
+        $r['content'] = null;
+
+        $toDecode[] = 'post';
+        $toDecode[] = 'session';
+        $toDecode[] = 'get';
+        $toDecode[] = 'server';
+        $toDecode[] = 'cookie';
+        $toDecode[] = 'request';
+        $toDecode[] = 'cData';
+
+        foreach ($data AS $k=>$v) {
+            if (in_array($k,$toDecode)) {
+                $v = json_decode($v,true);
+                $v = coreFunctions::var_export_min($v,true);
+            } else {
+                $v = coreFunctions::decoder($v);
+            }
+
+            $r['content'] .= '
+
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">' . $k . '</h3>
+              </div>
+              <div class="panel-body">
+                ' . $v . '
+              </div>
+            </div>
+
+            ';
+        }
 
         return $r;
     }

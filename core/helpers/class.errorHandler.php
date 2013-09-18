@@ -73,7 +73,7 @@ class errorHandler
     {
         $caller = $this->getCaller();
         $errorInfo = $this->db->errorInfo();
-        $msg = 'Sikertelen lekérdezés->' . $caller['class'] . '->' . $caller['function'] . ': ' . $errorInfo[2];
+        $msg = 'Sikertelen lekérdezés-> ' . $caller['class'] . '-> ' . $caller['function'] . ': ' . $errorInfo[2];
         $this->errorMSG($msg, $this->db);
     }
 
@@ -83,7 +83,7 @@ class errorHandler
     public function isNullError($cData = null)
     {
         $caller = $this->getCaller();
-        $msg = 'NULL hiba->' . $caller['class'] . '->' . $caller['function'];
+        $msg = 'NULL hiba->' . $caller['class'] . '-> ' . $caller['function'];
         $this->errorMSG($msg,$cData);
     }
 
@@ -93,7 +93,7 @@ class errorHandler
     public function notExpectedResult()
     {
         $caller = $this->getCaller();
-        $msg = 'Nem várt eredmény->' . $caller['class'] . '->' . $caller['function'];
+        $msg = 'Nem várt eredmény->' . $caller['class'] . '-> ' . $caller['function'];
         $this->errorMSG($msg);
     }
 
@@ -103,7 +103,7 @@ class errorHandler
     public function variableMissing()
     {
         $caller = $this->getCaller();
-        $msg = 'Szükséges változó hiányzik!->' . $caller['class'] . '->' . $caller['function'];
+        $msg = 'Szükséges változó hiányzik!->' . $caller['class'] . '-> ' . $caller['function'];
         $this->errorMSG($msg);
     }
 
@@ -113,7 +113,7 @@ class errorHandler
     public function isNotAcceptedVar()
     {
         $caller = $this->getCaller();
-        $msg = 'Nem engedélyezett változó típus->' . $caller['class'] . '->' . $caller['function'];
+        $msg = 'Nem engedélyezett változó típus->' . $caller['class'] . '-> ' . $caller['function'];
         $this->errorMSG($msg);
     }
 
@@ -123,7 +123,7 @@ class errorHandler
     public function isNotIntError($cData = null)
     {
         $caller = $this->getCaller();
-        $msg = 'A szükséges változó nem szám!->' . $caller['class'] . '->' . $caller['function'];
+        $msg = 'A szükséges változó nem szám!->' . $caller['class'] . '-> ' . $caller['function'];
         $this->errorMSG($msg,$cData);
     }
 
@@ -133,7 +133,7 @@ class errorHandler
     public function moreResultsThanExpected()
     {
         $caller = $this->getCaller();
-        $msg = 'A vártnál több eredmény!->' . $caller['class'] . '->' . $caller['function'];
+        $msg = 'A vártnál több eredmény!->' . $caller['class'] . '-> ' . $caller['function'];
         $this->errorMSG($msg);
     }
 
@@ -143,7 +143,7 @@ class errorHandler
     public function formValidationError()
     {
         $caller = $this->getCaller();
-        $msg = 'Az ürlap hibásan került kitöltésre!->' . $caller['class'] . '->' . $caller['function'];
+        $msg = 'Az ürlap hibásan került kitöltésre!->' . $caller['class'] . '-> ' . $caller['function'];
         $this->errorMSG($msg);
     }
 
@@ -153,7 +153,7 @@ class errorHandler
     public function isNotArrayError($cData = null)
     {
         $caller = $this->getCaller();
-        $msg = 'Nem tömb->' . $caller['class'] . '->' . $caller['function'];
+        $msg = 'Nem tömb->' . $caller['class'] . '-> ' . $caller['function'];
         $this->errorMSG($msg,$cData);
     }
 
@@ -163,7 +163,7 @@ class errorHandler
     public function notRequiredVar()
     {
         $caller = $this->getCaller();
-        $msg = 'A változó típusa eltér a várttól->' . $caller['class'] . '->' . $caller['function'];
+        $msg = 'A változó típusa eltér a várttól->' . $caller['class'] . '-> ' . $caller['function'];
         $this->errorMSG($msg);
     }
 

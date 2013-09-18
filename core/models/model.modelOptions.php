@@ -60,4 +60,13 @@ class modelOptions extends modelsHandler {
         $query = "TRUNCATE _log_error";
         $this->db->query($query);
     }
+
+    /**
+     * @param null $entryId
+     * @return array|bool
+     */
+    function getLogEntry($entryId = null) {
+        $query = "SELECT * FROM _log_error WHERE id='$entryId'";
+        return $this->fetchSingleRow($query);
+    }
 }

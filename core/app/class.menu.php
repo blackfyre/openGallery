@@ -320,7 +320,7 @@ class menu {
     /**
      * @return null|string
      */
-    public function adminMenu() {
+    function adminMenu() {
         $data = $this->model->getAdminMenu();
 
         $r = null;
@@ -524,7 +524,7 @@ class menu {
         }
 
         if ($parentId == 0) {
-            $content = '<ul class="nav navbar-nav">';
+            $content = '<ul class="nav navbar-nav pull-right">';
         } else {
             $content = '<ul class="dropdown-menu">';
         }

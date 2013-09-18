@@ -242,6 +242,7 @@ class topics
     private function saveNewTopic()
     {
         $data = $this->form->validator();
+        unset($data['editForm']);
 
         if (_MULTILANG) {
 
@@ -859,7 +860,7 @@ if ($('table').hasClass('sortableTable')) {
             $r['msg'] = $this->saveNewVideoArticle($topicId);
         }
 
-        $r['moduleTitle'] = '<span class="glyphicon glyphicon-file"></span> ' . gettext('New text article');
+        $r['moduleTitle'] = '<span class="glyphicon glyphicon-file"></span> ' . gettext('New video article');
 
         $control[] = array('link' => "/throne/topics/throne_listArticles/$topicId.html", "icon" => 'arrow-left', "text" => gettext('Back'));
 
@@ -891,11 +892,17 @@ if ($('table').hasClass('sortableTable')) {
             $data['slug_' . $_SESSION['lang']] = coreFunctions::slugger($data['title_' . $_SESSION['lang']]);
         }
 
-        $url = $data['youtube'];
-        parse_str(parse_url($url, PHP_URL_QUERY), $getVars);
+        if ($data['youtube'] != '') {
+            $url = $data['youtube'];
+            parse_str(parse_url($url, PHP_URL_QUERY), $getVars);
+            $data['youtubeLink']   = $getVars['v'];
+        } else {
+            $data['youtube'] = 'NULL';
+            $data['youtubeLink'] = 'NULL';
+        }
 
-        $data['youtubeLink']   = $getVars['v'];
-        $data['indavideoLink'] = str_replace('//', '', strtok(coreFunctions::getIframeSrc(coreFunctions::decoder($data['indavideo'])), '?'));
+        $data['indavideo'] = ($data['indavideo']==''?'NULL':$data['indavideo']);
+        $data['indavideoLink'] = ($data['indavideo']!=''?str_replace('//', '', strtok(coreFunctions::getIframeSrc(coreFunctions::decoder($data['indavideo'])), '?')):'NULL');
 
         if ($this->model->insert($data, 'content_articles')) {
             return buildingBlocks::successMSG('Video article successfully saved!');
@@ -965,7 +972,7 @@ if ($('table').hasClass('sortableTable')) {
         $r['info'] = null;
 
         if (isset($_SESSION['postBack']['youtubeLink']) AND $_SESSION['postBack']['youtubeLink'] != '') {
-            $r['info'] .= "<img src='http://i1.ytimg.com/vi/{$_SESSION['postBack']['youtubeLink']}/maxresdefault.jpg' class='img-responsive'>";
+            $r['info'] .= "<img src='http://img.youtube.com/vi/{$_SESSION['postBack']['youtubeLink']}/hqdefault.jpg' class='img-responsive'>";
             $r['info'] .= "<hr>";
             $r['info'] .= "<div class='embed-container'><iframe src='http://www.youtube.com/embed/{$_SESSION['postBack']['youtubeLink']}?rel=0' frameborder='0' allowfullscreen></iframe></div>";
         }
@@ -1000,7 +1007,7 @@ if ($('table').hasClass('sortableTable')) {
         parse_str(parse_url($url, PHP_URL_QUERY), $my_array_of_vars);
 
         $data['youtubeLink']   = $my_array_of_vars['v'];
-        $data['indavideoLink'] = str_replace('//', '', strtok(coreFunctions::getIframeSrc(coreFunctions::decoder($data['indavideo'])), '?'));
+        $data['indavideoLink'] = ($data['indavideo']!=''?str_replace('//', '', strtok(coreFunctions::getIframeSrc(coreFunctions::decoder($data['indavideo'])), '?')):'NULL');
 
 
         /*
@@ -1025,5 +1032,141 @@ if ($('table').hasClass('sortableTable')) {
             return buildingBlocks::formSaveFail();
         }
 
+    }
+
+    /* ------------------------------------------------------------------------------------------------------------------ */
+    /* -------------------------------------------- FRONT END ----------------------------------------------------------- */
+    /* ------------------------------------------------------------------------------------------------------------------ */
+
+    /**
+     * @param null $slug
+     *
+     * @return mixed
+     */
+    function viewArticle($slug = null) {
+
+        $data = $this->model->getArticleBySlug($slug);
+
+        $r['content'] = null;
+        $r['sideMenu'] = null;
+
+        $r['sideMenu'] = $this->topicMenu($data['topicId']);
+
+        if (is_array($data)) {
+
+            $r['metaTitle'] = $data['title_' . $_SESSION['lang']];
+
+            $box = null;
+
+            $box .= '<article>';
+            $box .= '<h1>' . $data['title_' . $_SESSION['lang']] .  '</h1>';
+            $box .= coreFunctions::decoder($data['excerpt_' . $_SESSION['lang']]);
+
+            if (isset($data['youtubeLink'])) {
+                $box .= "<div class='embed-container contentEmbed'><iframe src='http://www.youtube.com/embed/{$data['youtubeLink']}?rel=0' frameborder='0' allowfullscreen></iframe></div>";
+            } elseif (isset($data['indavideoLink'])) {
+
+            }
+
+            $box .= coreFunctions::decoder($data['content_' . $_SESSION['lang']]);
+
+            $box .= '</article>';
+
+            $r['content'] = frontElements::boxer($box,gettext('Article'),true);
+        }
+
+        return $r;
+    }
+
+    /**
+     * @param null $topicId
+     *
+     * @return string
+     */
+    private function topicMenu($topicId = null) {
+
+        $data = $this->model->getTopicMenu($topicId);
+
+        if (is_array($data)) {
+            $r = '<ul class="nav funSideNav">';
+
+            foreach ($data as $d) {
+
+                $link = null;
+
+                if (isset($d['articleId'])) {
+                    $link = '/topics/viewArticle/' . $d['slug_' . $_SESSION['lang']] . '.html';
+                } else {
+                    $link = $d['href'];
+                }
+
+                $linkText = null;
+
+                if (isset($d['text_' . $_SESSION['lang']])) {
+                    $linkText = $d['text_' . $_SESSION['lang']];
+                } else {
+                    $linkText = $d['title_' . $_SESSION['lang']];
+                }
+
+
+                $r .= '<li><a target="' . $d['target'] . '" href="' . $link . '">' . $linkText . '</a></li>';
+            }
+
+            $r .= '</ul>';
+
+            return $r;
+        }
+
+        return null;
+    }
+
+    /**
+     * @return mixed
+     */
+    function videoList() {
+        $data = $this->model->getVideoArticles();
+
+        $r['metaTitle'] = 'Fundamenta Mozi';
+        $r['content'] = null;
+
+        if (is_array($data)) {
+                $box = null;
+
+            foreach ($data AS $row) {
+
+                $link = '/topics/viewArticle/' . $row['slug_' . $_SESSION['lang']] . '.html';
+
+                $box .= '
+                <div class="media">
+                  <a class="pull-left" href="' . $link . '">
+                    <img class="media-object" style="max-width:128px;max-height:128px;" src="http://img.youtube.com/vi/' . $row['youtubeLink'] . '/hqdefault.jpg" alt="' . $row['title_' . $_SESSION['lang']] . '">
+                  </a>
+                  <div class="media-body">
+                    <h4 class="media-heading">' . $row['title_' . $_SESSION['lang']] . '</h4>
+                    ' . coreFunctions::decoder($row['excerpt_' . $_SESSION['lang']]) . '
+                  </div>
+                </div>
+
+                ';
+            }
+
+            $r['content'] = frontElements::boxer($box,gettext('Videos'));
+        }
+
+        return $r;
+    }
+
+    /**
+     * @param null $topicSlug
+     */
+    function viewTopic($topicSlug = null) {
+
+        $topic = $this->model->getTopicBySlug($topicSlug);
+
+        $r['metaTitle'] = $topic['categoryName_' . $_SESSION['lang']];
+        $r['content'] = null;
+        $r['sideMenu'] = $this->topicMenu($topic['cacId']);
+
+        return $r;
     }
 }
