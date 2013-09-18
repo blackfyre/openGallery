@@ -361,11 +361,13 @@ class menu {
      * @return array
      */
     public function listMenu() {
-        $r['moduleTitle'] = gettext('Menu manager');
+        $r['moduleTitle'] = "<span class='glyphicon glyphicon-random'></span>&nbsp;" . gettext('Menu manager');
         $r['content'] = null;
         $r['control'] = null;
 
-        $r['control'] .= '<a href="/throne/menu/addNewMenu.html" role="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus-sign"></span> ' . gettext('New Menu') . '</a>';
+        $control[] = array('link'=>'/throne/menu/addNewMenu.html','icon'=>'plus-sign','text'=>gettext('New Menu'));
+
+        $r['control'] = buildingBlocks::sideMenu($control);
 
         $data = $this->model->getPositions();
 
