@@ -58,6 +58,17 @@ class buildingBlocks
     }
 
     /**
+     * @param null $videoId
+     *
+     * @return mixed
+     */
+    static function getIndavideoDetails($videoId = null) {
+        $indaData = file_get_contents("http://indavideo.hu/oembed/$videoId&format=json");
+
+        return json_decode($indaData,true);
+    }
+
+    /**
      * A standard success message
      * @param string $string
      * @return string
@@ -231,7 +242,13 @@ class buildingBlocks
                 $table .= '>';
 
                 foreach ($colsInTable AS $colName) {
-                    $table .= '<td>';
+
+                    if ($colName=='edit') {
+                        $table .= '<td style="white-space: nowrap">';
+                    } else {
+                        $table .= '<td>';
+                    }
+
                     $table .= (isset($row[$colName]) ? $row[$colName] : '');
                     $table .= '</td>';
                 }
@@ -264,6 +281,8 @@ class buildingBlocks
     }
 
     /**
+     * Admin sidemenu
+     *
      * @param null $array
      * @return null|string
      */
@@ -292,4 +311,34 @@ class buildingBlocks
 
         return null;
     }
+
+    /**
+     * @param null   $img
+     * @param string $link
+     * @param null   $title
+     * @param null   $excerpt
+     * @param string $linkTarget
+     *
+     * @return string
+     */
+    public static function mediaBox($img = null, $link = '#', $title = null, $excerpt = null, $linkTarget='_self') {
+        $r = '
+        <div class="media">
+          <a class="pull-left media-link" href="' . $link . '" target="' . $linkTarget . '">
+            <img class="media-object" src="' . $img . '" alt="' . $title . '">
+          </a>
+          <div class="media-body">';
+
+        if (!is_null($title)) {
+            $r .='<h4 class="media-heading">' . $title . '</h4>';
+        }
+
+            $r .= '<p>' . $excerpt . '</p>
+          </div>
+        </div>
+        ';
+
+        return $r;
+    }
+
 }

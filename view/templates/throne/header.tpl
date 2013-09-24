@@ -9,7 +9,7 @@
     <title>{$metaTitle}</title>
     <meta name="description" content="{$metaDesc}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/_bs3_dist/css/bootstrap-admin.css">
+    <link rel="stylesheet" href="/_bs3_dist/css/bootstrap.css">
 
 
     <!--

@@ -113,7 +113,12 @@ class artist {
         $r['subTitle'] = $this->artistDateControl($data);
         $r['bio'] = coreFunctions::decoder($data['bio_' . $_SESSION['lang']]);
         $r['excerpt'] = coreFunctions::decoder($data['excerpt_' . $_SESSION['lang']]);
-        $r['headerImg'] = $data['headerImg'];
+
+        if ($data['bioImg']!='') {
+            $r['bioImg'] = $data['bioImg'];
+            $r['bioImgTitle'] = gettext('A portrait of %s');
+            $r['bioImgTitle'] = str_replace('%s',$r['artistName'],$r['bioTitle']);
+        }
 
         /*
          * The page title and meta data
@@ -204,7 +209,7 @@ class artist {
         /*
          * The biography link
          */
-        $r['biokLink'] = '/' . $_SESSION['lang'] .  '/artist/viewArtist/' . $artistSlug . '.html';
+        $r['bioLink'] = '/' . $_SESSION['lang'] .  '/artist/viewArtist/' . $artistSlug . '.html';
 
         /*
          * compiling artist data for the template
@@ -212,6 +217,12 @@ class artist {
         $r['artistName'] = $this->artistName($data);
         $r['subTitle'] = $this->artistDateControl($data);
         $r['excerpt'] = coreFunctions::decoder($data['excerpt_' . $_SESSION['lang']]);
+
+        if ($data['bioImg']!='') {
+            $r['bioImg'] = $data['bioImg'];
+            $r['bioImgTitle'] = gettext('A portrait of %s');
+            $r['bioImgTitle'] = str_replace('%s',$r['artistName'],$r['bioImgTitle']);
+        }
 
         /*
          * As in viewArtist() we get the art data based on the previously gotten artists data
@@ -419,7 +430,7 @@ $r['content'] .= '
         $this->form->addInput('textField','placeOfBirth',null,null,gettext('Place of Birth'));
         $this->form->addInput('textField','placeOfDeath',null,null,gettext('Place of Death'));
         $this->form->addInput('dropdownList','profession',$professions,null,gettext('Profession'));
-        $this->form->addFileUpload('headerImg',gettext('Header Image'));
+        $this->form->addFileUpload('bioImg',gettext('Portrait'));
 
         $r['content'] .= $this->form->generateForm('updateArtist',gettext('Update'));
 
@@ -436,8 +447,7 @@ $r['content'] .= '
             $r['content'] .= '</div>' . PHP_EOL;
         }
 
-$r['content'] .= '
-</div>';
+$r['content'] .= '</div>';
 
 
         return $r;
@@ -473,13 +483,23 @@ $r['content'] .= '
     function throne_editArtist($artistId = null) {
         $r['moduleTitle'] = gettext('Edit Artist');
         $r['content'] = null;
-        $r['msg'] = null;
+
+        $control[] = array('link' => "/throne/artist/throne_artistIndex.html", "icon" => 'arrow-left', "text" => gettext('Back'));
+
+        $r['control'] = buildingBlocks::sideMenu($control);
+
+
 
         if (isset($_POST['submit-updateArtist'])) {
             $r['msg'] = $this->processArtistUpdate($artistId);
         }
 
         $data = $this->model->getArtistById($artistId);
+
+        if ($data['bioImg']!='') {
+            $r['info'] .= '<h3>' . gettext('Portrait') . '</h3>';
+            $r['info'] .= '<img class="img-responsive" src="/uploads/' . $data['bioImg'] . '">';
+        }
 
 
         foreach ($this->activeLangs as $l) {
@@ -520,6 +540,12 @@ $r['content'] .= '
         $r['bioButton'] = gettext('Biography');
         $r['bioLink'] = '/' . $_SESSION['lang'] .  '/artist/viewArtist/' . $artistSlug . '.html';
 
+        if ($data['bioImg']!='') {
+            $r['bioImg'] = $data['bioImg'];
+            $r['bioImgTitle'] = gettext('A portrait of %s');
+            $r['bioImgTitle'] = str_replace('%s',$r['artistName'],$r['bioImgTitle']);
+        }
+
         $artData = $this->model->getArtPiece($artId);
 
         $r['artImg'] = '/images/full/' . $artData['id'] . '/' . $artistSlug . '-' . $artData['titleSlug_' . $_SESSION['lang']] . '.' . coreFunctions::getExtension($artData['img']);
@@ -545,10 +571,10 @@ $r['content'] .= '
             }
         }
 
-        $defaultText = gettext("There's no content, please help!");
+        $defaultText = gettext("There's no content available, please help us improve!");
 
         if ($translation) {
-            $defaultText = gettext('Translation needed, please help!');
+            $defaultText = gettext('This content is available in other languages, please help us translate it!');
         }
 
         $r['artInfo'] = ($desc!=''?$desc:'<p>' . $defaultText . '</p>');
@@ -632,7 +658,13 @@ $r['content'] .= '
                 $t['life'] = $this->artistDateControl($row);
                 $t['link'] = '/' . $_SESSION['lang'] . '/artist/viewArtist/' . $t['slug'] . '.html';
                 $t['excerpt'] = strip_tags(coreFunctions::decoder($t['excerpt_' . $_SESSION['lang']]));
-                $t['background'] = $t['headerImg'];
+
+
+
+                if ($t['bioImg']!='') {
+                    $t['bioImgTitle'] = gettext('A portrait of %s');
+                    $t['bioImgTitle'] = str_replace('%s',$t['name'],$t['bioImgTitle']);
+                }
 
                 $newData[] = $t;
 

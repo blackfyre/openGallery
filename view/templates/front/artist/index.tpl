@@ -15,11 +15,31 @@
         </div>
         <div class="col-md-9 col-md-offset-1">
             {foreach from=$artists item=i}
-                <div class="jumbotron artistIndexElement{if isset($i.background)} shadowedJumbo{/if}" {if isset($i.background)}style="background-image: url(/uploads/{$i.background});background-size: 100% auto;"{/if}>
-                    <h1 class="artista">{$i.name}<br><small>{$i.life}</small></h1>
-                    {if isset($i.excerpt)}<p class="artista">{$i.excerpt}</p>{/if}
-                    <p class="artistIndexElementButton"><a href="{$i.link}" class="btn btn-primary" hreflang="{$smarty.session.lang}" >{$bioTitle}</a></p>
-                </div>
+
+                {if isset($i.bioImg) ANd isset($i.bioImgTitle)}
+
+                    <div class="jumbotron artistIndexElement">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img src="/uploads/{$i.bioImg}" title="{$i.bioImgTitle}" class="img-responsive">
+                            </div>
+                            <div class="col-md-9">
+                                <h1 class="artista">{$i.name}<br><small>{$i.life}</small></h1>
+                                {if isset($i.excerpt)}<p class="artista">{$i.excerpt}</p>{/if}
+                                <p class="artistIndexElementButton"><a href="{$i.link}" class="btn btn-primary" hreflang="{$smarty.session.lang}" >{$bioTitle}</a></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {else}
+                    <div class="jumbotron artistIndexElement">
+                        <h1 class="artista">{$i.name}<br><small>{$i.life}</small></h1>
+                        {if isset($i.excerpt)}<p class="artista">{$i.excerpt}</p>{/if}
+                        <p class="artistIndexElementButton"><a href="{$i.link}" class="btn btn-primary" hreflang="{$smarty.session.lang}" >{$bioTitle}</a></p>
+                    </div>
+                {/if}
+
+
             {/foreach}
         </div>
 

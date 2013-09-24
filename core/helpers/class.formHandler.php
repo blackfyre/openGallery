@@ -27,6 +27,12 @@ class formHandler
      */
     private $table = null;
 
+    private $formLayout = 'bootstrap-horizontal';
+
+    private $formRatio = '2:10';
+
+    private $submitStyle = 'primary';
+
     /**
      * @param bool $debug
      */
@@ -39,6 +45,37 @@ class formHandler
         $this->table = new tableHandler($debug);
 
         $this->debug = $debug;
+    }
+
+    /**
+     * @param string $layout
+     */
+    function setFormLayout($layout = 'bootstrap-horizontal') {
+        $this->formLayout = $layout;
+    }
+
+    /**
+     * @param string $ratio
+     */
+    function setFormRatio($ratio = '2:10') {
+        $this->formRatio = $ratio;
+    }
+
+    /**
+     * @param string $style
+     */
+    function setSubmitStyle($style = 'primary') {
+        $this->submitStyle=$style;
+    }
+
+    /**
+     * Reset the form class variables to their default values
+     * return void
+     */
+    private function resetForm() {
+        $this->setSubmitStyle();
+        $this->setFormLayout();
+        $this->setFormRatio();
     }
 
     /**
@@ -278,90 +315,6 @@ class formHandler
     }
 
     /**
-     * Old form generating function
-     *
-     * @deprecated
-     *
-     * @param string $formTitle
-     * @param array $formArray
-     * @param string $formAction
-     * @return bool|null|string
-     */
-    public function generateFormFromArray($formTitle = null, $formArray = null, $formAction = null)
-    {
-        if (is_array($formArray)) {
-
-            $formContent = null;
-            $tabIndex = 0;
-
-            foreach ($formArray as $row) {
-
-                if (isset($row['type'])) {
-                    $name = (isset($row['name']) ? $row['type'] . '-' . $row['name'] : null);
-                    $value = (isset($row['value']) ? $row['value'] : null);
-                    $placeHolder = (isset($row['placeH']) ? $row['placeH'] : null);
-
-                    $formContent .= "\r\n";
-
-                    switch ($row['type']) {
-                        case 'text':
-                            $formContent .= '<p><input tabindex="' . $tabIndex . '" class="textInput" id="' . $name . '" type="text" name="' . $name . '" value="' . $value . '" placeholder="' . $placeHolder . '" /></p>';
-                            break;
-                        case 'textArea':
-                            $formContent .= '<p><textarea tabindex="' . $tabIndex . '" id="' . $name . '" name="' . $name . '" placeholder="' . $placeHolder . '">' . $value . '</textarea></p>';
-                            break;
-                        case 'email':
-                            $formContent .= '<p><input tabindex="' . $tabIndex . '" id="' . $name . '" class="textInput" type="text" name="' . $name . '" value="' . $value . '" placeholder="' . $placeHolder . '" /></p>';
-                            break;
-                        case 'num':
-                            $formContent .= '<input tabindex="' . $tabIndex . '" id="' . $name . '" class="textInput" type="text" name="' . $name . '" value="' . $value . '" placeholder="' . $placeHolder . '" />';
-                            break;
-                        case 'file';
-                            break;
-                        case 'pass':
-                            $formContent .= '<p><input tabindex="' . $tabIndex . '" id="' . $name . '" type="password" class="textInput" name="' . $name . '" placeholder="' . $placeHolder . '"></p>';
-                            break;
-                        case 'hidden':
-                            $formContent .= '<input type="hidden" name="' . $name . '" value="' . $value . '" />';
-                            break;
-                        case 'label':
-                            $formContent .= '<p  id="' . $name . 'Label' . '" class="formLabel"><label for="' . $name . '">' . $value . '</label></p>';
-                            break;
-                        default:
-                            break;
-                    }
-
-                    $formContent .= "\r\n";
-
-                    $tabIndex++;
-                }
-            }
-
-            if (!is_null($formContent)) {
-
-                $titleSlug = (!is_null($formTitle) ? coreFunctions::slugger($formTitle, array(), '+') : 'form');
-                $idSlug = coreFunctions::slugger($formTitle);
-
-                $temp = "\r\n" . '<form id="' . $idSlug . '" accept-charset="utf-8" action="' . $formAction . '" enctype="multipart/form-data"  method="post">';
-                $temp .= "\r\n" . $formContent;
-                $temp .= '<input class="formButton" type="submit" name="submit-' . $titleSlug . '" />';
-                $temp .= '</form>';
-            } else {
-                $this->error->isNullError();
-                return null;
-            }
-
-
-            return $temp;
-
-
-        } else {
-            $this->error->isNotArrayError();
-            return false;
-        }
-    }
-
-    /**
      *
      * Add an input to a yet to be created form
      *
@@ -447,16 +400,25 @@ class formHandler
      *
      * @param string $formName
      * @param string $submitText
-     * @param string $submitAdd Addition code to place next to the Submit button (eg. cancel, reset, ...)
+     * @param string $submitAdd    Addition code to place next to the Submit button (eg. cancel, reset, ...)
      * @param string $submitTarget form target
-     * @param string $layoutMode bootstrap-horizontal|table
-     * @param bool $modalForm
+     * @param string $layoutMode   bootstrap-horizontal|table
+     * @param bool   $modalForm
+     * @param string $ratio
+     *
      * @return bool|string
      */
-    public function generateForm($formName = null, $submitText = null, $submitAdd = null, $submitTarget = null, $layoutMode = 'bootstrap-horizontal', $modalForm = false)
+    public function generateForm($formName = null, $submitText = null, $submitAdd = null, $submitTarget = null, $layoutMode = 'bootstrap-horizontal', $modalForm = false, $ratio='2:10')
     {
         if (is_array($this->normalForm)) {
 
+            $ratio = $this->formRatio;
+
+            $ratio = explode(':',$ratio);
+            
+            $ratio['label'] = $ratio[0];
+            $ratio['input'] = $ratio[1];
+            
             $rows = null;
 
             foreach ($this->normalForm AS $formElement) {
@@ -467,13 +429,13 @@ class formHandler
                          * Reglap páros jelszó
                          */
 
-                        $input1['label'] = '<label class="col-lg-2 control-label" for="text-' . $formElement['name'] . '1">' . gettext('Password') . '</label>';
+                        $input1['label'] = '<label class="col-lg-' . $ratio['label']  . ' control-label" for="text-' . $formElement['name'] . '1">' . gettext('Password') . '</label>';
                         $input1['input'] = '<input class="form-control" ' . ($formElement['required']==true?'required':'') . ' type="password" name="text-' . $formElement['name'] . '1" id="text-' . $formElement['name'] . '1" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
                         $input1['required'] = $formElement['required'];
 
                         $rows[] = $input1;
 
-                        $input2['label'] = '<label class="col-lg-2 control-label" for="text-' . $formElement['name'] . '2">' . gettext('Password') . '</label>';
+                        $input2['label'] = '<label class="col-lg-' . $ratio['label']  . ' control-label" for="text-' . $formElement['name'] . '2">' . gettext('Password') . '</label>';
                         $input2['input'] = '<input class="form-control" ' . ($formElement['required']==true?'required':'') . ' type="password" name="text-' . $formElement['name'] . '2" id="text-' . $formElement['name'] . '2" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
                         $input2['required'] = $formElement['required'];
 
@@ -485,7 +447,7 @@ class formHandler
                          * Szöveges mező
                          */
 
-                        $input1['label'] = '<label class="col-lg-2 control-label" for="text-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
+                        $input1['label'] = '<label class="col-lg-' . $ratio['label']  . ' control-label" for="text-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
                         $input1['input'] = '<input class="form-control" ' . ($formElement['required']==true?'required':'') . ' type="text" name="text-' . $formElement['name'] . '" id="text-' . $formElement['name'] . '" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
                         $input1['required'] = $formElement['required'];
 
@@ -498,7 +460,7 @@ class formHandler
                          * Szöveges mező
                          */
 
-                        $input1['label'] = '<label class="col-lg-2 control-label" for="text-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
+                        $input1['label'] = '<label class="col-lg-' . $ratio['label']  . ' control-label" for="text-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
                         $input1['input'] = '<input class="form-control" ' . ($formElement['required']==true?'required':'') . ' type="url" name="text-' . $formElement['name'] . '" id="text-' . $formElement['name'] . '" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
                         $input1['required'] = $formElement['required'];
 
@@ -511,7 +473,7 @@ class formHandler
                          * Szöveges mező
                          */
 
-                        $input1['label'] = '<label class="col-lg-2 control-label" for="num-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
+                        $input1['label'] = '<label class="col-lg-' . $ratio['label']  . ' control-label" for="num-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
                         $input1['input'] = '<input class="form-control" ' . ($formElement['required']==true?'required':'') . ' type="number" name="num-' . $formElement['name'] . '" id="num-' . $formElement['name'] . '" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
                         $input1['required'] = $formElement['required'];
 
@@ -524,7 +486,7 @@ class formHandler
                          * Szöveges mező
                          */
 
-                        $input1['label'] = '<label class="col-lg-2 control-label" for="date-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
+                        $input1['label'] = '<label class="col-lg-' . $ratio['label']  . ' control-label" for="date-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
                         $input1['input'] = '<input class="form-control" ' . ($formElement['required']==true?'required':'') . ' type="text" name="date-' . $formElement['name'] . '" id="date-' . $formElement['name'] . '" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
                         $input1['required'] = $formElement['required'];
 
@@ -549,7 +511,7 @@ class formHandler
                         /*
                          * Módosított szöveges mező az emailekhez
                          */
-                        $input1['label'] = '<label class="col-lg-2 control-label" for="email-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
+                        $input1['label'] = '<label class="col-lg-' . $ratio['label']  . ' control-label" for="email-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
                         $input1['input'] = '<input class="form-control" ' . ($formElement['required']==true?'required':'') . ' type="email" name="email-' . $formElement['name'] . '" id="email-' . $formElement['name'] . '" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
                         $input1['required'] = $formElement['required'];
 
@@ -560,47 +522,47 @@ class formHandler
                         /*
                          * Módosított szöveges mező az emailekhez
                          */
-                        $input1['label'] = '<label class="col-lg-2 control-label" for="phone-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
+                        $input1['label'] = '<label class="col-lg-' . $ratio['label']  . ' control-label" for="phone-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
                         $input1['input'] = '<input type="tel" ' . ($formElement['required']==true?'required':'') . ' name="phone-' . $formElement['name'] . '" id="phone-' . $formElement['name'] . '" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
                         $input1['required'] = $formElement['required'];
 
                         $rows[] = $input1;
                         break;
                     case 'password':
-                        $input1['label'] = '<label class="col-lg-2 control-label" for="text-' . $formElement['name'] . '">Jelszó</label>';
+                        $input1['label'] = '<label class="col-lg-' . $ratio['label']  . ' control-label" for="text-' . $formElement['name'] . '">Jelszó</label>';
                         $input1['input'] = '<input class="form-control" type="password" name="text-' . $formElement['name'] . '" id="text-' . $formElement['name'] . '" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
                         $input1['required'] = $formElement['required'];
 
                         $rows[] = $input1;
                         break;
                     case 'textArea':
-                        $input1['label'] = '<label class="col-lg-2 control-label" for="textArea-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
+                        $input1['label'] = '<label class="col-lg-' . $ratio['label']  . ' control-label" for="textArea-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
                         $input1['input'] = '<textarea class="form-control" ' . ($formElement['required']==true?'required':'') . ' name="textArea-' . $formElement['name'] . '" id="textArea-' . $formElement['name'] . '"  placeholder="' . $formElement['placeholder'] . '">' . $formElement['value'] . '</textarea>';
                         $input1['required'] = $formElement['required'];
 
                         $rows[] = $input1;
                         break;
                     case 'ckeditor':
-                        $input1['label'] = '<label class="col-lg-2 control-label" for="textArea-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
+                        $input1['label'] = '<label class="col-lg-' . $ratio['label']  . ' control-label" for="textArea-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
                         $input1['input'] = '<textarea class="form-control ckeditor" ' . ($formElement['required']==true?'required':'') . ' name="textArea-' . $formElement['name'] . '" id="textArea-' . $formElement['name'] . '">' . $formElement['value'] . '</textarea>';
                         $input1['required'] = $formElement['required'];
 
                         $rows[] = $input1;
                         break;
                     case 'avatarUpload':
-                        $input1['label'] = '<label class="col-lg-2 control-label" for="file-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
+                        $input1['label'] = '<label class="col-lg-' . $ratio['label']  . ' control-label" for="file-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
                         $input1['input'] = '<input type="file" accept="image/jpeg" name="file-' . $formElement['name'] . '" id="file-' . $formElement['name'] . '" />';
                         $input1['required'] = $formElement['required'];
                         $rows[] = $input1;
                         break;
                     case 'imageUpload':
-                        $input1['label'] = '<label class="col-lg-2 control-label" for="file-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
+                        $input1['label'] = '<label class="col-lg-' . $ratio['label']  . ' control-label" for="file-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
                         $input1['input'] = '<input type="file" accept="image/jpeg|image/png" name="file-' . $formElement['name'] . '" id="file-' . $formElement['name'] . '" />';
                         $input1['required'] = $formElement['required'];
                         $rows[] = $input1;
                         break;
                     case 'fileUpload':
-                        $input1['label'] = '<label class="col-lg-2 control-label" for="file-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
+                        $input1['label'] = '<label class="col-lg-' . $ratio['label']  . ' control-label" for="file-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
                         $input1['input'] = '<input type="file" name="file-' . $formElement['name'] . '" id="file-' . $formElement['name'] . '" />';
                         $input1['required'] = $formElement['required'];
                         $rows[] = $input1;
@@ -626,13 +588,36 @@ class formHandler
                         $rows[] = $input1;
                         break;
                     case 'onOffBox':
-                        $input1['label'] = '<label class="col-lg-2 control-label" for="text-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
+                        $input1['label'] = '<label class="col-lg-' . $ratio['label']  . ' control-label" for="text-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
                         $input1['input'] = '<input type="hidden" name="' . $formElement['name'] . '" value="0" />';
                         $input1['input'] .= '<input type="checkbox" name="' . $formElement['name'] . '" value="1" ' . (isset($_SESSION['postBack'][$formElement['name']]) ? 'checked="checked"' : null) . '>';
                         $rows[] = $input1;
                         break;
+                    case 'radio':
+                        $input1['label'] = '<label class="col-lg-' . $ratio['label']  . ' control-label" for="text-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
+                        $input1['input'] = null;
+
+                        $counter = 0;
+
+                        foreach ($formElement['value'] as $k=>$v) {
+                            $input1['input'] .= '
+
+                                <div class="radio">
+                                    <label class="label_radio">
+                                        <input type="radio" name="radio-' . $formElement['name'] . '" id="radio-' . $formElement['name'] . '-' . $counter . '" value="' . $k . '" >
+                                        ' . $v . '
+                                    </label>
+                                </div>
+
+                            ';
+
+                            $counter++;
+                        }
+
+                        $rows[] = $input1;
+                        break;
                     case 'dropdownList':
-                        $input1['label'] = '<label class="col-lg-2 control-label" for="select-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
+                        $input1['label'] = '<label class="col-lg-' . $ratio['label']  . ' control-label" for="select-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
                         $input1['required'] = $formElement['required'];
 
                         $input1['input'] = null;
@@ -669,12 +654,15 @@ class formHandler
 
             $render = false;
 
-            switch ($layoutMode) {
+            switch ($this->formLayout) {
                 case 'bootstrap-horizontal':
-                    $render = $this->bootstrapFormLayout($rows,$formName,$submitText,$submitAdd, $modalForm);
+                    $render = $this->bootstrapFormLayout($rows, $ratio['input']);
+
+                    break;
+                case 'bootstrap-basic':
+                    $render = $this->bootstrapBasicFormLayout($rows, $ratio['input']);
                     break;
             }
-
 
 
             if (is_bool($render)) {
@@ -687,10 +675,40 @@ class formHandler
                 $out .= '<input type="hidden" name="editForm" value="1" />';
             }
 
+            switch ($this->formLayout) {
+                case 'bootstrap-horizontal':
+                    if (!$modalForm) {
+                        $out .= '
+<div class="form-group">
+    <div class="col-lg-offset-' . $ratio['label']  . ' col-lg-' . $ratio['input']  . '">
+        <button class="btn btn-' . $this->submitStyle . '" type="submit" name="submit-' . $formName . '">' . (is_null($submitText)?gettext('Save'):$submitText) . '</button>' . $submitAdd  .'
+    </div>
+</div>
+            ';
+                    }
+                    break;
+                case 'bootstrap-basic':
+                    if (!$modalForm) {
+                        $out .= '
+<div class="form-group">
+    <div class="">
+        <button class="btn btn-' . $this->submitStyle . '" type="submit" name="submit-' . $formName . '">' . (is_null($submitText)?gettext('Save'):$submitText) . '</button>' . $submitAdd  .'
+    </div>
+</div>
+            ';
+                    }
+                    break;
+
+
+
+            }
+
             $out .= '</form>';
 
 
             $this->normalForm = null;
+
+            $this->resetForm();
 
             return $out;
 
@@ -700,14 +718,11 @@ class formHandler
 
     /**
      * @param      $rows
-     * @param      $formName
-     * @param      $submitText
-     * @param      $submitAdd
-     * @param bool $modalForm
+     * @param int  $ratioInput
      *
      * @return bool|null|string
      */
-    private function bootstrapFormLayout($rows, $formName, $submitText, $submitAdd, $modalForm = false) {
+    private function bootstrapFormLayout($rows, $ratioInput = 10) {
         if (is_array($rows)) {
 
             $r = null;
@@ -721,46 +736,50 @@ class formHandler
                 } else {
                     $r .= '<div class="form-group">';
                     $r .= $row['label'];
-                    $r .= '<div class="col-lg-10">';
+                    $r .= '<div class="col-lg-' . $ratioInput . '">';
                     $r .= $row['input'];
                     $r .= '</div>';
                     $r .= '</div>';
                 }
 
             }
+            return $r;
 
-            if (!$modalForm) {
-                $r .= '
-<div class="form-group">
-    <div class="col-lg-offset-2 col-lg-10">
-        <button class="btn btn-primary" type="submit" name="submit-' . $formName . '">' . (is_null($submitText)?gettext('Save'):$submitText) . '</button>' . $submitAdd  .'
-    </div>
-</div>
-            ';
             }
 
 
+        return false;
+    }
 
+    /**
+     * @param $rows
+     *
+     * @return bool|null|string
+     */
+    private function bootstrapBasicFormLayout($rows) {
+        if (is_array($rows)) {
+
+            $r = null;
+
+            foreach ($rows AS $row) {
+
+                if (is_null($row['label']) AND is_null($row['input']) AND $row['required']=='divider') {
+                    $r .= '<hr>';
+                } elseif (is_null($row['label']) AND $row['required']=='hidden') {
+                    $r .= $row['input'];
+                } else {
+                    $r .= '<div class="form-group">';
+                    $r .= $row['label'];
+                    $r .= $row['input'];
+                    $r .= '</div>';
+                }
+
+            }
             return $r;
 
-        } else {
-            return false;
         }
-    }
 
-    function updateSuccess() {
-        return '
-        <div class="alert alert-success alert-dismissable">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <strong>SUCCESS!</strong> Data successfully updated!
-        </div>';
-    }
 
-    function updateError() {
-        return '
-        <div class="alert alert-danger alert-dismissable">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <strong>ERROR!</strong> Data could not be updated!
-        </div>';
+        return false;
     }
 }

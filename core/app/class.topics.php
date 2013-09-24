@@ -46,27 +46,31 @@ class topics
     {
         $data['active'] = 0;
 
-        return $this->model->updater($data, 'content_articles', "id='$articleId'");
+        $this->model->updater($data, 'content_articles', "id='$articleId'");
+        $this->model->updater($data, 'content_articles_category_menu', "articleId='$articleId'");
+
+        return true;
     }
 
     /**
      * @param null $topicId
      * @param null $articleId
      */
-    function featureArticle($topicId = null, $articleId=null) {
+    function featureArticle($topicId = null, $articleId = null)
+    {
         /*
          * Kill all featured in the topic
          */
         $data['featured'] = 0;
 
-        $this->model->updater($data,'content_articles',"topicId='$topicId'");
+        $this->model->updater($data, 'content_articles', "topicId='$topicId'");
 
         /*
          * Set featured article
          */
         $data['featured'] = 1;
 
-        $this->model->updater($data,'content_articles',"id='$articleId'");
+        $this->model->updater($data, 'content_articles', "id='$articleId'");
     }
 
     /* ------------------------------------------------------------------------------------------------------------------ */
@@ -84,6 +88,7 @@ class topics
         $r['control']     = null;
 
         $control[] = array('link' => "/throne/topics/addNewTopic.html", "icon" => 'plus-sign', "text" => gettext('New topic'));
+        $control[] = array('link' => "/throne/topics/chooseVideo.html", "icon" => 'film', "text" => gettext('Featured video'));
 
         $r['control'] = buildingBlocks::sideMenu($control);
 
@@ -287,8 +292,9 @@ class topics
 
             $toShow = null;
 
-            $heads['icon'] = '';
+            $heads['icon']  = '';
             $heads['title'] = gettext('Title');
+            $heads['feature'] = gettext('Feature');
             $heads['edit']  = gettext('Edit');
 
             foreach ($data AS $row) {
@@ -309,9 +315,9 @@ class topics
                 }
 
                 if ($row['featured'] == '1') {
-                    $t['edit'] .= '<a title="' . gettext('Featured article') . '" class="btn btn-xs btn-success" href="#"><span class="glyphicon glyphicon-ok"></span></a>';
+                    $t['feature'] = '<a title="' . gettext('Featured article') . '" class="btn btn-xs btn-success" href="#"><span class="glyphicon glyphicon-ok"></span></a>';
                 } else {
-                    $t['edit'] .= '<a title="' . gettext('Feature article') . '" class="btn btn-xs btn-danger" href="javascript:void (0)" onclick="setFeaturedArticle(\'' .$topicId . '\',\'' . $t['id'] . '\')"><span class="glyphicon glyphicon-remove"></span></a>';
+                    $t['feature'] = '<a title="' . gettext('Feature article') . '" class="btn btn-xs btn-danger" href="javascript:void (0)" onclick="setFeaturedArticle(\'' . $topicId . '\',\'' . $t['id'] . '\')"><span class="glyphicon glyphicon-remove"></span></a>';
                 }
 
                 $t['edit'] .= '<a class="btn btn-danger btn-xs" onclick="deleter(\'' . $t['id'] . '\',\'article\')" href="#"><span class="glyphicon glyphicon-trash"></span></a>';
@@ -362,7 +368,7 @@ class topics
 
         $data = $this->model->getMenuItemsForTopic($topicId);
 
-        $heads['icon'] = '';
+        $heads['icon']  = '';
         $heads['title'] = 'Menu';
         $heads['edit']  = '';
 
@@ -376,7 +382,6 @@ class topics
             } else {
                 $t['title'] = buildingBlocks::langTableDropDown($this->activeLang, $row, 'title');
             }
-
 
 
             $t['edit'] = '<div class="btn-toolbar pull-right">';
@@ -404,7 +409,11 @@ class topics
             $t['edit'] .= '<div class="btn-group">';
 
             $t['edit'] .= '<a class="btn btn-warning btn-xs" href="/throne/topics/throne_editMenuItem/' . $t['menuId'] . '.html" title="' . gettext('Edit menu item') . '"><span class="glyphicon glyphicon-edit"></span></a>';
-            $t['edit'] .= '<a class="btn btn-danger btn-xs" onclick="deleter(\'' . $t['menuId'] . '\',\'topicMenu\')" href="#" title="' . gettext('Delete menu item') . '"><span class="glyphicon glyphicon-trash"></span></a>';
+
+            if ($t['readOnly'] == '0') {
+                $t['edit'] .= '<a class="btn btn-danger btn-xs" onclick="deleter(\'' . $t['menuId'] . '\',\'topicMenu\')" href="#" title="' . gettext('Delete menu item') . '"><span class="glyphicon glyphicon-trash"></span></a>';
+            }
+
             $t['edit'] .= '</div>';
 
             $t['edit'] .= '</div>';
@@ -414,7 +423,9 @@ class topics
 
         $r['content'] = buildingBlocks::createSimpleTable($heads, $newData, array('sortableTable'), true, null, 'menuId');
 
+        /*
         $r['info'] = gettext('You can re-order the menu elements by dragging them up/down on the list.');
+        */
 
         $r['jQuery'] = "
 if ($('table').hasClass('sortableTable')) {
@@ -447,7 +458,7 @@ if ($('table').hasClass('sortableTable')) {
     function killMenuItem($menuItemId = null)
     {
         $data['active'] = 0;
-        return $this->model->updater($data, 'content_articles_category_menu', "id='$menuItemId'");
+        return $this->model->updater($data, 'content_articles_category_menu', "menuId='$menuItemId'");
     }
 
     /**
@@ -698,6 +709,8 @@ if ($('table').hasClass('sortableTable')) {
             $r['msg'] = $this->saveNewTextArticle($topicId);
         }
 
+        unset($_SESSION['postBack']);
+
         $r['moduleTitle'] = '<span class="glyphicon glyphicon-file"></span> ' . gettext('New text article');
         $control[]        = array('link' => "/throne/topics/throne_listArticles/$topicId.html", "icon" => 'arrow-left', "text" => gettext('Back'));
 
@@ -879,6 +892,7 @@ if ($('table').hasClass('sortableTable')) {
     {
 
         $data = $this->form->validator();
+        unset($data['editForm']);
 
         $data['topicId'] = $topicId;
 
@@ -895,14 +909,18 @@ if ($('table').hasClass('sortableTable')) {
         if ($data['youtube'] != '') {
             $url = $data['youtube'];
             parse_str(parse_url($url, PHP_URL_QUERY), $getVars);
-            $data['youtubeLink']   = $getVars['v'];
+            $data['youtubeLink'] = $getVars['v'];
         } else {
-            $data['youtube'] = 'NULL';
-            $data['youtubeLink'] = 'NULL';
+            $data['youtube']     = 'NULL';
         }
 
-        $data['indavideo'] = ($data['indavideo']==''?'NULL':$data['indavideo']);
-        $data['indavideoLink'] = ($data['indavideo']!=''?str_replace('//', '', strtok(coreFunctions::getIframeSrc(coreFunctions::decoder($data['indavideo'])), '?')):'NULL');
+        $data['indavideo']     = ($data['indavideo'] == '' ? 'NULL' : $data['indavideo']);
+
+        if ($data['indavideo'] != 'NULL') {
+            $videoData = explode('/',rtrim($data['indavideo'], '/'));
+            $videoData = end($videoData);
+            $data['indavideoLink'] = $videoData;
+        }
 
         if ($this->model->insert($data, 'content_articles')) {
             return buildingBlocks::successMSG('Video article successfully saved!');
@@ -938,7 +956,7 @@ if ($('table').hasClass('sortableTable')) {
         }
 
         $this->form->addTextField('youtube', null, gettext('http://www.youtube.com/watch?v=ZKLnhuzh9uY'), 'Youtube');
-        $this->form->addTextArea('indavideo', null, gettext('Embed code'), 'Indavideo');
+        $this->form->addTextField('indavideo', null, gettext('http://indavideo.hu/video/Budapest_Timelapse'), 'Indavideo');
 
         $r = $this->form->generateForm('saveVideoArticle');
 
@@ -971,10 +989,18 @@ if ($('table').hasClass('sortableTable')) {
 
         $r['info'] = null;
 
+
+
         if (isset($_SESSION['postBack']['youtubeLink']) AND $_SESSION['postBack']['youtubeLink'] != '') {
             $r['info'] .= "<img src='http://img.youtube.com/vi/{$_SESSION['postBack']['youtubeLink']}/hqdefault.jpg' class='img-responsive'>";
             $r['info'] .= "<hr>";
             $r['info'] .= "<div class='embed-container'><iframe src='http://www.youtube.com/embed/{$_SESSION['postBack']['youtubeLink']}?rel=0' frameborder='0' allowfullscreen></iframe></div>";
+        } elseif (isset($_SESSION['postBack']['indavideoLink'])) {
+            $details = buildingBlocks::getIndavideoDetails($_SESSION['postBack']['indavideoLink']);
+            $r['info'] .= "<img src='{$details['thumbnail_m_url']}' class='img-responsive'>";
+            $r['info'] .= "<hr>";
+            $r['info'] .= "<div class='embed-container'><iframe src='http://embed.indavideo.hu/player/video/{$details['hash']}/' frameborder='0' type='text/html' allowfullscreen scrolling='no'></iframe></div>";
+
         }
 
         return $r;
@@ -1003,11 +1029,24 @@ if ($('table').hasClass('sortableTable')) {
 
         }
 
-        $url = $data['youtube'];
-        parse_str(parse_url($url, PHP_URL_QUERY), $my_array_of_vars);
+        if ($data['youtube']!='') {
+            $url = $data['youtube'];
+            parse_str(parse_url($url, PHP_URL_QUERY), $my_array_of_vars);
 
-        $data['youtubeLink']   = $my_array_of_vars['v'];
-        $data['indavideoLink'] = ($data['indavideo']!=''?str_replace('//', '', strtok(coreFunctions::getIframeSrc(coreFunctions::decoder($data['indavideo'])), '?')):'NULL');
+            $data['youtubeLink']   = $my_array_of_vars['v'];
+        } else {
+            $data['youtube'] = 'NULL';
+        }
+
+
+
+        $data['indavideo']     = ($data['indavideo'] == '' ? 'NULL' : $data['indavideo']);
+
+        if ($data['indavideo'] != 'NULL') {
+            $videoData = explode('/',rtrim($data['indavideo'], '/'));
+            $videoData = end($videoData);
+            $data['indavideoLink'] = $videoData;
+        }
 
 
         /*
@@ -1035,19 +1074,143 @@ if ($('table').hasClass('sortableTable')) {
     }
 
     /* ------------------------------------------------------------------------------------------------------------------ */
+    /* ----------------------------------------- VIDEO SELECTOR --------------------------------------------------------- */
+    /* ------------------------------------------------------------------------------------------------------------------ */
+
+
+    /**
+     * @return mixed
+     */
+    function chooseVideo() {
+        $data = $this->model->getVideoArticles();
+
+        $heads['title'] = gettext('Title');
+        $heads['edit'] = '';
+
+        $newData = null;
+
+        foreach ($data as $row) {
+            $t = $row;
+            $t['title'] = buildingBlocks::langTableDropDown($this->activeLang,$row,'title');
+            $t['edit'] = null;
+
+            if ($row['featuredVideo'] == '1') {
+                $t['edit'] .= '<a class="btn btn-xs btn-success" href="#"><span class="glyphicon glyphicon-ok"></span></a>';
+            } else {
+                $t['edit'] .= '<a class="btn btn-xs btn-danger" href="javascript:void (0)" onclick="setFeaturedVideo(\'' . $row['id'] . '\')"><span class="glyphicon glyphicon-remove"></span></a>';
+            }
+
+            $newData[] = $t;
+        }
+
+        $r['moduleTitle'] = gettext('Select featured video');
+        $r['content'] = buildingBlocks::createSimpleTable($heads,$newData);
+
+        $control[]        = array('link' => "/throne/topics/throne_listTopics.html", "icon" => 'folder-open', "text" => gettext('Topic manager'));
+        $r['control']     = buildingBlocks::sideMenu($control);
+
+        return $r;
+
+    }
+
+    /**
+     * @param null $articleId
+     * @return bool
+     */
+    function setFeaturedVideo($articleId = null) {
+        $data['featuredVideo'] = 0;
+        $this->model->updater($data,'content_articles');
+
+        $data['featuredVideo'] = 1;
+        $this->model->updater($data,'content_articles',"id='$articleId'");
+
+        return true;
+    }
+
+    /* ------------------------------------------------------------------------------------------------------------------ */
     /* -------------------------------------------- FRONT END ----------------------------------------------------------- */
     /* ------------------------------------------------------------------------------------------------------------------ */
+
+    /**
+     * @return mixed
+     */
+    function videoList($categorySlug = null)
+    {
+        $data = $this->model->getVideoArticles($categorySlug);
+
+        $r['metaTitle'] = 'Fundamenta Mozi';
+        $r['content']   = null;
+
+        if (is_array($data)) {
+            $box = null;
+
+            if (count($data)>0) {
+                foreach ($data AS $row) {
+
+                    /*
+                     * Media boxes following default bootstrap markup
+                     */
+                    $link = '/topics/viewArticle/' . $row['slug_' . $_SESSION['lang']] . '.html';
+
+                    $box .= buildingBlocks::mediaBox('http://img.youtube.com/vi/' . $row['youtubeLink'] . '/hqdefault.jpg', $link, $row['title_' . $_SESSION['lang']], coreFunctions::decoder($row['excerpt_' . $_SESSION['lang']]));
+                }    
+            } else {
+                $box .= '<p>Sajnáljuk, de ebben a kategóriában még nincs videó.</p>';
+            }
+            
+
+            $r['content'] = frontElements::boxer($box, gettext('Videos'));
+        }
+
+        $topics = $this->model->getTopics();
+
+        $r['sideMenu'] = null;
+
+        if (is_array($topics) and count($topics) > 0) {
+            $r['sideMenu'] = '<ul class="nav funSideNav">';
+
+            foreach ($topics AS $topic) {
+                $r['sideMenu'] .= '<li><a href="/topics/videoList/' . $topic['categorySlug_' . $_SESSION['lang']] . '.html">' . $topic['categoryName_' . $_SESSION['lang']] . '</a></li>';
+            }
+
+            $r['sideMenu'] .= '</ul>';
+        }
+
+        return $r;
+    }
+
+    /**
+     * @param null $topicSlug
+     */
+    function viewTopic($topicSlug = null)
+    {
+
+        $topic = $this->model->getTopicBySlug($topicSlug);
+
+        $r['metaTitle'] = $topic['categoryName_' . $_SESSION['lang']];
+        $r['content']   = null;
+
+        $content = $this->model->getTopicFirstContent($topic['cacId']);
+        $article = $this->viewArticle($content['slug_' . $_SESSION['lang']]);
+
+        $r['content'] .= $article['content'];
+
+        $r['sideMenu'] = $this->topicMenu($topic['cacId']);
+
+        return $r;
+    }
 
     /**
      * @param null $slug
      *
      * @return mixed
      */
-    function viewArticle($slug = null) {
+    function viewArticle($slug = null)
+    {
 
         $data = $this->model->getArticleBySlug($slug);
 
-        $r['content'] = null;
+        $r['content']  = null;
         $r['sideMenu'] = null;
 
         $r['sideMenu'] = $this->topicMenu($data['topicId']);
@@ -1059,20 +1222,21 @@ if ($('table').hasClass('sortableTable')) {
             $box = null;
 
             $box .= '<article>';
-            $box .= '<h1>' . $data['title_' . $_SESSION['lang']] .  '</h1>';
+            $box .= '<h1>' . $data['title_' . $_SESSION['lang']] . '</h1>';
             $box .= coreFunctions::decoder($data['excerpt_' . $_SESSION['lang']]);
 
-            if (isset($data['youtubeLink'])) {
+            if ($data['youtubeLink']!='') {
                 $box .= "<div class='embed-container contentEmbed'><iframe src='http://www.youtube.com/embed/{$data['youtubeLink']}?rel=0' frameborder='0' allowfullscreen></iframe></div>";
-            } elseif (isset($data['indavideoLink'])) {
-
+            } elseif ($data['indavideoLink']!='') {
+                $details = buildingBlocks::getIndavideoDetails($data['indavideoLink']);
+                $box .= "<div class='embed-container'><iframe src='http://embed.indavideo.hu/player/video/{$details['hash']}/' frameborder='0' type='text/html' allowfullscreen scrolling='no'></iframe></div>";
             }
 
             $box .= coreFunctions::decoder($data['content_' . $_SESSION['lang']]);
 
             $box .= '</article>';
 
-            $r['content'] = frontElements::boxer($box,gettext('Article'),true);
+            $r['content'] = frontElements::boxer($box, gettext('Article'), true);
         }
 
         return $r;
@@ -1083,7 +1247,8 @@ if ($('table').hasClass('sortableTable')) {
      *
      * @return string
      */
-    private function topicMenu($topicId = null) {
+    private function topicMenu($topicId = null)
+    {
 
         $data = $this->model->getTopicMenu($topicId);
 
@@ -1121,51 +1286,59 @@ if ($('table').hasClass('sortableTable')) {
     }
 
     /**
+     * @param null $from
+     * @param null $topicSlug
+     *
      * @return mixed
      */
-    function videoList() {
-        $data = $this->model->getVideoArticles();
+    function feed($from = null, $topicSlug = null)
+    {
 
-        $r['metaTitle'] = 'Fundamenta Mozi';
-        $r['content'] = null;
+        $r['sideMenu'] = null;
+        $r['content']  = null;
 
-        if (is_array($data)) {
+        switch ($from) {
+            case 'profession':
+
+                $data = $this->model->getProfessionJobOffers();
+
                 $box = null;
 
-            foreach ($data AS $row) {
+                foreach ($data AS $row) {
 
-                $link = '/topics/viewArticle/' . $row['slug_' . $_SESSION['lang']] . '.html';
+                    $img = '/img/feedParts/' . $row['imgStrip'];
 
-                $box .= '
-                <div class="media">
-                  <a class="pull-left" href="' . $link . '">
-                    <img class="media-object" style="max-width:128px;max-height:128px;" src="http://img.youtube.com/vi/' . $row['youtubeLink'] . '/hqdefault.jpg" alt="' . $row['title_' . $_SESSION['lang']] . '">
-                  </a>
-                  <div class="media-body">
-                    <h4 class="media-heading">' . $row['title_' . $_SESSION['lang']] . '</h4>
-                    ' . coreFunctions::decoder($row['excerpt_' . $_SESSION['lang']]) . '
-                  </div>
-                </div>
+                    $box .= buildingBlocks::mediaBox($img, $row['url'], $row['position'], $row['company'], '_blank');
+                }
 
-                ';
-            }
+                $r['content'] = frontElements::boxer($box, 'Feed');
 
-            $r['content'] = frontElements::boxer($box,gettext('Videos'));
+
+                $topic         = $this->model->getTopicBySlug($topicSlug);
+                $r['sideMenu'] = $this->topicMenu($topic['cacId']);
+
+                break;
+            case 'dunahouse':
+
+                $data = $this->model->getDunaHouseOffers();
+
+                $box = null;
+
+                foreach ($data AS $row) {
+
+                    $box .= buildingBlocks::mediaBox($row['img'], $row['link'], null, $row['desc'], '_blank');
+                }
+
+                $r['content'] = frontElements::boxer($box, 'Feed');
+
+                $topic         = $this->model->getTopicBySlug($topicSlug);
+                $r['sideMenu'] = $this->topicMenu($topic['cacId']);
+                break;
+            default:
+                $r['content'] = frontElements::boxer('<p>A keresett oldal nem található!</p>', '404');
+                break;
         }
 
-        return $r;
-    }
-
-    /**
-     * @param null $topicSlug
-     */
-    function viewTopic($topicSlug = null) {
-
-        $topic = $this->model->getTopicBySlug($topicSlug);
-
-        $r['metaTitle'] = $topic['categoryName_' . $_SESSION['lang']];
-        $r['content'] = null;
-        $r['sideMenu'] = $this->topicMenu($topic['cacId']);
 
         return $r;
     }

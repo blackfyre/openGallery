@@ -99,7 +99,7 @@ class coreFunctions
      */
     static function cleanTextField($var)
     {
-        $var = strip_tags($var, '<br><b><string><ul><ol><li><a><i><em><pre><table><tbody><thead><tfoor><th><tr><td><p><div><img><iframe><sub><sup>');
+        $var = strip_tags($var, '<br><b><string><ul><ol><li><a><i><em><pre><table><tbody><thead><tfoor><th><tr><td><p><div><img><iframe><sub><sup><strong>');
         $var = htmlspecialchars($var, ENT_QUOTES);
         return $var;
     }
