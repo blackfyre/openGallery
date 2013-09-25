@@ -227,11 +227,10 @@ AddDefaultCharset utf-8
   RewriteRule ^images/([^/]*)/([^/]*)/([^/]*)$ /image.php?mode=$1&img=$2&slug=$3 [L]
 
   # Front-end everything else
-  RewriteRule ^([^/]*)/([^/]*)/([^/]*)\.html\?*$ /index.php?lang=$1&class=$2&method=$3&$4 [L]
-  #RewriteRule ^([^/]*)/([^/]*)/([^/]*)\.html$ /index.php?lang=$1&class=$2&method=$3 [L]
-  #RewriteRule ^([^/]*)/([^/]*)/([^/]*)/([^/]*)\.html$ /index.php?lang=$1&class=$2&method=$3&var1=$4 [L]
-  #RewriteRule ^([^/]*)/([^/]*)/([^/]*)/([^/]*)/([^/]*)\.html$ /index.php?lang=$1&class=$2&method=$3&var1=$4&var2=$5 [L]
-  #RewriteRule ^([^/]*)/([^/]*)/([^/]*)/([^/]*)/([^/]*)/([^/]*)\.html$ /index.php?lang=$1&class=$2&method=$3&var1=$4&var2=$5&var3=$6 [L]
+  RewriteRule ^([^/]*)/([^/]*)/([^/]*)\.html$ /index.php?lang=$1&class=$2&method=$3 [L,QSA]
+  RewriteRule ^([^/]*)/([^/]*)/([^/]*)/([^/]*)\.html$ /index.php?lang=$1&class=$2&method=$3&var1=$4 [L,QSA]
+  RewriteRule ^([^/]*)/([^/]*)/([^/]*)/([^/]*)/([^/]*)\.html$ /index.php?lang=$1&class=$2&method=$3&var1=$4&var2=$5 [L,QSA]
+  RewriteRule ^([^/]*)/([^/]*)/([^/]*)/([^/]*)/([^/]*)/([^/]*)\.html$ /index.php?lang=$1&class=$2&method=$3&var1=$4&var2=$5&var3=$6 [L,QSA]
 
 
 
