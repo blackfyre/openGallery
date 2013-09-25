@@ -73,6 +73,7 @@
                     <li><a href="/">Home</a></li>
                     <li><a href="/en/artist/index.html">Artist Index</a></li>
                     <li><a href="/en/artist/viewArtist/aba-novak-vilmos.html">Example Artist</a></li>
+                    <li><a href="/en/search/detailedSearch.html">Search</a></li>
                     {*
                     <li><a href="#about">ABC Index</a></li>
                     <li><a href="#contact">Search</a></li>

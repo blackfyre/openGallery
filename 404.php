@@ -7,6 +7,7 @@
  * Time: 14:10
  */
 
+include_once $_SERVER['DOCUMENT_ROOT'] . '/autoload.php';
 
 Kint::dump($_GET);
 

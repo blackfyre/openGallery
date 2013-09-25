@@ -33,6 +33,10 @@ class formHandler
 
     private $submitStyle = 'primary';
 
+    private $modal = false;
+
+    private $submitTarget = null;
+
     /**
      * @param bool $debug
      */
@@ -401,14 +405,10 @@ class formHandler
      * @param string $formName
      * @param string $submitText
      * @param string $submitAdd    Addition code to place next to the Submit button (eg. cancel, reset, ...)
-     * @param string $submitTarget form target
-     * @param string $layoutMode   bootstrap-horizontal|table
-     * @param bool   $modalForm
-     * @param string $ratio
      *
      * @return bool|string
      */
-    public function generateForm($formName = null, $submitText = null, $submitAdd = null, $submitTarget = null, $layoutMode = 'bootstrap-horizontal', $modalForm = false, $ratio='2:10')
+    public function generateForm($formName = null, $submitText = null, $submitAdd = null)
     {
         if (is_array($this->normalForm)) {
 
@@ -650,7 +650,7 @@ class formHandler
             }
 
             $out = '<form role="form" method="POST" ';
-            $out .= 'data-async class="form-horizontal" action="' . (is_null($submitTarget)?'':$submitTarget) . '" id="form-' . coreFunctions::slugger($formName) . '" accept-charset="utf-8" enctype="multipart/form-data">';
+            $out .= 'data-async class="form-horizontal" action="' . (is_null($this->submitTarget)?'':$this->submitTarget) . '" id="form-' . coreFunctions::slugger($formName) . '" accept-charset="utf-8" enctype="multipart/form-data">';
 
             $render = false;
 
@@ -677,7 +677,7 @@ class formHandler
 
             switch ($this->formLayout) {
                 case 'bootstrap-horizontal':
-                    if (!$modalForm) {
+                    if (!$this->modal) {
                         $out .= '
 <div class="form-group">
     <div class="col-lg-offset-' . $ratio['label']  . ' col-lg-' . $ratio['input']  . '">
@@ -688,7 +688,7 @@ class formHandler
                     }
                     break;
                 case 'bootstrap-basic':
-                    if (!$modalForm) {
+                    if (!$this->modal) {
                         $out .= '
 <div class="form-group">
     <div class="">

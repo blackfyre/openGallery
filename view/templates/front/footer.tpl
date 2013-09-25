@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-md-4">
             <h4>Information</h4>
-            <p>The blackEngine powering the site is created by Galicz Miklós, and will be made publicly available (under GNU GPL V2) once the initial development is complete</p>
+            <p>The blackFyreEngine powering the site is created by Galicz Miklós, and will be made publicly available (under GNU GPL V2) once the initial development is complete</p>
             <p><a href="https://plus.google.com/{$googlePublisherID}" target="_blank" rel="publisher">{$googlePublisherLinkText}</a></p>
         </div>
         <div class="col-md-4">
@@ -22,10 +22,10 @@
             <ul class="list-inline">
                 <li>php</li>
                 <li>mySQL</li>
-                <li>jQuery</li>
-                <li>jQuery UI</li>
-                <li>Twitter Bootstrap</li>
-                <li><a href="http://glyphicons.com/">Glyphicons</a></li>
+                <li><a href="http://jquery.com/" target="_blank">jQuery</a></li>
+                <li><a href="http://jqueryui.com/" target="_blank">jQuery UI</a></li>
+                <li><a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a></li>
+                <li><a href="http://glyphicons.com/" target="_blank">Glyphicons</a></li>
                 <li>phpMailer</li>
                 <li>phpExcel</li>
                 <li>blackFyreEngine</li>
@@ -33,8 +33,8 @@
             <p>Hosted by <a href="https://www.digitalocean.com/?refcode=c1dc7b5f512c">Digital Ocean</a></p>
             <p class="text-muted ">
                 <small>
-                    By registering an account with this link, you can contribute to the upkeep of the server.<br>
-                    You can read more about this <a href="https://www.digitalocean.com/referral-program" target="_blank">here</a>.
+                    By registering an account with the link above, you can contribute to the upkeep of the server.<br>
+                    You can read more about Digital Oceans referral program <a href="https://www.digitalocean.com/referral-program" target="_blank">here</a>.
                 </small>
             </p>
 
