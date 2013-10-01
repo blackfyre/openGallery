@@ -37,7 +37,7 @@ class emailNotification {
     private function configMailer() {
 
         $this->mailer->IsSMTP();
-        $this->mailer->SMTPAuth = true;
+        $this->mailer->SMTPAuth = _SMTP_AUTH;
         $this->mailer->CharSet = 'UTF-8';
         $this->mailer->Host = _SMTP_HOST;
         $this->mailer->Port = _SMTP_PORT;
@@ -58,6 +58,9 @@ class emailNotification {
 
     }
 
+    /**
+     * @return bool
+     */
     function send() {
 
         if (_SEND_NOTIFICATION) {
@@ -76,37 +79,15 @@ class emailNotification {
     }
 
 
-
-    function winningUserNotification() {
-        $gameData = $_SESSION['activeGame'];
-        $template = $this->model->getEmailTemplate(1);
-
-        $userData = $_SESSION['solverData'];
-
-        $placeHolder['userName'] = $userData['name'];
-        $placeHolder['email'] = $userData['email'];
-        $placeHolder['quizName'] = $gameData['title_' . $_SESSION['lang']];
-        $placeHolder['prize'] = $gameData['prize_' . $_SESSION['lang']];
-
-        $this->mailer->AddAddress($userData['email'],$userData['name']);
-
-        $subject = $template['subject_' . $_SESSION['lang']];
-        $content = htmlspecialchars_decode(htmlspecialchars_decode($template['content_' . $_SESSION['lang']]));
-
-        foreach ($placeHolder AS $key=>$val) {
-            $subject = str_replace('[' . $key . ']',$val,$subject);
-            $content = str_replace('[' . $key . ']',$val,$content);
-        }
-
-        $this->mailer->Subject = $subject;
-        $this->mailer->Body = $content;
-        $this->mailer->AltBody = strip_tags($content);
+    /**
+     * @return bool
+     */
+    function testEmail() {
+        $this->mailer->AddAddress('gnick666@gmail.com','Meki');
+        $this->mailer->Body = 'Teszt';
+        $this->mailer->AltBody = 'Teszt';
 
         return $this->send();
-    }
-
-    function adminWinnerNotification() {
-
     }
 
 }
