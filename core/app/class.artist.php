@@ -114,10 +114,14 @@ class artist {
         $r['bio'] = coreFunctions::decoder($data['bio_' . $_SESSION['lang']]);
         $r['excerpt'] = coreFunctions::decoder($data['excerpt_' . $_SESSION['lang']]);
 
+        $bioImgUrl=null;
+
         if ($data['bioImg']!='') {
             $r['bioImg'] = $data['bioImg'];
             $r['bioImgTitle'] = gettext('A portrait of %s');
             $r['bioImgTitle'] = str_replace('%s',$r['artistName'],$r['bioTitle']);
+
+            $bioImgUrl = 'http://' . $_SERVER['HTTP_HOST'] . '/uploads/' . $r['bioImg'];
         }
 
         /*
@@ -130,7 +134,8 @@ class artist {
         /*
          * TODO add artist bio img to og website img
          */
-        $r['openGraph'] = socialMedia::websiteTag($r['metaTitle'],$r['metaDesc']);
+        $r['openGraph'] = socialMedia::OGWebsiteTag($r['metaTitle'],$r['metaDesc'],$bioImgUrl);
+        $r['twitterCard'] = socialMedia::twitterLargeImageSummaryCard($r['metaTitle'],$r['metaDesc'],$bioImgUrl);
 
 
         /*
@@ -204,7 +209,7 @@ class artist {
         $r['metaTitle'] = str_replace('%s',$this->artistName($data),$r['metaTitle']);
         $r['metaDesc'] = _DEFAULT_METADESC;
 
-        $r['openGraph'] = socialMedia::websiteTag($r['metaTitle']);
+        $r['openGraph'] = socialMedia::OGWebsiteTag($r['metaTitle']);
 
         /*
          * The biography link
@@ -556,7 +561,10 @@ $r['content'] .= '</div>';
 
         $r['metaTitle'] = $r['artistName'] . ' - ' . $r['artTitle'];
 
-        $r['openGraph'] = socialMedia::websiteTag($r['metaTitle'],null,'http://' . $_SERVER['HTTP_HOST'] . $r['artImg']);
+        $imgUrl = 'http://' . $_SERVER['HTTP_HOST'] . $r['artImg'];
+
+        $r['openGraph'] = socialMedia::OGWebsiteTag($r['metaTitle'],null,$imgUrl);
+        $r['twitterCard'] = socialMedia::twitterLargeImageSummaryCard($r['metaTitle'],$desc,$imgUrl);
 
 
         /*
@@ -742,7 +750,7 @@ $r['content'] .= '</div>';
 
         unset($data['editForm']);
 
-        if ($this->model->fragger($data,'artist_profession','update',"id='$professionId'")) {
+        if ($this->model->updater($data,'artist_profession',"id='$professionId'")) {
             return buildingBlocks::successMSG(gettext('Profession updated!'));
         } else {
             return buildingBlocks::errorMSG(gettext('Could not update profession, check error log for details!'));
@@ -772,12 +780,16 @@ $r['content'] .= '</div>';
         return $r;
     }
 
+    /**
+     * Save the new profession
+     * @return string
+     */
     private function processNewProfession() {
         $data = $this->form->validator();
 
         unset($data['editForm']);
 
-        if ($this->model->fragger($data,'artist_profession')) {
+        if ($this->model->insert($data,'artist_profession')) {
             return buildingBlocks::successMSG(gettext('New profession added!'));
         } else {
             $_SESSION['postBack'] = $data;
@@ -786,16 +798,29 @@ $r['content'] .= '</div>';
         }
     }
 
+    /**
+     * Add profession page
+     * @return mixed
+     */
     function throne_addProfession() {
 
+        /*
+         * Check for postback
+         */
         if (!isset($_SESSION['postBack']['rePost'])) {
             unset($_SESSION['postBack']);
         }
 
+        /*
+         * If the form has been posted, process it
+         */
         if (isset($_POST['submit-professionForm'])) {
             $r['msg'] = $this->processNewProfession();
         }
 
+        /*
+         * display the empty form
+         */
         $r['moduleTitle'] = gettext('New profession');
         $r['content'] = $this->professionEditForm();
 
