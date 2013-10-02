@@ -48,7 +48,7 @@ class smartyManager {
         $this->dataToDisplay['jQuery'] = null;
         $this->dataToDisplay['jFunctions'] = null;
         $this->dataToDisplay['content'] = null;
-        $this->dataToDisplay['openGraph'] = socialMedia::websiteTag();
+        $this->dataToDisplay['openGraph'] = socialMedia::OGWebsiteTag();
         $this->dataToDisplay['googlePlusOne'] = socialMedia::googleMobileRecommend();
         $this->dataToDisplay['logout'] = gettext('Logout');
         $this->dataToDisplay['areYouSure'] = gettext('Are you sure?');
