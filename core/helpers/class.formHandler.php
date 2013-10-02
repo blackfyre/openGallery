@@ -33,6 +33,8 @@ class formHandler
 
     private $submitStyle = 'primary';
 
+    private $mode = 'post';
+
     private $modal = false;
 
     private $submitTarget = null;
@@ -70,6 +72,19 @@ class formHandler
      */
     function setSubmitStyle($style = 'primary') {
         $this->submitStyle=$style;
+    }
+
+    /**
+     * Set the form mode to get or post
+     * @param string $mode
+     */
+    function setFormMode($mode='post') {
+
+        if ($mode!='post' AND $mode!='get') {
+            $mode = 'post';
+        }
+
+        $this->mode = $mode;
     }
 
     /**
@@ -649,8 +664,8 @@ class formHandler
                 }
             }
 
-            $out = '<form role="form" method="POST" ';
-            $out .= 'data-async class="form-horizontal" action="' . (is_null($this->submitTarget)?'':$this->submitTarget) . '" id="form-' . coreFunctions::slugger($formName) . '" accept-charset="utf-8" enctype="multipart/form-data">';
+            $out = '<form role="form" method="' . $this->mode . '" ';
+            $out .= 'data-async class="form-horizontal" action="' . (is_null($this->submitTarget)?'':$this->submitTarget) . '" id="form-' . coreFunctions::slugger($formName) . '" accept-charset="utf-8" ' . ($this->mode=='post'?'enctype="multipart/form-data"':'')  . '>';
 
             $render = false;
 

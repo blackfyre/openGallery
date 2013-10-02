@@ -35,6 +35,7 @@ class search
         $r = null;
 
         $this->form->setFormRatio('4:8');
+        $this->form->setFormMode('get');
 
         $this->form->addTextField('artistName',null,null,gettext('Artist name'));
         $this->form->addInput('dropdownList','profession',$this->model->getProfessions(),null,gettext('Profession'));
@@ -51,10 +52,11 @@ class search
     private function artSearchForm() {
         $r = null;
         $this->form->setFormRatio('4:8');
+        $this->form->setFormMode('get');
 
         $this->form->addTextField('artTitle',null,null,gettext('Art title'));
 
-        $r .= $this->form->generateForm('artistSearch',gettext('Search'));
+        $r .= $this->form->generateForm('artSearch',gettext('Search'));
         return $r;
     }
 
@@ -65,14 +67,22 @@ class search
     function detailedSearch()
     {
 
+        Kint::$enabled = true;
         Kint::dump($_GET);
 
         $r['moduleTitle']       = gettext('Deailed Search');
-        $r['artistSearchTitle'] = gettext('Artist search');
-        $r['artSearchTitle']    = gettext('Art search');
 
-        $r['artistSearchForm'] = $this->artistSearchForm();
-        $r['artSearchForm'] = $this->artSearchForm();
+        if (isset($_GET['submit-artistSearch']) OR isset($_GET['submit-artSearch'])) {
+            $r['resultHeader'] = gettext('Results');
+            $r['queryTitle'] = gettext('Query');
+        } else {
+            $r['artistSearchTitle'] = gettext('Artist search');
+            $r['artSearchTitle']    = gettext('Art search');
+            $r['artistSearchForm'] = $this->artistSearchForm();
+            $r['artSearchForm'] = $this->artSearchForm();
+        }
+
+
 
         return $r;
     }

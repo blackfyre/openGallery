@@ -66,6 +66,15 @@ body {
     display: block;
 }
 
+#queryTitle {
+    font-size: 36px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 500;
+    line-height: 1.1;
+}
+
 
 
 
