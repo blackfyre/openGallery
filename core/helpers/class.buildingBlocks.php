@@ -60,12 +60,18 @@ class buildingBlocks
     /**
      * @param null $videoId
      *
-     * @return mixed
+     * @return array|null
      */
     static function getIndavideoDetails($videoId = null) {
-        $indaData = file_get_contents("http://indavideo.hu/oembed/$videoId&format=json");
 
-        return json_decode($indaData,true);
+        $headers = get_headers("http://indavideo.hu/oembed/$videoId&format=json");
+
+        if ($headers[0] == 'HTTP/1.1 200 OK') {
+            $indaData = file_get_contents("http://indavideo.hu/oembed/$videoId&format=json");
+            return json_decode($indaData,true);
+        }
+
+        return null;
     }
 
     /**
@@ -191,15 +197,17 @@ class buildingBlocks
     /**
      * Table generator
      *
-     * @param array $heads Table columns title and footer row $heads['columnName'] = 'Column name'
-     * @param array $content The content array
-     * @param null|array $extraClasses extra CSS classes, array(class1, class2, ...)
-     * @param bool $footer Show footer
-     * @param null $tableName An extra class as the name of the table, useful for jQuery ant other JS calls
+     * @param array       $heads        Table columns title and footer row $heads['columnName'] = 'Column name'
+     * @param array       $content      The content array
+     * @param null|array  $extraClasses extra CSS classes, array(class1, class2, ...)
+     * @param bool        $footer       Show footer
+     * @param null        $tableName    An extra class as the name of the table, useful for jQuery ant other JS calls
      * @param bool|string $sortable
+     * @param null        $sortId
+     *
      * @return null|string String null if there's an error
      */
-    public static function createSimpleTable($heads, $content, $extraClasses = null, $footer = true, $tableName = null, $sortable = false)
+    public static function createSimpleTable($heads, $content, $extraClasses = null, $footer = true, $tableName = null, $sortable = false,$sortId = null)
     {
         if (is_array($heads) AND is_array($content)) {
 
@@ -211,11 +219,15 @@ class buildingBlocks
             $classes[] = 'table-hover';
             $classes[] = coreFunctions::slugger($tableName);
 
+            if (is_string($sortable)) {
+                $classes[] = 'sortableTable';
+            }
+
             if (is_array($extraClasses)) {
                 $classes = array_merge($classes, $extraClasses);
             }
 
-            $table .= '<table class="' . implode(' ', $classes) . '">';
+            $table .= '<table id="' . coreFunctions::slugger($tableName) . '" class="' . implode(' ', $classes) . '" ' . (!is_null($sortId)?'data-id="' . $sortId . '"':'') . '>';
 
             $table .= '<thead>';
             $table .= '<tr>';
@@ -293,13 +305,21 @@ class buildingBlocks
 
             foreach ($array AS $a) {
 
-                $icon = null;
+                if (is_array($a)) {
+                    $icon = null;
 
-                if (isset($a['icon'])) {
-                    $icon = "<span class='glyphicon glyphicon-{$a['icon']}'></span>  ";
+                    if (isset($a['icon'])) {
+                        $icon = "<span class='glyphicon glyphicon-{$a['icon']}'></span>  ";
+                    }
+
+                    $r .="<li><a href='{$a['link']}'>$icon {$a['text']}</a></li>";
                 }
 
-                $r .="<li><a href='{$a['link']}'>$icon {$a['text']}</a></li>";
+                if (is_string($a)) {
+                    $r .= '<li>' . $a . '</li>';
+                }
+
+
             }
 
             $r .= "</ul>";
@@ -339,6 +359,88 @@ class buildingBlocks
         ';
 
         return $r;
+    }
+
+    /**
+     * Bootstrap slider generation
+     * @param null|array $data
+     * @param string $carouselId
+     * @return null
+     */
+    public static function createBasicSlideShow($data = null, $carouselId = 'generic carousel') {
+        if (is_array($data)) {
+
+            $carouselId = coreFunctions::slugger($carouselId);
+
+            $counter = 0;
+
+            $indicators = null;
+            $slides = null;
+
+            foreach ($data AS $slide) {
+                $indicators .= '<li data-target="#' . $carouselId . '" data-slide-to="' . $counter . '" ' . ($counter==0?'class="active"':'') . '></li>';
+
+                $slides .= '<div class="item' . ($counter==0?' active':'') . '">';
+                $slides .= '<img class="img-responsive" src="' . $slide['imgPath'] . '"' . (isset($slide['imgAlt'])?' alt="' . $slide['imgAlt'] . '"':'') . '>';
+
+                if (isset($slide['caption'])) {
+                    $slides .= '<div class="carousel-caption">';
+                    $slides .= $slide['caption'];
+                    $slides .= '</div>';
+                }
+
+                $slides .= '</div>';
+
+                $counter++;
+            }
+
+            /*
+             * Carousel begin
+             */
+            $r = '<div id="' . $carouselId . '" class="carousel slide">';
+
+            /*
+             * Indicators begin
+             */
+            $r .= '<ol class="carousel-indicators">';
+
+            $r .= $indicators;
+
+            /*
+             * Indicators end
+             */
+            $r .= '</ol>';
+
+            /*
+             * Content wrapper begin
+             */
+            $r .= '<div class="carousel-inner">';
+
+            $r .= $slides;
+
+            /*
+             * Content wrapper end
+             */
+            $r .= '</div>';
+
+            $r .= '
+<a class="left carousel-control" href="#' . $carouselId . '" data-slide="prev">
+    <span class="icon-prev"></span>
+</a>
+<a class="right carousel-control" href="#' . $carouselId . '" data-slide="next">
+    <span class="icon-next"></span>
+</a>
+            ';
+
+            /*
+             * Carousel end
+             */
+            $r .= '</div>';
+
+            return $r;
+        }
+
+        return null;
     }
 
 }

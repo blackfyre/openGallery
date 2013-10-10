@@ -40,7 +40,7 @@ class artist {
      * @param null|array $artistData The full artist data array
      * @return null|string
      */
-    private function artistName($artistData = null) {
+    public static function artistName($artistData = null) {
         if (is_array($artistData)) {
 
             $name = trim($artistData['lastName'] . ' ' . $artistData['firstName']);
@@ -64,7 +64,7 @@ class artist {
      * @param null $artistData
      * @return string
      */
-    private function artistDateControl($artistData = null) {
+    public static function artistDateControl($artistData = null) {
         return '(' . $artistData['dateOfBirth'] . ', ' . $artistData['placeOfBirth'] . ' - ' . $artistData['dateOfDeath'] . ', ' . $artistData['placeOfDeath'] . ')';
     }
 
@@ -147,11 +147,9 @@ class artist {
             $r['showMore'] = true;
         }
 
+        /*
         $r['artData'] = null;
 
-        /*
-         * We only need 10 at most
-         */
         for ($i = 0; $i <= 9; $i++) {
 
             if (isset ($artData[$i])) {
@@ -166,6 +164,32 @@ class artist {
             }
 
         }
+        */
+
+        $r['artSlide'] = null;
+
+        $artSlideData = null;
+
+        for ($i = 0; $i <= 9; $i++) {
+
+            if (isset ($artData[$i])) {
+                $t = null;
+                $slug = $artistSlug . '-' . $artData[$i]['titleSlug_' . $_SESSION['lang']] . '.' . coreFunctions::getExtension($artData[$i]['img']);
+                $t['imgPath'] = '/images/large-thumbnail/' . $artData[$i]['id'] . '/' . $slug;
+                $t['imgAlt'] = $artData[$i]['title_' . $_SESSION['lang']];
+
+                $caption = '<h3><a href="' . '/' . $_SESSION['lang']  . '/artist/viewArt/' . $artData[$i]['id'] . '/$artistSlug/' . $artData[$i]['titleSlug_' . $_SESSION['lang']] . '.html" hreflang="' . $_SESSION['locale'] . '">'  . $t['imgAlt'] . '</a></h3>';
+
+                $t['caption'] = $caption;
+
+                $artSlideData[] = $t;
+            }
+
+        }
+
+        $r['artSlide'] = buildingBlocks::createBasicSlideShow($artSlideData);
+
+
 
         /*
          * And this is for the langSwitcher

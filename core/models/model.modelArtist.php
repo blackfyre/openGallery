@@ -75,7 +75,7 @@ class modelArtist extends modelsHandler {
     function getArtistIndex($indexChar = null) {
 
         if (is_string($indexChar)) {
-            $query = "SELECT *, (SELECT professionName_" . _DEFAULT_LANG ." FROM artist_profession WHERE id=artist.profession) as professionName FROM artist WHERE lastName LIKE '$indexChar%'";
+            $query = "SELECT *, (SELECT professionName_" . _DEFAULT_LANG ." FROM artist_profession WHERE id=artist.profession) as professionName FROM artist WHERE lastName LIKE '$indexChar%' AND active='1'";
 
             return $this->fetchAll($query);
         }

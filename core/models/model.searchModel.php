@@ -8,6 +8,9 @@
  */
 
 class searchModel extends modelsHandler {
+    /**
+     * @return array
+     */
     function getProfessions() {
         $query = "SELECT * FROM artist_profession";
 
@@ -22,6 +25,9 @@ class searchModel extends modelsHandler {
         return $newSet;
     }
 
+    /**
+     * @return array
+     */
     function getPeriod() {
         $query = "SELECT * FROM artist_period";
 
@@ -34,5 +40,28 @@ class searchModel extends modelsHandler {
         }
 
         return $newSet;
+    }
+
+    function artistSearch($searchData = null) {
+
+        if (is_array($searchData)) {
+
+
+            $query = "SELECT * FROM artist WHERE (lastName LIKE '%{$searchData['artistName']}%' OR firstName LIKE '%{$searchData['artistName']}%')";
+
+            if (is_numeric($searchData['profession']) AND $searchData['profession']!='0') {
+                $query .= " AND profession='{$searchData['profession']}'";
+            }
+
+            if (is_numeric($searchData['period']) AND $searchData['period']!='0') {
+                $query .= " AND period='{$searchData['period']}'";
+            }
+
+            $query .= " AND active='1'";
+
+            return $this->fetchAll($query);
+        }
+
+        return null;
     }
 }

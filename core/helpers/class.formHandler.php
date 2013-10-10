@@ -3,6 +3,8 @@
  * User: galiczmiklos
  * Date: 2013.01.15.
  * Time: 12:37
+ *
+ * php form handling or bootstrap
  */
 
 /**
@@ -13,30 +15,52 @@ class formHandler
     /**
      * @var errorHandler|null
      */
+
     private $error = null;
     /**
      * @var bool|null
      */
+
     private $debug = null;
     /**
      * @var null
      */
-    private $normalForm = null;
-    /**
-     * @var null|tableHandler
-     */
-    private $table = null;
 
+    private $normalForm = null;
+
+    /**
+     * Form layout type
+     * @var string bootstrap-horizontal
+     */
     private $formLayout = 'bootstrap-horizontal';
 
+    /**
+     * Default lable:input ratio
+     * @var string 2:10
+     */
     private $formRatio = '2:10';
 
+    /**
+     * Submit button style
+     * @var string
+     */
     private $submitStyle = 'primary';
 
+    /**
+     * Form submit mode
+     * @var string
+     */
     private $mode = 'post';
 
+    /**
+     * Modal form
+     * @var bool
+     */
     private $modal = false;
 
+    /**
+     * @var null
+     */
     private $submitTarget = null;
 
     /**
@@ -47,8 +71,6 @@ class formHandler
         if (is_null($this->error)) {
             $this->error = new errorHandler($debug);
         }
-
-        $this->table = new tableHandler($debug);
 
         $this->debug = $debug;
     }
@@ -292,10 +314,6 @@ class formHandler
             $valid = true;
 
             foreach ($dataArray AS $key => $value) {
-                /*
-                 * Hacsak 1 invalid érték is van dobjunk hiba üzenetet
-                 * Lehet egy magyarázó tömböt nem lenne baj létrehozni...
-                 */
 
                 if ($value === false) {
 
@@ -307,7 +325,9 @@ class formHandler
                             $name = $key;
                         }
 
-                        $this->error->errorMSG("A(z) \"{$name}\" mező érvénytelen adatot tartalmaz.");
+                        $errorMsg = gettext('The %s field contains invalid data!');
+
+                        $this->error->errorMSG(str_replace('%s',$name,$errorMsg));
                         $valid = false;
                     } else {
                         if ($key != 'passWord1' AND $key != 'passWord2') {
@@ -317,7 +337,9 @@ class formHandler
                                 $name = $key;
                             }
 
-                            $this->error->errorMSG("A(z) \"{$name}\" mező érvénytelen adatot tartalmaz.");
+                            $errorMsg = gettext('The %s field contains invalid data!');
+
+                            $this->error->errorMSG(str_replace('%s',$name,$errorMsg));
                             $valid = false;
                         }
                     }
@@ -350,7 +372,7 @@ class formHandler
         $input['type'] = $inputType;
         $input['name'] = $inputName;
 
-        if ($inputType != 'dropdownList') {
+        if ($inputType != 'dropdownList' AND $inputType != 'checkBox') {
             $input['value'] = (isset($_SESSION['postBack'][$inputName]) ? $_SESSION['postBack'][$inputName] : $value);
         } else {
             $input['value'] = $value;
@@ -413,6 +435,49 @@ class formHandler
         $this->addInput('textArea',$inputName,$value,$placeholder,$labelContent,$required);
     }
 
+
+    /**
+     * @param null $inputName
+     * @param null $value
+     * @param null $labelContent
+     * @param bool $required
+     */
+    public function addDropdown($inputName = null, $value = null, $labelContent = null, $required = false) {
+        $this->addInput('dropdownList',$inputName,$value,null,$labelContent,$required);
+    }
+
+    /**
+     * @param null $inputName
+     * @param null $value
+     * @param null $placeholder
+     * @param null $labelContent
+     * @param bool $required
+     */
+    public function addDatepicker($inputName = null, $value = null, $placeholder = null, $labelContent = null, $required = false) {
+        $this->addInput('dateField', $inputName, $value, $placeholder, $labelContent, $required);
+    }
+
+    /**
+     * @param null $inputName
+     * @param null $value
+     * @param null $placeholder
+     * @param null $labelContent
+     * @param bool $required
+     */
+    public function addDateTimePicker($inputName = null, $value = null, $placeholder = null, $labelContent = null, $required = false) {
+        $this->addInput('dateTimeField', $inputName, $value, $placeholder, $labelContent, $required);
+    }
+
+    /**
+     * @param null $inputName
+     * @param null $value
+     * @param null $labelContent
+     */
+    public function addCheckBoxes($inputName = null, $value = null, $labelContent = null) {
+        $this->addInput('checkBox',$inputName,$value,null,$labelContent,false);
+    }
+
+
     /**
      *
      * Generate the form, based on the already added inputs
@@ -430,10 +495,10 @@ class formHandler
             $ratio = $this->formRatio;
 
             $ratio = explode(':',$ratio);
-            
+
             $ratio['label'] = $ratio[0];
             $ratio['input'] = $ratio[1];
-            
+
             $rows = null;
 
             foreach ($this->normalForm AS $formElement) {
@@ -502,7 +567,20 @@ class formHandler
                          */
 
                         $input1['label'] = '<label class="col-lg-' . $ratio['label']  . ' control-label" for="date-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
-                        $input1['input'] = '<input class="form-control" ' . ($formElement['required']==true?'required':'') . ' type="text" name="date-' . $formElement['name'] . '" id="date-' . $formElement['name'] . '" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
+                        $input1['input'] = '<input class="form-control datePicker" ' . ($formElement['required']==true?'required':'') . ' type="text" name="date-' . $formElement['name'] . '" id="date-' . $formElement['name'] . '" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
+                        $input1['required'] = $formElement['required'];
+
+                        $rows[] = $input1;
+
+
+                        break;
+                    case 'dateTimeField':
+                        /*
+                         * Szöveges mező
+                         */
+
+                        $input1['label'] = '<label class="col-lg-' . $ratio['label']  . ' control-label" for="date-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
+                        $input1['input'] = '<input class="form-control dateTimePicker" ' . ($formElement['required']==true?'required':'') . ' type="text" name="date-' . $formElement['name'] . '" id="date-' . $formElement['name'] . '" value="' . $formElement['value'] . '"  placeholder="' . $formElement['placeholder'] . '">';
                         $input1['required'] = $formElement['required'];
 
                         $rows[] = $input1;
@@ -578,7 +656,7 @@ class formHandler
                         break;
                     case 'fileUpload':
                         $input1['label'] = '<label class="col-lg-' . $ratio['label']  . ' control-label" for="file-' . $formElement['name'] . '">' . $formElement['label'] . '</label>';
-                        $input1['input'] = '<input type="file" name="file-' . $formElement['name'] . '" id="file-' . $formElement['name'] . '" />';
+                        $input1['input'] = '<input type="file" ' . ($formElement['required']==true?'required':'') . ' name="file-' . $formElement['name'] . '" id="file-' . $formElement['name'] . '" placeholder="' . $formElement['placeholder'] . '">';
                         $input1['required'] = $formElement['required'];
                         $rows[] = $input1;
                         break;
@@ -620,6 +698,40 @@ class formHandler
                                 <div class="radio">
                                     <label class="label_radio">
                                         <input type="radio" name="radio-' . $formElement['name'] . '" id="radio-' . $formElement['name'] . '-' . $counter . '" value="' . $k . '" >
+                                        ' . $v . '
+                                    </label>
+                                </div>
+
+                            ';
+
+                            $counter++;
+                        }
+
+                        $rows[] = $input1;
+                        break;
+                    case 'checkBox':
+                        $input1['label'] = '<div class="col-lg-' . $ratio['label']  . '">' . $formElement['label'] . '</div>';
+                        $input1['input'] = null;
+
+                        $counter = 0;
+
+                        foreach ($formElement['value'] as $k=>$v) {
+
+                            $checked = false;
+
+                            if (isset($_SESSION['postBack'][$formElement['name']])) {
+
+                                if (in_array($k,$_SESSION['postBack'][$formElement['name']])) {
+                                    $checked = true;
+                                }
+
+                            }
+
+                            $input1['input'] .= '
+
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" ' . ($checked?'checked':'') . ' name="checkbox-' . $formElement['name'] . '[]" id="checkbox-' . $formElement['name'] . '-' . $counter . '" value="' . $k . '" >
                                         ' . $v . '
                                     </label>
                                 </div>
