@@ -166,6 +166,7 @@ class Sitemap {
         $this->getWriter()->setIndent(true);
         $this->getWriter()->startElement('urlset');
         $this->getWriter()->writeAttribute('xmlns', self::SCHEMA);
+        $this->getWriter()->writeAttribute('xmlns:xhtml', 'http://www.w3.org/1999/xhtml');
     }
 
     /**
