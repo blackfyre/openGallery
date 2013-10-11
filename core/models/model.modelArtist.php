@@ -126,4 +126,9 @@ class modelArtist extends modelsHandler {
 
         return false;
     }
+
+    function getArtists() {
+        $query = "SELECT * FROM artist";
+        return $this->fetchAll($query);
+    }
 }
