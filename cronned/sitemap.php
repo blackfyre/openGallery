@@ -23,7 +23,12 @@ $artists = $artistModel->getArtists();
 
 if (is_array($artists)) {
     foreach ($artists AS $a) {
+        /*
+         * Artist bio link
+         */
         $link = '/' . _DEFAULT_LANG . '/artist/viewArtist/' . $a['slug'] . '.html';
+
+
 
         $alternates = null;
 
@@ -33,8 +38,14 @@ if (is_array($artists)) {
             }
         }
 
-        $sitemap->addItem($link, '1.0', 'monthly', 'Today', $alternates);
+        Kint::dump($link, $alternates);
 
+        $sitemap->addItem($link, '1.0', 'monthly', 'Today', $alternates);
+        $alternates=null;
+
+        /*
+         * Artist artwork page
+         */
         $link = '/' . _DEFAULT_LANG . '/artist/artBy/' . $a['slug'] . '.html';
 
         $alternates = null;
@@ -45,7 +56,37 @@ if (is_array($artists)) {
             }
         }
 
+        Kint::dump($link, $alternates);
+
         $sitemap->addItem($link, '1.0', 'monthly', 'Today', $alternates);
+        $alternates=null;
+
+        /*
+         * Art by artist
+         */
+
+        $art = $artistModel->getArt($a['id']);
+
+        if (is_array($art) AND count($art)>0) {
+
+            foreach ($art AS $ar) {
+
+                $link = '/' . _DEFAULT_LANG .'/artist/viewArt/' . $ar['id'] . '/' . $a['slug'] . '/' .$ar['titleSlug_' . _DEFAULT_LANG] . ".html";
+
+                foreach ($activeLangs AS $l) {
+                    if ($l['isoCode']!=_DEFAULT_LANG) {
+                        $alternates[$l['isoCode']] = '/' . $l['isoCode'] . '/artist/viewArt/' . $ar['id'] . '/' . $a['slug']. '/' .$ar['titleSlug_' . $l['isoCode']] . ".html";
+                    }
+                }
+
+                Kint::dump($link, $alternates);
+                $sitemap->addItem($link, '1.0', 'monthly', 'Today', $alternates);
+                $alternates=null;
+
+            }
+
+        }
+
     }
 }
 
